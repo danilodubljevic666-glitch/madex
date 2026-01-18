@@ -98,13 +98,13 @@ const HeroSection = () => {
               </span>
             </div>
 
-            {/* Main heading with animation */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-6">
-              <span className="block mb-4 md:mb-5 animate-slideUp text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
+            {/* Main heading with animation - POVEĆANI FONTOVI */}
+            <h1 className="font-bold text-gray-900 mb-6">
+              <span className="block mb-4 md:mb-5 animate-slideUp text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
                 ŠTAMPARIJA
               </span>
               <span 
-                className="block text-blue-600 animate-slideUp text-5xl sm:text-6xl md:text-8xl lg:text-9xl" 
+                className="block text-blue-600 animate-slideUp text-6xl sm:text-7xl md:text-8xl lg:text-9xl" 
                 style={{ animationDelay: '0.2s' }}
               >
                 MADEX
