@@ -103,25 +103,32 @@ const HeroSection = () => {
               <span className="block mb-4 md:mb-5 animate-slideUp text-3xl sm:text-4xl md:text-6xl lg:text-7xl">
                 ŠTAMPARIJA
               </span>
-              <span className="block text-blue-600 animate-slideUp text-5xl sm:text-6xl md:text-8xl lg:text-9xl" 
-                    style={{ animationDelay: '0.2s' }}>
+              <span 
+                className="block text-blue-600 animate-slideUp text-5xl sm:text-6xl md:text-8xl lg:text-9xl" 
+                style={{ animationDelay: '0.2s' }}
+              >
                 MADEX
               </span>
             </h1>
 
             {/* Tagline with animation */}
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 md:mb-10 max-w-2xl lg:max-w-3xl mx-auto px-4 animate-slideUp" 
-               style={{ animationDelay: '0.4s' }}>
+            <p 
+              className="text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 md:mb-10 max-w-2xl lg:max-w-3xl mx-auto px-4 animate-slideUp" 
+              style={{ animationDelay: '0.4s' }}
+            >
               Gradimo vizuelni identitet kroz savršeno odštampane materijale.
               <br className="hidden sm:block" />
-              Neka vaš brend govori <span className="font-semibold text-blue-600">jasno</span>,{' '}
+              Neka vaš brend govori{' '}
+              <span className="font-semibold text-blue-600">jasno</span>,{' '}
               <span className="font-semibold text-blue-600">upečatljivo</span> i{' '}
               <span className="font-semibold text-blue-600">profesionalno</span>.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp px-4" 
-                 style={{ animationDelay: '0.6s' }}>
+            <div 
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp px-4" 
+              style={{ animationDelay: '0.6s' }}
+            >
               <button className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 Saznajte više
               </button>
@@ -129,10 +136,9 @@ const HeroSection = () => {
                 Pogledajte usluge
               </button>
             </div>
-
           </div>
         </div>
-      </div>  
+      </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
@@ -151,15 +157,6 @@ export default function HomePage() {
       <main>
         <HeroSection />
       </main>
-      
-      {/* Responsive font size classes - add to your global CSS or tailwind config */}
-      <style jsx>{`
-        @media (max-width: 640px) {
-          .text-responsive {
-            font-size: calc(1.5rem + 1vw);
-          }
-        }
-      `}</style>
     </div>
   );
 }
