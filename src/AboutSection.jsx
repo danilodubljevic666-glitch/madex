@@ -51,8 +51,8 @@ const AboutSection = () => {
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
           <div className="animate-slideUp" style={{ animationDelay: '0.2s' }}>
             <div className="relative h-full">
-              <div className="absolute -top-4 -left-4 w-16 h-16 md:w-24 md:h-24 bg-blue-100 rounded-full opacity-50"></div>
-              <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-xl h-full">
+              <div className="absolute -top-4 -left-4 w-16 h-16 md:w-24 md:h-24 bg-blue-100 rounded-full opacity-50 "></div>
+              <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-xl h-full ">
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Naša priča</h3>
                 <div className="space-y-3 md:space-y-4">
                   <p className="text-gray-600 text-base md:text-lg leading-relaxed">
