@@ -166,7 +166,7 @@ const ContactForm = () => {
     const config = statusConfig[status] || statusConfig.error;
     
     return (
-      <div className={`p-4 rounded-lg border ${config.bgColor} ${config.borderColor} ${config.textColor} mb-6 animate-fadeIn`}>
+      <div id='#contact' className={`p-4 rounded-lg border ${config.bgColor} ${config.borderColor} ${config.textColor} mb-6 animate-fadeIn`}>
         <div className="flex items-start">
           {config.icon && <span className="mr-3 mt-0.5">{config.icon}</span>}
           <div className="flex-1">

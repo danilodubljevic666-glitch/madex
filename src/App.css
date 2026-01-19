@@ -1,0 +1,34 @@
+/* Smooth scroll za čitavu stranicu */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Podesi scroll padding za fixed navbar */
+html {
+  scroll-padding-top: 5rem; /* Prilagodi ovoj vrednosti po visini tvog navbar-a */
+}
+
+/* Animacija za aktivne linkove */
+.active-nav-link {
+  color: #2563eb !important; /* blue-600 */
+}
+
+.active-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #2563eb;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

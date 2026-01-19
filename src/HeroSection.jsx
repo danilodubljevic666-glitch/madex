@@ -5,24 +5,50 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { label: 'POČETNA STRANICA', href: '#' },
-    { label: 'USLUGE', href: '#' },
-    { label: 'O NAMA', href: '#' },
-    { label: 'KONTAKT', href: '#' },
+    { label: 'POČETNA STRANICA', href: '#home' },
+    { label: 'USLUGE', href: '#services' },
+    { label: 'O NAMA', href: '#about' },
+    { label: 'KONTAKT', href: '#contact' },
   ];
+
+  // Funkcija za smooth scroll
+  const handleNavClick = (href, event) => {
+    if (href.startsWith('#')) {
+      event.preventDefault();
+      
+      // Zatvori mobile menu ako je otvoren
+      setIsOpen(false);
+      
+      // Pronađi target element
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        // Smooth scroll do elementa
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
 
   return (
     <nav className="bg-white shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 md:h-20">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="flex items-center space-x-2">
+            <a 
+              href="#home" 
+              onClick={(e) => handleNavClick('#home', e)}
+              className="flex items-center space-x-2 hover:opacity-90 transition-opacity"
+            >
               <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg md:text-xl">M</span>
               </div>
               <span className="text-xl md:text-2xl font-bold text-gray-900">MADEX</span>
-            </div>
+            </a>
           </div>
 
           {/* Desktop Menu */}
@@ -31,12 +57,27 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 text-sm lg:text-base"
+                onClick={(e) => handleNavClick(item.href, e)}
+                className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 text-sm lg:text-base relative group"
               >
                 {item.label}
+                {/* Underline effect on hover */}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
-            <button className="bg-blue-600 text-white px-4 py-2 lg:px-6 lg:py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm lg:text-base">
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                const contactElement = document.getElementById('contact');
+                if (contactElement) {
+                  window.scrollTo({
+                    top: contactElement.offsetTop - 80,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className="bg-blue-600 text-white px-4 py-2 lg:px-6 lg:py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm lg:text-base transform hover:scale-105"
+            >
               PORUČITE
             </button>
           </div>
@@ -61,14 +102,26 @@ const Navbar = () => {
                 <a
                   key={item.label}
                   href={item.href}
+                  onClick={(e) => handleNavClick(item.href, e)}
                   className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors duration-300 text-base"
-                  onClick={() => setIsOpen(false)}
                 >
                   {item.label}
                 </a>
               ))}
               <div className="px-4 pt-2">
-                <button className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
+                <button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    const contactElement = document.getElementById('contact');
+                    if (contactElement) {
+                      window.scrollTo({
+                        top: contactElement.offsetTop - 80,
+                        behavior: 'smooth'
+                      });
+                    }
+                  }}
+                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
+                >
                   PORUČITE
                 </button>
               </div>
@@ -82,7 +135,7 @@ const Navbar = () => {
 
 const HeroSection = () => {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white overflow-hidden" id="home">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-48 h-48 md:w-72 md:h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
       <div className="absolute top-0 right-0 w-48 h-48 md:w-72 md:h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
@@ -129,10 +182,32 @@ const HeroSection = () => {
               className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp px-4" 
               style={{ animationDelay: '0.6s' }}
             >
-              <button className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <button 
+                onClick={() => {
+                  const aboutElement = document.getElementById('about');
+                  if (aboutElement) {
+                    window.scrollTo({
+                      top: aboutElement.offsetTop - 80,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
                 Saznajte više
               </button>
-              <button className="w-full sm:w-auto bg-white text-blue-600 px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <button 
+                onClick={() => {
+                  const servicesElement = document.getElementById('services');
+                  if (servicesElement) {
+                    window.scrollTo({
+                      top: servicesElement.offsetTop - 80,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                className="w-full sm:w-auto bg-white text-blue-600 px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
                 Pogledajte usluge
               </button>
             </div>
