@@ -1,6 +1,29 @@
-import { Printer, Shirt, Car, Building, Image, Layers, Palette,Package ,Grid} from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Printer, Shirt, Car, Building, Image, Layers, Palette, Package, Grid } from 'lucide-react';
 
 const ServicesSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Pokreće se kada 10% elementa bude vidljivo
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const services = [
     {
       icon: <Shirt className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
@@ -30,7 +53,7 @@ const ServicesSection = () => {
       icon: <Building className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Brendiranje objekata',
       description: 'Vizuelni identitet vašeg poslovnog prostora -  prozori, unutrašnje zidove.',
-      features: [ 'Vizuelni identitet', 'Reklamni prostor', 'Dugotrajnost']
+      features: ['Vizuelni identitet', 'Reklamni prostor', 'Dugotrajnost']
     },
     {
       icon: <Image className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
@@ -44,13 +67,13 @@ const ServicesSection = () => {
       description: 'Profesionalno kreiranje vizuelnog identiteta, logotipa i marketing materijala.',
       features: ['Logo dizajn', 'Brand identity', 'Marketing materijali', 'Konzultacije']
     },
-     {
+    {
       icon: <Package className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Štampa na kartonskim kutijama',
       description: 'Profesionalna štampa na kutijama različitih veličina i debljina za brendiranje vaših proizvoda.',
-      features: ['Različite veličine',  'Custom dimenzije']
+      features: ['Različite veličine', 'Custom dimenzije']
     },
-        {
+    {
       icon: <Grid className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Sito štampa',
       description: 'Profesionalna sito štampa za tekstil, papir, plastiku i druge materijale sa savršenom pokrivenošću boja.',
@@ -59,7 +82,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-12 md:py-20 bg-white relative overflow-hidden">
+    <section ref={sectionRef} id="services" className={`py-12 md:py-20 bg-white relative overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
       <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>

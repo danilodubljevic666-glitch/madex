@@ -1,8 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import emailjs from 'emailjs-com';
 import { Send, Mail, User, Phone, MessageSquare, AlertCircle, CheckCircle } from 'lucide-react';
 
 const ContactForm = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Pokreće se kada 10% elementa bude vidljivo
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -166,7 +188,7 @@ const ContactForm = () => {
     const config = statusConfig[status] || statusConfig.error;
     
     return (
-      <div id='#contact' className={`p-4 rounded-lg border ${config.bgColor} ${config.borderColor} ${config.textColor} mb-6 animate-fadeIn`}>
+      <div className={`p-4 rounded-lg border ${config.bgColor} ${config.borderColor} ${config.textColor} mb-6 animate-fadeIn`}>
         <div className="flex items-start">
           {config.icon && <span className="mr-3 mt-0.5">{config.icon}</span>}
           <div className="flex-1">
@@ -276,7 +298,7 @@ const ContactForm = () => {
   );
 
   return (
-    <section id="contact" className="py-12 md:py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section ref={sectionRef} id="contact" className={`py-12 md:py-20 bg-gradient-to-b from-blue-50 to-white transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16 animate-slideUp">

@@ -1,6 +1,29 @@
+import { useState, useEffect, useRef } from 'react';
 import { CheckCircle, Printer, Truck, Users, Target, Eye } from 'lucide-react';
 
 const AboutSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.12 } // Pokreće se kada 10% elementa bude vidljivo
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const services = [
     { icon: <Printer className="w-6 h-6 md:w-8 md:h-8" />, title: 'Štampa na papiru', description: 'Visokokvalitetna štampa na svim vrstama papira' },
     { icon: <Truck className="w-6 h-6 md:w-8 md:h-8" />, title: 'Brendiranje vozila', description: 'Kompletno brendiranje vozila vinil folijama' },
@@ -18,7 +41,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-12 md:py-20 bg-gradient-to-b from-white to-blue-50 relative">
+    <section ref={sectionRef} className={`py-12 md:py-20 bg-gradient-to-b from-white to-blue-50 relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with animation */}
         <div className="text-center mb-12 md:mb-16 animate-slideUp">
