@@ -5,12 +5,19 @@ const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
+  // States for animated numbers
+  const [years, setYears] = useState(0);
+  const [projects, setProjects] = useState(0);
+  const [clients, setClients] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.12 } // Pokreće se kada 10% elementa bude vidljivo
+      { threshold: 0.1 } // Pokreće se kada 10% elementa bude vidljivo
     );
 
     if (sectionRef.current) {
@@ -23,6 +30,51 @@ const AboutSection = () => {
       }
     };
   }, []);
+
+  // Separate observer for stats animation
+  useEffect(() => {
+    const statsObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          animateNumber(20, setYears, 1500);
+          animateNumber(1000, setProjects, 2000);
+          animateNumber(99, setClients, 1800);
+        }
+      },
+      { threshold: 0.5 } // Pokreće se kada 50% stats diva bude vidljivo
+    );
+
+    if (statsRef.current) {
+      statsObserver.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        statsObserver.unobserve(statsRef.current);
+      }
+    };
+  }, [hasAnimated]);
+
+  // Animation function for numbers
+  const animateNumber = (target, setValue, duration = 2000) => {
+    const start = 0;
+    const end = target;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const now = Date.now();
+      const progress = Math.min((now - startTime) / duration, 1);
+      const current = Math.floor(start + (end - start) * progress);
+      setValue(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  };
 
   const services = [
     { icon: <Printer className="w-6 h-6 md:w-8 md:h-8" />, title: 'Štampa na papiru', description: 'Visokokvalitetna štampa na svim vrstama papira' },
@@ -41,7 +93,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section ref={sectionRef} className={`py-12 md:py-20 bg-gradient-to-b from-white to-blue-50 relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <section id='about'ref={sectionRef} className={`py-12 md:py-20 bg-gradient-to-b from-white to-blue-50 relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with animation */}
         <div className="text-center mb-12 md:mb-16 animate-slideUp">
@@ -181,17 +233,17 @@ const AboutSection = () => {
                 Nastavićemo da inoviramo i podižemo standarde u štamparskoj industriji.
               </p>
               <div className="pt-6 md:pt-8 border-t border-gray-700">
-                <div className="flex items-center justify-between mt-6 md:mt-10">
+                <div ref={statsRef} className="flex items-center justify-between mt-6 md:mt-10">
                   <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">20+</div>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{years}+</div>
                     <div className="text-gray-300 text-sm md:text-base lg:text-lg">Godina iskustva</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">1000+</div>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{projects}+</div>
                     <div className="text-gray-300 text-sm md:text-base lg:text-lg">Projekata</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">99%</div>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{clients}%</div>
                     <div className="text-gray-300 text-sm md:text-base lg:text-lg">Zadovoljnih klijenata</div>
                   </div>
                 </div>
