@@ -369,7 +369,7 @@ const ContactForm = () => {
                       <h4 className="text-lg font-semibold">Brza izrada projekata</h4>
                     </div>
                     <p className="text-blue-100 text-base">
-                      Većina projekata završavamo u roku od 3-5 radnih dana.
+                      Većinu projekata završavamo u roku od 3-5 radnih dana.
                     </p>
                   </div>
                 </div>

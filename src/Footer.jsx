@@ -25,21 +25,23 @@ const Footer = () => {
             
             <div className="flex space-x-4">
               <a 
-                href="#" 
+                href="https://www.facebook.com/profile.php?id=100063073638062&locale=sr_RS" 
+                target="_blank"
                 className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/stamparijamadex/" 
+                target="_blank"
                 className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
-                href="tel:+38212345678" 
+                href="tel:+38269048009" 
                 className="w-10 h-10 bg-gray-800 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Telefon"
               >

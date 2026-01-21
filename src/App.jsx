@@ -5,6 +5,7 @@ import ServicesSection from './ServicesSection.jsx'
 import LocationSection from './LocationSection.jsx'
 import ContactForm from './ContactForm.jsx'
 import Footer from './Footer.jsx'
+import Gallery from './Gallery.jsx'
 function App() {
 
 
@@ -14,6 +15,7 @@ function App() {
     <AboutSection />
     <ServicesSection />
     <LocationSection />
+    <Gallery />
     <ContactForm />
     <Footer />
     </>

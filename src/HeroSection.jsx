@@ -174,13 +174,13 @@ const HeroSection = () => {
             </div>
 
             {/* Main heading with animation - POVEĆANI FONTOVI */}
-            <h1 className="font-bold text-gray-900 mb-6">
+            <h1 className="font-bold text-gray-900 mb-6" style={{ fontFamily: 'CG Omega', fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
               <span className="block mb-4 md:mb-5 animate-slideUp text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
                 ŠTAMPARIJA
               </span>
               <span 
                 className="block text-blue-600 animate-slideUp text-6xl sm:text-7xl md:text-8xl lg:text-9xl" 
-                style={{ animationDelay: '0.2s' }}
+                style={{ animationDelay: '0.2s', background: 'linear-gradient(45deg, #2563eb, #1d4ed8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
               >
                 MADEX
               </span>
