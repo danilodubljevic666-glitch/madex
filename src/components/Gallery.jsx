@@ -1,83 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Package, Car, Shirt, Grid } from 'lucide-react';
 
 const Gallery = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  // States for animated numbers
-  const [projects, setProjects] = useState(0);
-  const [vehicles, setVehicles] = useState(0);
-  const [boxes, setBoxes] = useState(0);
-  const [tshirts, setTshirts] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const statsRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  // Separate observer for stats animation
-  useEffect(() => {
-    const statsObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          animateNumber(500, setProjects, 1500);
-          animateNumber(100, setVehicles, 1800);
-          animateNumber(1000, setBoxes, 2000);
-          animateNumber(200, setTshirts, 1600);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (statsRef.current) {
-      statsObserver.observe(statsRef.current);
-    }
-
-    return () => {
-      if (statsRef.current) {
-        statsObserver.unobserve(statsRef.current);
-      }
-    };
-  }, [hasAnimated]);
-
-  // Animation function for numbers
-  const animateNumber = (target, setValue, duration = 2000) => {
-    const start = 0;
-    const end = target;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const now = Date.now();
-      const progress = Math.min((now - startTime) / duration, 1);
-      const current = Math.floor(start + (end - start) * progress);
-      setValue(current);
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  };
-
   // Kategorije galerije
   const categories = [
     { id: 'boxes', name: 'Štampa na kutijama', icon: <Package className="w-5 h-5" />, count: 3 },
@@ -91,20 +15,18 @@ const Gallery = () => {
     boxes: [
       {
         id: 1,
-        url: '/kutija1.jpg',
+        url:'/kutija1.jpg',
         title: 'Kutije za sireve',
         description: 'Premium kutije za specijalne sireve sa prilagođenim printom'
       },
       {
         id: 2,
         url: '/kutija2.jpg',
-        title: 'Eko ambalaža',
         description: 'Ekološki prihvatljive kutije sa štampanim dizajnom'
       },
       {
         id: 3,
         url: '/kutija3.jpg',
-        title: 'Promotivne kutije',
         description: 'Kutije za poklone sa brendiranim printom'
       },
     ],
@@ -112,39 +34,33 @@ const Gallery = () => {
       {
         id: 1,
         url: '/vozilo1.jpg',
-        title: 'Kombi prevoz',
         description: 'Potpuno brendiran kombi za distribuciju'
       },
       {
         id: 2,
         url: '/vozilo2.jpg',
-        title: 'Servisna vozila',
         description: 'Profesionalno brendirana servisna vozila'
       },
       {
         id: 3,
         url: '/vozilo3.jpg',
-        title: 'Dostavna vozila',
-        description: 'Brendirana vozila za brzu dostavu'
+        description: 'Brendirana vozila za prenos i postavljan je behatona'
       },
     ],
     'block-print': [
       {
         id: 1,
-        url: '/blok1.jpg',
-        title: 'Umjetnički print',
+url:'/blok1.jpg',
         description: 'Blokovska štampa za umjetničke projekte'
       },
       {
         id: 2,
         url: '/blok2.jpg',
-        title: 'Tekstilni uzorci',
         description: 'Tradicionalni uzorci na tekstilu'
       },
       {
         id: 3,
         url: '/blok3.jpg',
-        title: 'Rukotvorine',
         description: 'Ručno rađena blokovska štampa'
       },
     ],
@@ -152,19 +68,16 @@ const Gallery = () => {
       {
         id: 1,
         url: '/majica1.jpg',
-        title: 'Anime merch',
-        description: 'Prilagođene majice za ljubitelje animea'
+        description: 'Prilagođene majice za sportske timove'
       },
       {
         id: 2,
         url: '/majica2.jpg',
-        title: 'Promotivne majice',
         description: 'Majice za promociju brendova'
       },
       {
         id: 3,
         url: '/majica3.jpg',
-        title: 'Personalizovane',
         description: 'Majice po meri za posebne prilike'
       },
     ],
@@ -173,19 +86,6 @@ const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState('boxes');
   const [selectedImage, setSelectedImage] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-
-  // Prevent scrolling when lightbox is open
-  useEffect(() => {
-    if (selectedImage) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedImage]);
 
   // Funkcije za lightbox
   const openLightbox = (category, index) => {
@@ -212,7 +112,7 @@ const Gallery = () => {
   };
 
   return (
-    <section ref={sectionRef} id="gallery" className={`py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <section id="gallery" className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -237,7 +137,7 @@ const Gallery = () => {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center px-4 md:px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 ${isVisible ? 'hover:shadow-lg' : ''} ${
+              className={`flex items-center px-4 md:px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 ${
                 activeCategory === category.id
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-blue-50 shadow-md'
@@ -261,7 +161,7 @@ const Gallery = () => {
           {images[activeCategory].map((image, index) => (
             <div
               key={image.id}
-              className={`group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-500 transform ${isVisible ? 'hover:shadow-2xl hover:-translate-y-2' : ''}`}
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
             >
               {/* Image */}
               <div className="aspect-square overflow-hidden bg-gray-100">
@@ -303,22 +203,22 @@ const Gallery = () => {
         </div>
 
         {/* Stats */}
-        <div ref={statsRef} className="mt-12 md:mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 md:p-8 text-white transition-all duration-500">
+        <div className="mt-12 md:mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 md:p-8 text-white">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold mb-2">{projects}+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">500+</div>
               <div className="text-blue-100">Uspešnih projekata</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold mb-2">{vehicles}+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">50+</div>
               <div className="text-blue-100">Brendiranih vozila</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold mb-2">{boxes}+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">1000+</div>
               <div className="text-blue-100">Odštampanih kutija</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold mb-2">{tshirts}+</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">2000+</div>
               <div className="text-blue-100">Odštampanih majica</div>
             </div>
           </div>
@@ -327,17 +227,17 @@ const Gallery = () => {
 
       {/* Lightbox Modal */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center animate-fadeIn" onClick={closeLightbox}>
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center animate-fadeIn">
           <button
-            onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
-            className="absolute top-24 right-6 text-white hover:text-gray-300 transition-colors z-10 bg-black/50 rounded-full p-2"
+            onClick={closeLightbox}
+            className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-10"
             aria-label="Zatvori"
           >
             <X size={32} />
           </button>
           
           <button
-            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            onClick={prevImage}
             className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors z-10"
             aria-label="Prethodna slika"
           >
@@ -345,19 +245,19 @@ const Gallery = () => {
           </button>
           
           <button
-            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            onClick={nextImage}
             className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors z-10"
             aria-label="Sledeća slika"
           >
             <ChevronRight size={48} />
           </button>
           
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-gray-900 rounded-lg overflow-hidden inline-block">
+          <div className="relative max-w-6xl w-full mx-4">
+            <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden">
               <img
                 src={selectedImage.url}
                 alt={selectedImage.title}
-                className="max-w-[70vw] max-h-[70vh] object-contain"
+                className="w-full h-full object-contain"
               />
             </div>
             
@@ -371,11 +271,14 @@ const Gallery = () => {
           </div>
           
           {/* Dots indicator */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {images[activeCategory].map((_, index) => (
               <button
                 key={index}
-                onClick={(e) => { e.stopPropagation(); setSelectedImage(images[activeCategory][index]); setLightboxIndex(index); }}
+                onClick={() => {
+                  setSelectedImage(images[activeCategory][index]);
+                  setLightboxIndex(index);
+                }}
                 className={`w-3 h-3 rounded-full transition-colors ${
                   index === lightboxIndex ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
                 }`}

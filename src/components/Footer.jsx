@@ -33,7 +33,7 @@ const Footer = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a 
-                href="https://www.instagram.com/stamparijamadex/" 
+                href="https://www.instagram.com/stamparija.madex/" 
                 target="_blank"
                 className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Instagram"
