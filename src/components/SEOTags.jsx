@@ -20,7 +20,23 @@ const SEOTags = ({
   useEffect(() => {
     // Postavi title
     document.title = title;
-    
+    const linkTags = [
+  { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon', sizes: 'any' },
+  { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' },
+  { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+  { rel: 'manifest', href: '/site.webmanifest' },
+];
+
+linkTags.forEach(tag => {
+  const existing = document.querySelector(`link[rel="${tag.rel}"]`);
+  if (!existing) {
+    const link = document.createElement('link');
+    Object.keys(tag).forEach(key => {
+      link.setAttribute(key, tag[key]);
+    });
+    document.head.appendChild(link);
+  }
+});
     // Kreiraj structured data
     const structuredData = {
       "@context": "https://schema.org",
