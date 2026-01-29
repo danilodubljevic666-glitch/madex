@@ -6,6 +6,7 @@ import AboutSection from './components/AboutSection';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import Gallery from './components/Gallery';
+import PrintingPackages from './components/PrintingPackages';
 import LocationSection from './components/LocationSection';
 import ServicesSection from './components/ServicesSection';
 
@@ -21,6 +22,7 @@ function App() {
       <AboutSection />
       <ServicesSection />
       <Gallery />
+      <PrintingPackages />
       <LocationSection />
       <ContactForm />
       <Footer />
