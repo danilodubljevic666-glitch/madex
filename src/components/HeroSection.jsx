@@ -68,10 +68,10 @@ const Navbar = () => {
             <button 
               onClick={(e) => {
                 e.preventDefault();
-                const contactElement = document.getElementById('contact');
+                const contactElement = document.getElementById('packages');
                 if (contactElement) {
                   window.scrollTo({
-                    top: contactElement.offsetTop - 80,
+                    top: contactElement.offsetTop - 30,
                     behavior: 'smooth'
                   });
                 }
@@ -122,7 +122,7 @@ const Navbar = () => {
                   }}
                   className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
                 >
-                  PORUČITE
+                  <a href="#packages">PORUČITE</a>
                 </button>
               </div>
             </div>
