@@ -164,7 +164,7 @@ const HeroSection = () => {
       style={{ backgroundImage: "url('/hero-bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/75"></div>
 
       <div className="relative z-10 pt-24 md:pt-32 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
