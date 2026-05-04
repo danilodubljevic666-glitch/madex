@@ -157,78 +157,75 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div ref={sectionRef} className={`relative min-h-screen bg-gradient-to-br from-blue-50 to-white overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} id="home">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-48 h-48 md:w-72 md:h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-      <div className="absolute top-0 right-0 w-48 h-48 md:w-72 md:h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-10 md:left-20 w-48 h-48 md:w-72 md:h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div
+      ref={sectionRef}
+      className={`relative min-h-screen overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      id="home"
+      style={{ backgroundImage: "url('/vozilo1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
 
-      <div className="relative pt-24 md:pt-32 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 pt-24 md:pt-32 pb-16 md:pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             {/* Animated badge */}
             <div className="inline-block mb-6 md:mb-8">
-              <span className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs md:text-sm animate-pulse">
+              <span className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/20 text-white font-semibold text-xs md:text-sm animate-pulse backdrop-blur-sm">
                 ✨ Profesionalna štamparija od 2005. godine
               </span>
             </div>
 
-            {/* Main heading with animation - POVEĆANI FONTOVI */}
-            <h1 className="font-bold text-gray-900 mb-6" style={{ fontFamily: 'CG Omega', fontWeight: 'bold', textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
+            {/* Main heading with animation */}
+            <h1 className="font-bold text-white mb-6" style={{ fontFamily: 'CG Omega', fontWeight: 'bold', textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}>
               <span className="block mb-4 md:mb-5 animate-slideUp text-5xl sm:text-6xl md:text-7xl lg:text-8xl">
                 ŠTAMPARIJA
               </span>
-              <span 
-                className="block text-blue-600 animate-slideUp text-6xl sm:text-7xl md:text-8xl lg:text-9xl" 
-                style={{ animationDelay: '0.2s', background: 'linear-gradient(45deg, #2563eb, #1d4ed8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+              <span
+                className="block animate-slideUp text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
+                style={{ animationDelay: '0.2s', background: 'linear-gradient(45deg, #60a5fa, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
               >
                 MADEX
               </span>
             </h1>
 
             {/* Tagline with animation */}
-            <p 
-              className="text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 md:mb-10 max-w-2xl lg:max-w-3xl mx-auto px-4 animate-slideUp" 
+            <p
+              className="text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 md:mb-10 max-w-2xl lg:max-w-3xl mx-auto px-4 animate-slideUp"
               style={{ animationDelay: '0.4s' }}
             >
               Gradimo vizuelni identitet kroz savršeno odštampane materijale.
               <br className="hidden sm:block" />
               Neka vaš brend govori{' '}
-              <span className="font-semibold text-blue-600">jasno</span>,{' '}
-              <span className="font-semibold text-blue-600">upečatljivo</span> i{' '}
-              <span className="font-semibold text-blue-600">profesionalno</span>.
+              <span className="font-semibold text-blue-400">jasno</span>,{' '}
+              <span className="font-semibold text-blue-400">upečatljivo</span> i{' '}
+              <span className="font-semibold text-blue-400">profesionalno</span>.
             </p>
 
             {/* CTA Buttons */}
-            <div 
-              className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp px-4" 
+            <div
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp px-4"
               style={{ animationDelay: '0.6s' }}
             >
-              <button 
+              <button
                 onClick={() => {
                   const aboutElement = document.getElementById('about');
                   if (aboutElement) {
-                    window.scrollTo({
-                      top: aboutElement.offsetTop - 80,
-                      behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: aboutElement.offsetTop - 80, behavior: 'smooth' });
                   }
                 }}
-                className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Saznajte više
               </button>
-              <button 
+              <button
                 onClick={() => {
                   const servicesElement = document.getElementById('services');
                   if (servicesElement) {
-                    window.scrollTo({
-                      top: servicesElement.offsetTop - 80,
-                      behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: servicesElement.offsetTop - 80, behavior: 'smooth' });
                   }
                 }}
-                className="w-full sm:w-auto bg-white text-blue-600 px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="w-full sm:w-auto bg-transparent text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-white hover:bg-white/20 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Pogledajte usluge
               </button>
@@ -238,9 +235,9 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-5 h-8 md:w-6 md:h-10 border-2 border-blue-600 rounded-full flex justify-center">
-          <div className="w-1 h-2 md:h-3 bg-blue-600 rounded-full mt-1.5 md:mt-2 animate-pulse"></div>
+      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+        <div className="w-5 h-8 md:w-6 md:h-10 border-2 border-white rounded-full flex justify-center">
+          <div className="w-1 h-2 md:h-3 bg-white rounded-full mt-1.5 md:mt-2 animate-pulse"></div>
         </div>
       </div>
     </div>

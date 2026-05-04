@@ -15,7 +15,7 @@ const SEOTags = ({
   // Default vrednosti ako nisu prosleđene
   const pageTitle = title || 'Štamparija MADEX Nikšić - Profesionalna štampa i brendiranje | Crna Gora';
   const pageDescription = description || 'Štamparija MADEX Nikšić - Vodeća štamparija u Crnoj Gori. Profesionalna štampa, brendiranje vozila i objekata. 20+ godina iskustva.';
-  const pageKeywords = keywords || 'štamparija, štamparija Nikšić, štamparija Crna Gora, štampa, print, brendiranje, vozila, objekti, digitalna štampa, ofset, grafički dizajn';
+  const pageKeywords = keywords || 'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, štamparija MADEX, štamparija Crna Gora, štampa Nikšić';
   const displayPageName = pageName || (currentPage ? pageTitle.split('|')[0].trim() : 'Početna');
   
   // Formiraj punu putanju
