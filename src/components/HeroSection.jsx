@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg fixed w-full z-50">
+    <nav className="bg-gray-900 shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
@@ -47,7 +47,7 @@ const Navbar = () => {
               <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg md:text-xl">M</span>
               </div>
-              <span className="text-xl md:text-2xl font-bold text-gray-900">MADEX</span>
+              <span className="text-xl md:text-2xl font-bold text-white">MADEX</span>
             </a>
           </div>
 
@@ -58,7 +58,7 @@ const Navbar = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(item.href, e)}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300 text-sm lg:text-base relative group"
+                className="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-300 text-sm lg:text-base relative group"
               >
                 {item.label}
                 {/* Underline effect on hover */}
@@ -86,7 +86,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-blue-600 p-2"
+              className="text-gray-300 hover:text-blue-400 p-2"
               aria-label={isOpen ? "Zatvori meni" : "Otvori meni"}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -97,13 +97,13 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden animate-fadeIn">
-            <div className="px-2 pt-2 pb-4 space-y-1 bg-white border-t">
+            <div className="px-2 pt-2 pb-4 space-y-1 bg-gray-900 border-t border-gray-700">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleNavClick(item.href, e)}
-                  className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors duration-300 text-base"
+                  className="block px-4 py-3 text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded-lg font-medium transition-colors duration-300 text-base"
                 >
                   {item.label}
                 </a>
@@ -161,7 +161,7 @@ const HeroSection = () => {
       ref={sectionRef}
       className={`relative min-h-screen overflow-hidden transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       id="home"
-      style={{ backgroundImage: "url('/vozilo1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+      style={{ backgroundImage: "url('/hero-bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60"></div>
