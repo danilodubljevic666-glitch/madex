@@ -19,6 +19,64 @@
   100% { opacity: 1; }
 }
 
+@keyframes heroZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.animate-heroZoom {
+  animation: heroZoom 20s ease-out forwards;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 7s ease-in-out 1.2s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 6.5s ease-in-out 2.4s infinite;
+}
+
+@keyframes expandWidth {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.animate-expandWidth {
+  animation: expandWidth 1s ease-out 0.9s forwards;
+}
+
+/* Sweep/shine effect on hover for buttons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.btn-shine:hover::before {
+  left: 125%;
+}
+
 .animate-blob {
   animation: blob 7s infinite;
 }
