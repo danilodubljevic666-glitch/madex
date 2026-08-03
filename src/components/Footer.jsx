@@ -1,4 +1,14 @@
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Phone, Mail, MapPin, Clock, Printer } from 'lucide-react';
+import { services } from '../data/services';
+
+const quickLinks = [
+  { label: 'Početna stranica', to: '/' },
+  { label: 'Naše usluge', to: '/#services' },
+  { label: 'O nama', to: '/#about' },
+  { label: 'Kontakt', to: '/#contact' },
+  { label: 'Lokacija', to: '/#location' },
+];
 
 const Footer = () => {
   return (
@@ -17,31 +27,33 @@ const Footer = () => {
                 <div className="text-blue-400 text-sm font-medium">ŠTAMPARIJA</div>
               </div>
             </div>
-            
+
             <p className="text-gray-400 mb-6 text-base md:text-lg">
-              Porodična štamparija sa više od 20 godina iskustva u štamparskoj industriji. 
+              Porodična štamparija sa više od 20 godina iskustva u štamparskoj industriji.
               Pružamo kompletan spektar usluga najvišeg kvaliteta.
             </p>
-            
+
             <div className="flex space-x-4">
-              <a 
-                href="https://www.facebook.com/profile.php?id=100063073638062&locale=sr_RS" 
+              <a
+                href="https://www.facebook.com/profile.php?id=100063073638062"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a 
-                href="https://www.instagram.com/stamparija.madex/" 
+              <a
+                href="https://www.instagram.com/stamparija.madex/"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a 
-                href="tel:+38269048009" 
+              <a
+                href="tel:+38268048655"
                 className="w-10 h-10 bg-gray-800 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors duration-300"
                 aria-label="Telefon"
               >
@@ -54,51 +66,17 @@ const Footer = () => {
           <div className="animate-fadeIn" style={{ animationDelay: '0.1s' }}>
             <h3 className="text-xl font-bold mb-6 pb-3 border-b border-gray-800">Brzi Linkovi</h3>
             <ul className="space-y-3">
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                  Početna stranica
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#services"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                  Naše usluge
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#about"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                  O nama
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#contact"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                  Kontakt
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#location"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                  Lokacija
-                </a>
-              </li>
+              {quickLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    to={item.to}
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
+                  >
+                    <span className="w-1.5 h-1.5 bg-blue-600 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -106,51 +84,17 @@ const Footer = () => {
           <div className="animate-fadeIn" style={{ animationDelay: '0.2s' }}>
             <h3 className="text-xl font-bold mb-6 pb-3 border-b border-gray-800">Usluge</h3>
             <ul className="space-y-3">
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <Printer className="w-4 h-4 mr-3 text-blue-500" />
-                  Digitalna štampa
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <Printer className="w-4 h-4 mr-3 text-blue-500" />
-                  Ofset štampa
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <Printer className="w-4 h-4 mr-3 text-blue-500" />
-                  Brendiranje vozila
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <Printer className="w-4 h-4 mr-3 text-blue-500" />
-                  Brendiranje objekata
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#"
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
-                >
-                  <Printer className="w-4 h-4 mr-3 text-blue-500" />
-                  Štampa na PVC foliji
-                </a>
-              </li>
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    to={`/${service.slug}`}
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center group"
+                  >
+                    <Printer className="w-4 h-4 mr-3 text-blue-500 flex-shrink-0" />
+                    {service.navLabel}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -161,23 +105,31 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 text-blue-500 mr-3 mt-1 flex-shrink-0" />
                 <span className="text-gray-400">
-                 Bulevar 13.jul<br />
+                  Bulevar 13. jul 234<br />
                   Nikšić, Crna Gora
                 </span>
               </li>
-              <li className="flex items-center">
-                <Phone className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
-                <a 
-                  href="tel:+38269048009" 
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
-                >
-                  +382 69 048 009
-                </a>
+              <li className="flex items-start">
+                <Phone className="w-5 h-5 text-blue-500 mr-3 mt-1 flex-shrink-0" />
+                <div className="flex flex-col">
+                  <a
+                    href="tel:+38268048655"
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+                  >
+                    +382 68 048 655
+                  </a>
+                  <a
+                    href="tel:+38269048009"
+                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+                  >
+                    +382 69 048 009
+                  </a>
+                </div>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
-                <a 
-                  href="mailto:mladendubljevic@yahoo.com" 
+                <a
+                  href="mailto:mladendubljevic@yahoo.com"
                   className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
                 >
                   mladendubljevic@yahoo.com
@@ -186,9 +138,8 @@ const Footer = () => {
               <li className="flex items-start">
                 <Clock className="w-5 h-5 text-blue-500 mr-3 mt-1 flex-shrink-0" />
                 <div className="text-gray-400">
-                  <div className="font-medium mb-1">Radno vreme:</div>
-                  <div>Pon-Pet: 08:00 - 20:00</div>
-                  <div>Subota: 09:00 - 15:00</div>
+                  <div className="font-medium mb-1">Radno vrijeme:</div>
+                  <div>Svaki dan: 08:00 - 21:00</div>
                 </div>
               </li>
             </ul>
@@ -204,10 +155,7 @@ const Footer = () => {
             <p className="text-gray-500 text-sm md:text-base">
               &copy; {new Date().getFullYear()} Štamparija Madex. Sva prava zadržana.
             </p>
-           
           </div>
-          
-          
         </div>
 
         {/* Back to Top */}

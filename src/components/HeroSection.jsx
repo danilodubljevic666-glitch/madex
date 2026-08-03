@@ -1,137 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Sparkles, ArrowRight, Printer, Package } from 'lucide-react';
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const navItems = [
-    { label: 'POČETNA STRANICA', href: '#home' },
-    { label: 'USLUGE', href: '#services' },
-    { label: 'O NAMA', href: '#about' },
-    { label: 'KONTAKT', href: '#contact' },
-  ];
-
-  // Funkcija za smooth scroll
-  const handleNavClick = (href, event) => {
-    if (href.startsWith('#')) {
-      event.preventDefault();
-      
-      // Zatvori mobile menu ako je otvoren
-      setIsOpen(false);
-      
-      // Pronađi target element
-      const targetId = href.substring(1);
-      const targetElement = document.getElementById(targetId);
-      
-      if (targetElement) {
-        // Smooth scroll do elementa
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
-        });
-      }
-    }
-  };
-
-  return (
-    <nav className="bg-gray-900 shadow-lg fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Logo */}
-          <div className="flex items-center">
-            <a 
-              href="#home" 
-              onClick={(e) => handleNavClick('#home', e)}
-              className="flex items-center space-x-2 hover:opacity-90 transition-opacity"
-            >
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg md:text-xl">M</span>
-              </div>
-              <span className="text-xl md:text-2xl font-bold text-white">MADEX</span>
-            </a>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(item.href, e)}
-                className="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-300 text-sm lg:text-base relative group"
-              >
-                {item.label}
-                {/* Underline effect on hover */}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-              </a>
-            ))}
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                const contactElement = document.getElementById('packages');
-                if (contactElement) {
-                  window.scrollTo({
-                    top: contactElement.offsetTop - 30,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
-              className="bg-blue-600 text-white px-4 py-2 lg:px-6 lg:py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm lg:text-base transform hover:scale-105"
-            >
-              PORUČITE
-            </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-blue-400 p-2"
-              aria-label={isOpen ? "Zatvori meni" : "Otvori meni"}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden animate-fadeIn">
-            <div className="px-2 pt-2 pb-4 space-y-1 bg-gray-900 border-t border-gray-700">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(item.href, e)}
-                  className="block px-4 py-3 text-gray-300 hover:text-blue-400 hover:bg-gray-800 rounded-lg font-medium transition-colors duration-300 text-base"
-                >
-                  {item.label}
-                </a>
-              ))}
-              <div className="px-4 pt-2">
-                <button 
-                  onClick={() => {
-                    setIsOpen(false);
-                    const contactElement = document.getElementById('contact');
-                    if (contactElement) {
-                      window.scrollTo({
-                        top: contactElement.offsetTop - 80,
-                        behavior: 'smooth'
-                      });
-                    }
-                  }}
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
-                >
-                  <a href="#packages">PORUČITE</a>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-};
+import { Sparkles, ArrowRight, Printer, Package } from 'lucide-react';
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -206,7 +74,7 @@ const HeroSection = () => {
               </span>
               <span
                 className="block animate-slideUp-delay-200 text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-                style={{ background: 'linear-gradient(45deg, #60a5fa, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+                style={{ background: 'linear-gradient(45deg, #93c5fd, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
               >
                 MADEX
               </span>
@@ -265,13 +133,4 @@ const HeroSection = () => {
   );
 };
 
-export default function HomePage() {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main>
-        <HeroSection />
-      </main>
-    </div>
-  );
-}
+export default HeroSection;

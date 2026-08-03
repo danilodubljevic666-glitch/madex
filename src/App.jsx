@@ -1,32 +1,28 @@
 // src/App.jsx
-import SEOTags from './components/SEOTags'; // DODAJTE OVO
-import GoogleAnalytics from './components/GoogleAnalytics';
-import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
-import ContactForm from './components/ContactForm';
-import Footer from './components/Footer';
-import Gallery from './components/Gallery';
-import PrintingPackages from './components/PrintingPackages';
-import LocationSection from './components/LocationSection';
-import ServicesSection from './components/ServicesSection';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import ServicePage from './pages/ServicePage';
+import NotFoundPage from './pages/NotFoundPage';
+import { services } from './data/services';
 
 function App() {
   return (
-    <>
-      <GoogleAnalytics />
-      {/* SEO komponenta - OVO JE JEDINO ŠTA TREBA DODATI */}
-      <SEOTags />
-      
-      {/* Ostavite sve vaše postojeće komponente */}
-      <HeroSection />
-      <AboutSection />
-      <ServicesSection />
-      <Gallery />
-      <PrintingPackages />
-      <LocationSection />
-      <ContactForm />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          {services.map((service) => (
+            <Route
+              key={service.slug}
+              path={service.slug}
+              element={<ServicePage slug={service.slug} />}
+            />
+          ))}
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

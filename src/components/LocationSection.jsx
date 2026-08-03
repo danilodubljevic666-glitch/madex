@@ -64,7 +64,7 @@ const LocationSection = () => {
                   <div>
                     <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Adresa</h4>
                     <p className="text-gray-600 text-base md:text-lg">
-                      Bulevar 13.jul<br />
+                      Bulevar 13. jul 234<br />
                      Nikšić, Crna Gora
                     </p>
                  
@@ -78,17 +78,17 @@ const LocationSection = () => {
                   </div>
                   <div>
                     <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Telefon</h4>
-                    <a 
-                      href="tel:+38269048009" 
+                    <a
+                      href="tel:+38268048655"
                       className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block mb-1"
                     >
-                      +382 69 048 009
+                      +382 68 048 655
                     </a>
-                    <a 
-                      href="tel:+38268048655" 
+                    <a
+                      href="tel:+38269048009"
                       className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block"
                     >
-                      +382 68 048 655
+                      +382 69 048 009
                     </a>
                   </div>
                 </div>
@@ -122,19 +122,9 @@ const LocationSection = () => {
                   </div>
                   <div>
                     <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Radno vrijeme</h4>
-                    <div className="space-y-1">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 text-base md:text-lg">Ponedeljak - Petak: &nbsp;&nbsp;</span>
-                        <span className="font-medium text-gray-900 text-base md:text-lg">08:00 - 20:00</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 text-base md:text-lg">Subota:</span>
-                        <span className="font-medium text-gray-900 text-base md:text-lg">09:00 - 15:00</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600 text-base md:text-lg">Nedelja:</span>
-                        <span className="font-medium text-gray-900 text-base md:text-lg">Zatvoreno</span>
-                      </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 text-base md:text-lg">Svaki dan: &nbsp;&nbsp;</span>
+                      <span className="font-medium text-gray-900 text-base md:text-lg">08:00 - 21:00</span>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { Printer, Shirt, Car, Building, Image, Layers, Palette, Package, Grid } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Printer, Shirt, Car, Building, Image, Layers, Palette, Package, Grid, ArrowRight } from 'lucide-react';
 
 const ServicesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,54 +29,63 @@ const ServicesSection = () => {
     {
       icon: <Shirt className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Štampa na majicama',
+      slug: 'stampa-majica-niksic',
       description: 'Visokokvalitetna štampa na pamučnim i poliester majicama različitih boja i stilova.',
       features: ['100% pamuk', 'Trajna štampa', 'Brza izrada', 'Različite boje']
     },
     {
       icon: <Printer className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Digitalna štampa',
+      slug: 'digitalna-stampa-niksic',
       description: 'Moderna digitalna štampa visoke rezolucije za male i srednje tiraže.',
       features: ['Visoka rezolucija', 'Brza izrada', 'Mali tiraži', 'Širok spektar boja']
     },
     {
       icon: <Layers className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Ofset štampa',
+      slug: 'ofset-stampa-niksic',
       description: 'Profesionalna ofset štampa za velike tiraže sa savršenom kvalitetom i preciznošću.',
       features: ['Veliki tiraži', 'Niska cena po primerku', 'Visok kvalitet', 'Različiti papiri']
     },
     {
       icon: <Car className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Brendiranje vozila',
+      slug: 'brendiranje-vozila-niksic',
       description: 'Kompletno brendiranje vozila vinil folijama - od malih automobila do kamiona.',
       features: ['Vinil folije', 'Trajnost', 'Lako skidanje', 'Custom dizajn']
     },
     {
       icon: <Building className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Brendiranje objekata',
+      slug: 'brendiranje-objekata-niksic',
       description: 'Vizuelni identitet vašeg poslovnog prostora -  prozori, unutrašnje zidove.',
       features: ['Vizuelni identitet', 'Reklamni prostor', 'Dugotrajnost']
     },
     {
       icon: <Image className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Štampa na PVC foliji',
+      slug: 'baneri-pvc-folija-niksic',
       description: 'Štampa na PVC folijama za unutrašnju i spoljnu upotrebu - bannere, plakate, dekoracije.',
       features: ['Vremenski otporno', 'Jarke boje', 'Različite debjline', 'Laka instalacija']
     },
     {
       icon: <Palette className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Grafički dizajn',
+      slug: 'graficki-dizajn-niksic',
       description: 'Profesionalno kreiranje vizuelnog identiteta, logotipa i marketing materijala.',
       features: ['Logo dizajn', 'Brand identity', 'Marketing materijali', 'Konzultacije']
     },
     {
       icon: <Package className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Štampa na kartonskim kutijama',
+      slug: 'stampa-kutije-niksic',
       description: 'Profesionalna štampa na kutijama različitih veličina i debljina za brendiranje vaših proizvoda.',
       features: ['Različite veličine', 'Custom dimenzije']
     },
     {
       icon: <Grid className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
       title: 'Sito štampa',
+      slug: 'sito-stampa-niksic',
       description: 'Profesionalna sito štampa za tekstil, papir, plastiku i druge materijale sa savršenom pokrivenošću boja.',
       features: ['Debeli slojevi boje', 'Jarke boje', 'Trajnost', 'Različiti materijali']
     },
@@ -150,7 +160,13 @@ const ServicesSection = () => {
                     ))}
                   </div>
 
-             
+                  <Link
+                    to={`/${service.slug}`}
+                    className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 group/link"
+                  >
+                    Saznajte više
+                    <ArrowRight className="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover/link:translate-x-1" />
+                  </Link>
                 </div>
               </div>
             </div>

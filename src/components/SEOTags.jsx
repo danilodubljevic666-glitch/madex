@@ -1,7 +1,7 @@
 // src/components/SEOTags.jsx
 import { useEffect } from 'react';
 
-const SEOTags = ({ 
+const SEOTags = ({
   title,
   description,
   keywords,
@@ -9,12 +9,13 @@ const SEOTags = ({
   url = 'https://www.stamparijamadex.com',
   type = 'website',
   currentPage = '',
-  pageName = ''
+  pageName = '',
+  extraSchema = []
 }) => {
-  
+
   // Default vrednosti ako nisu prosleđene
-  const pageTitle = title || 'Štamparija MADEX Nikšić - Profesionalna štampa i brendiranje | Crna Gora';
-  const pageDescription = description || 'Štamparija MADEX Nikšić - Vodeća štamparija u Crnoj Gori. Profesionalna štampa, brendiranje vozila i objekata. 20+ godina iskustva.';
+  const pageTitle = title || 'Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal';
+  const pageDescription = description || 'Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva.';
   const pageKeywords = keywords || 'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, štamparija MADEX, štamparija Crna Gora, štampa Nikšić';
   const displayPageName = pageName || (currentPage ? pageTitle.split('|')[0].trim() : 'Početna');
   
@@ -132,6 +133,7 @@ const SEOTags = ({
     });
     
     // 5. STRUCTURED DATA (JSON-LD)
+    // NAP podaci moraju biti IDENTIČNI Google Business profilu na svakoj stranici
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
@@ -139,11 +141,11 @@ const SEOTags = ({
       "image": ogImageUrl,
       "@id": url,
       "url": url,
-      "telephone": "+382-68-123-456", // PROMENI NA PRAVI BROJ
+      "telephone": "+382 68 048 655",
       "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Trg Slobode bb",
+        "streetAddress": "Bulevar 13. jul 234",
         "addressLocality": "Nikšić",
         "postalCode": "81400",
         "addressCountry": "ME",
@@ -157,26 +159,20 @@ const SEOTags = ({
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
           "opens": "08:00",
-          "closes": "16:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "09:00",
-          "closes": "13:00"
+          "closes": "21:00"
         }
       ],
       "sameAs": [
-        "https://www.facebook.com/stamparijamadexniksic",
-        "https://www.instagram.com/stamparijamadex_me"
+        "https://www.facebook.com/profile.php?id=100063073638062",
+        "https://www.instagram.com/stamparija.madex/"
       ]
     };
-    
+
     // 6. BREADCRUMB STRUCTURED DATA (samo za podstranice)
-    let allStructuredData = [structuredData];
-    
+    let allStructuredData = [structuredData, ...extraSchema];
+
     if (currentPage) {
       const breadcrumbData = {
         "@context": "https://schema.org",
@@ -233,15 +229,16 @@ const SEOTags = ({
     };
     
   }, [
-    pageTitle, 
-    pageDescription, 
-    pageKeywords, 
-    ogImageUrl, 
-    fullUrl, 
-    type, 
-    currentPage, 
-    displayPageName, 
-    url
+    pageTitle,
+    pageDescription,
+    pageKeywords,
+    ogImageUrl,
+    fullUrl,
+    type,
+    currentPage,
+    displayPageName,
+    url,
+    extraSchema
   ]);
   
   // Ova komponenta ne renderuje ništa u DOM

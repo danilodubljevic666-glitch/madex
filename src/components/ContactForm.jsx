@@ -335,11 +335,11 @@ const ContactForm = () => {
                     </div>
                     <div>
                       <h4 className="text-lg md:text-xl font-semibold mb-2">Telefon</h4>
-                      <a href="tel:+38269048009" className="text-blue-100 hover:text-white transition-colors text-lg block">
-                        +382 69 048 009
-                      </a>
                       <a href="tel:+38268048655" className="text-blue-100 hover:text-white transition-colors text-lg block">
                         +382 68 048 655
+                      </a>
+                      <a href="tel:+38269048009" className="text-blue-100 hover:text-white transition-colors text-lg block">
+                        +382 69 048 009
                       </a>
                     </div>
                   </div>
