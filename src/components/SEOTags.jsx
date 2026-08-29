@@ -16,7 +16,7 @@ const SEOTags = ({
   // Default vrednosti ako nisu prosleđene
   const pageTitle = title || 'Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal';
   const pageDescription = description || 'Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva.';
-  const pageKeywords = keywords || 'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, štamparija MADEX, štamparija Crna Gora, štampa Nikšić';
+  const pageKeywords = keywords || 'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, vizit kartice Nikšić, vizit kartice Crna Gora, štamparija MADEX, štamparija Crna Gora, štampa online Crna Gora, štampa Nikšić';
   const displayPageName = pageName || (currentPage ? pageTitle.split('|')[0].trim() : 'Početna');
   
   // Formiraj punu putanju
@@ -143,6 +143,10 @@ const SEOTags = ({
       "url": url,
       "telephone": "+382 68 048 655",
       "priceRange": "$$",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Crna Gora"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Bulevar 13. jul 234",

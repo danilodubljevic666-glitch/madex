@@ -38,9 +38,9 @@ const ContactForm = () => {
   const [statusMessage, setStatusMessage] = useState('');
 
   // Zameni ove vrednosti SA SVOJIM PODACIMA iz EmailJS dashboard-a
-  const SERVICE_ID = 'service_9bcecl3'; // ID tvog "Email Service"
-  const TEMPLATE_ID = 'template_bhhozhl'; // ID tvog template-a
-  const USER_ID = 'sSMD96lAK_zapR3p_'; // Tvoj Public Key (nalazi se u Account → API Keys)
+  const SERVICE_ID = 'service_mu2hagb'; // ID tvog "Email Service"
+  const TEMPLATE_ID = 'template_511qp8h'; // ID tvog template-a
+  const USER_ID = 'ASltbUGew2GCqRWiC'; // Tvoj Public Key (nalazi se u Account → API Keys)
 
   // Validacione funkcije
   const validateEmail = (email) => {

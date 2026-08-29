@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid, Phone, CheckCircle, ChevronRight } from 'lucide-react';
+import { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid, CreditCard, Phone, CheckCircle, ChevronRight } from 'lucide-react';
 import SEOTags from '../components/SEOTags';
 import { getServiceBySlug } from '../data/services';
 
-const ICONS = { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid };
+const ICONS = { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid, CreditCard };
 
 const PHONE_DISPLAY = '+382 68 048 655';
 const PHONE_TEL = 'tel:+38268048655';
@@ -29,10 +29,16 @@ const ServicePage = ({ slug }) => {
     name: service.h1,
     description: service.metaDescription,
     url: pageUrl,
-    areaServed: {
-      '@type': 'City',
-      name: 'Nikšić',
-    },
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Nikšić',
+      },
+      {
+        '@type': 'Country',
+        name: 'Crna Gora',
+      },
+    ],
     provider: {
       '@type': 'LocalBusiness',
       name: 'Štamparija MADEX',

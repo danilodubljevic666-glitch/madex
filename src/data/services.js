@@ -110,7 +110,60 @@ export const services = [
         a: 'Da, digitalna štampa omogućava i pojedinačne otiske bez dodatnih troškova pripreme, što je čini pogodnom i za probne primjerke prije većeg tiraža.',
       },
     ],
-    related: ['ofset-stampa-niksic', 'graficki-dizajn-niksic', 'baneri-pvc-folija-niksic'],
+    related: ['vizit-kartice-niksic', 'ofset-stampa-niksic', 'graficki-dizajn-niksic'],
+  },
+
+  {
+    slug: 'vizit-kartice-niksic',
+    icon: 'CreditCard',
+    navLabel: 'Vizit kartice',
+    metaTitle: 'Vizit kartice Nikšić — štampa i dizajn, dostava širom Crne Gore | MADEX',
+    metaDescription:
+      'Štampa vizit kartica u Nikšiću — mat, sjajna i UV lak obrada, kvalitetan karton, brza izrada. Šaljemo u sve gradove Crne Gore. Pozovite Štampariju MADEX za ponudu.',
+    keywords:
+      'vizit kartice Nikšić, štampa vizit kartica Nikšić, vizit karte Crna Gora, poslovne kartice Nikšić, dizajn vizit kartice Nikšić, vizit kartice online Crna Gora, vizit kartice Podgorica',
+    badge: 'VIZIT KARTICE',
+    h1: 'Štampa vizit kartica u Nikšiću',
+    heroLead:
+      'Vizit kartica je često prvi fizički kontakt klijenta sa vašim brendom. Štamparija MADEX u Nikšiću štampa poslovne vizit kartice po mjeri — od klasičnog do premium izgleda — i šalje ih u sve gradove Crne Gore, ne samo u Nikšić.',
+    sections: [
+      {
+        heading: 'Papir, karton i završna obrada',
+        paragraphs: [
+          'Vizit kartice štampamo na kvalitetnom, debljem kartonu koji djeluje reprezentativno u ruci, sa mat, sjajnom ili UV lak završnom obradom po izboru. Mat obrada daje eleganciji i diskretan izgled, sjajna naglašava boje i kontraste, a UV lak (djelimičan ili preko cijele kartice) izdvaja logo ili detalje sa efektnim sjajem.',
+        ],
+      },
+      {
+        heading: 'Dizajn vizit kartice',
+        paragraphs: [
+          'Ako već imate logo i vizuelni identitet, pripremamo vizit kartice tako da savršeno odgovaraju postojećem brendu. Ako tek pokrećete posao ili želite osvježen izgled, naš tim za grafički dizajn kreira dizajn od nule — dovoljno je da nam kažete čime se bavite i kakav utisak želite da ostavite.',
+        ],
+      },
+      {
+        heading: 'Dostava u sve gradove Crne Gore',
+        paragraphs: [
+          'Iako je naša štamparija u Nikšiću, redovno radimo sa klijentima iz cijele Crne Gore — Podgorice, Bara, Budve, Herceg Novog, Kotora i drugih gradova. Dizajn i dogovor oko narudžbe obavljamo putem telefona, mejla ili WhatsApp-a, a gotove vizit kartice šaljemo kurirskom službom ili poštom na vašu adresu, bez obzira gdje se nalazite.',
+        ],
+      },
+    ],
+    features: ['Mat, sjajna i UV lak obrada', 'Kvalitetan, deblji karton', 'Dizajn po želji ili gotov predložak', 'Dostava u sve gradove Crne Gore'],
+    forWho: ['Preduzetnici i firme', 'Slobodne profesije — advokati, agenti, konsultanti', 'Firme koje otvaraju novu poslovnicu', 'Svako kome treba brza dostava van Nikšića'],
+    images: [],
+    faq: [
+      {
+        q: 'Da li dostavljate vizit kartice i van Nikšića, npr. u Podgoricu ili Bar?',
+        a: 'Da, redovno šaljemo vizit kartice kurirskom službom ili poštom u sve gradove Crne Gore. Cijeli proces — dogovor, dizajn i plaćanje — možemo obaviti na daljinu, bez potrebe da dolazite u Nikšić.',
+      },
+      {
+        q: 'Koji je minimalan tiraž za vizit kartice?',
+        a: 'Radimo i manje i veće tiraže. Javite nam okvirnu količinu i vrstu obrade (mat, sjaj, UV lak) i pripremićemo vam konkretnu ponudu.',
+      },
+      {
+        q: 'Nemam gotov dizajn — možete li ga vi napraviti?',
+        a: 'Da, naš tim za grafički dizajn može kreirati dizajn vizit kartice od nule ili prilagoditi postojeći logo i vizuelni identitet.',
+      },
+    ],
+    related: ['graficki-dizajn-niksic', 'digitalna-stampa-niksic', 'ofset-stampa-niksic'],
   },
 
   {
@@ -332,7 +385,7 @@ export const services = [
     metaTitle: 'Grafički dizajn Nikšić — logo i vizuelni identitet | MADEX',
     metaDescription:
       'Grafički dizajn u Nikšiću — logotipi, vizuelni identitet i priprema materijala za štampu. Dizajn i štampa na jednom mjestu. Štamparija MADEX.',
-    keywords: 'grafički dizajn Nikšić, izrada logotipa Nikšić, dizajn vizuelnog identiteta Nikšić, priprema za štampu Nikšić',
+    keywords: 'grafički dizajn Nikšić, izrada logotipa Nikšić, dizajn vizuelnog identiteta Nikšić, priprema za štampu Nikšić, grafički dizajn Crna Gora, izrada logotipa Crna Gora',
     badge: 'GRAFIČKI DIZAJN',
     h1: 'Grafički dizajn u Nikšiću',
     heroLead:
@@ -356,6 +409,12 @@ export const services = [
           'Prednost naručivanja dizajna direktno kod nas je što isti tim koji kreira dizajn zna i kako će se on ponašati kada se odštampa — na majici, baneru, vizit kartici ili ambalaži — pa odmah predlažemo rješenja koja dobro izgledaju i u štampi, ne samo na ekranu. Tako izbjegavate iznenađenja kada gotov materijal stigne iz štampe.',
         ],
       },
+      {
+        heading: 'Saradnja na daljinu, iz cijele Crne Gore',
+        paragraphs: [
+          'Dizajn dogovaramo i radimo i sa klijentima van Nikšića — komunikacija ide preko telefona, mejla ili WhatsApp-a, a gotove fajlove i primjere šaljemo elektronski na pregled i odobrenje. Ako uz dizajn želite i štampu, gotov materijal vam šaljemo kurirskom službom u Podgoricu, Bar, Budvu i ostale gradove Crne Gore.',
+        ],
+      },
     ],
     features: ['Izrada logotipa i vizuelnog identiteta', 'Priprema materijala za štampu', 'Dizajn za društvene mreže', 'Konsultacije i besplatan prvi razgovor'],
     forWho: ['Firme koje pokreću novi biznis', 'Postojeće firme koje osvježavaju identitet', 'Svako kome treba materijal spreman za štampu', 'Firme koje žele dizajn i štampu na jednom mjestu'],
@@ -374,7 +433,7 @@ export const services = [
         a: 'Zavisi od obima posla i broja izmjena, ali za osnovni logo obično je dovoljno nekoliko dana od prvog razgovora do finalne verzije.',
       },
     ],
-    related: ['digitalna-stampa-niksic', 'ofset-stampa-niksic', 'stampa-majica-niksic'],
+    related: ['vizit-kartice-niksic', 'digitalna-stampa-niksic', 'ofset-stampa-niksic'],
   },
 
   {

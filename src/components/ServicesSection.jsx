@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Printer, Shirt, Car, Building, Image, Layers, Palette, Package, Grid, ArrowRight } from 'lucide-react';
+import { Printer, Shirt, Car, Building, Image, Layers, Palette, Package, Grid, CreditCard, ArrowRight } from 'lucide-react';
 
 const ServicesSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,6 +39,13 @@ const ServicesSection = () => {
       slug: 'digitalna-stampa-niksic',
       description: 'Moderna digitalna štampa visoke rezolucije za male i srednje tiraže.',
       features: ['Visoka rezolucija', 'Brza izrada', 'Mali tiraži', 'Širok spektar boja']
+    },
+    {
+      icon: <CreditCard className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
+      title: 'Vizit kartice',
+      slug: 'vizit-kartice-niksic',
+      description: 'Poslovne vizit kartice sa mat, sjajnom ili UV lak obradom, dostava u sve gradove Crne Gore.',
+      features: ['Mat, sjaj, UV lak', 'Kvalitetan karton', 'Dizajn po želji', 'Dostava širom CG']
     },
     {
       icon: <Layers className="w-10 h-10 md:w-12 md:h-12 text-blue-600" />,
