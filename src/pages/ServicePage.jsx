@@ -120,7 +120,7 @@ const ServicePage = ({ slug }) => {
               Pozovite {PHONE_DISPLAY}
             </a>
             <Link
-              to="/#contact"
+              to="/kontakt"
               className="inline-flex items-center justify-center bg-transparent text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-white/40 hover:bg-white/10 transition-all duration-300"
             >
               Pošaljite upit
@@ -227,7 +227,7 @@ const ServicePage = ({ slug }) => {
                   {PHONE_DISPLAY}
                 </a>
                 <Link
-                  to="/#contact"
+                  to="/kontakt"
                   className="flex items-center justify-center gap-2 bg-blue-800/40 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-800/60 transition-colors duration-300 border border-white/20"
                 >
                   Pošaljite upit

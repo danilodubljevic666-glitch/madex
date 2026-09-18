@@ -180,9 +180,16 @@ const ServicesSection = () => {
           ))}
         </div>
 
-    
-
-   
+        {/* Link ka samostalnoj stranici sa svim uslugama */}
+        <div className="text-center">
+          <Link
+            to="/usluge"
+            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            Pogledajte sve usluge
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
       </div>
     </section>
   );

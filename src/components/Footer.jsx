@@ -4,10 +4,10 @@ import { services } from '../data/services';
 
 const quickLinks = [
   { label: 'Početna stranica', to: '/' },
-  { label: 'Naše usluge', to: '/#services' },
-  { label: 'O nama', to: '/#about' },
-  { label: 'Kontakt', to: '/#contact' },
-  { label: 'Lokacija', to: '/#location' },
+  { label: 'Naše usluge', to: '/usluge' },
+  { label: 'O nama', to: '/o-nama' },
+  { label: 'Kontakt', to: '/kontakt' },
+  { label: 'Poručite', to: '/porucite' },
 ];
 
 const Footer = () => {
@@ -129,10 +129,10 @@ const Footer = () => {
               <li className="flex items-center">
                 <Mail className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
                 <a
-                  href="mailto:mladendubljevic@yahoo.com"
+                  href="mailto:stamparijamadex@gmail.com"
                   className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
                 >
-                  mladendubljevic@yahoo.com
+                  stamparijamadex@gmail.com
                 </a>
               </li>
               <li className="flex items-start">

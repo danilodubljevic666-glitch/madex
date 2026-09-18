@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment varijable (API ključevi) — nikada u git
+.env
+.env.*
+!.env.example

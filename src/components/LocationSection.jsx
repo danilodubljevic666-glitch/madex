@@ -79,38 +79,10 @@ const LocationSection = () => {
                   <div>
                     <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Telefon</h4>
                     <a
-                      href="tel:+38268048655"
-                      className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block mb-1"
+                      href="mailto:stamparijamadex@gmail.com"
+                      className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block break-all"
                     >
-                      +382 68 048 655
-                    </a>
-                    <a
-                      href="tel:+38269048009"
-                      className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block"
-                    >
-                      +382 69 048 009
-                    </a>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-start">
-                  <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-50 rounded-xl flex items-center justify-center mr-4 md:mr-6">
-                    <Mail className="w-6 h-6 md:w-7 md:h-7 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">Email</h4>
-                    <a 
-                      href="mailto:info@madex.me" 
-                      className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block mb-1"
-                    >
-                     mladendubljevic@yahoo.com
-                    </a>
-                    <a 
-                      href="mailto:prodaja@madex.me" 
-                      className="text-gray-600 text-base md:text-lg hover:text-blue-600 transition-colors duration-300 block"
-                    >
-                      danilo.dubljevic666@gmail.com
+                      stamparijamadex@gmail.com
                     </a>
                   </div>
                 </div>

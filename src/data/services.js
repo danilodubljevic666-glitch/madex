@@ -6,6 +6,8 @@ export const services = [
     slug: 'stampa-majica-niksic',
     icon: 'Shirt',
     navLabel: 'Štampa na majicama',
+    shortDescription:
+      'Pojedinačne majice i veći tiraži za klubove, firme i proslave — digitalna ili sito štampa, uz probni izgled prije izrade.',
     metaTitle: 'Štampa na majicama Nikšić — brza izrada | MADEX',
     metaDescription:
       'Štampa na majicama u Nikšiću — pamučne i poliester majice, timske i promo majice, brza izrada za 3-5 dana. Pozovite Štampariju MADEX za besplatnu ponudu.',
@@ -65,6 +67,8 @@ export const services = [
     slug: 'digitalna-stampa-niksic',
     icon: 'Printer',
     navLabel: 'Digitalna štampa',
+    shortDescription:
+      'Flajeri, brošure, plakati i cjenovnici u manjim tiražima, gotovi za nekoliko dana i bez troškova pripreme klišea.',
     metaTitle: 'Digitalna štampa Nikšić — brza štampa malih tiraža | MADEX',
     metaDescription:
       'Digitalna štampa u Nikšiću za flajere, brošure, plakate i poslovni materijal. Visoka rezolucija, mali tiraži, brza izrada. Pozovite Štampariju MADEX.',
@@ -117,6 +121,8 @@ export const services = [
     slug: 'vizit-kartice-niksic',
     icon: 'CreditCard',
     navLabel: 'Vizit kartice',
+    shortDescription:
+      'Vizit kartice sa mat, sjajnom ili UV lak obradom na kvalitetnom kartonu, uz dostavu u sve gradove Crne Gore.',
     metaTitle: 'Vizit kartice Nikšić — štampa i dizajn, dostava širom Crne Gore | MADEX',
     metaDescription:
       'Štampa vizit kartica u Nikšiću — mat, sjajna i UV lak obrada, kvalitetan karton, brza izrada. Šaljemo u sve gradove Crne Gore. Pozovite Štampariju MADEX za ponudu.',
@@ -170,6 +176,8 @@ export const services = [
     slug: 'ofset-stampa-niksic',
     icon: 'Layers',
     navLabel: 'Ofset štampa',
+    shortDescription:
+      'Veliki tiraži uz najnižu cijenu po primjerku — blokovi, obrasci, katalozi i knjige u dosljednom kvalitetu otiska.',
     metaTitle: 'Ofset štampa Nikšić — veliki tiraži, niža cijena | MADEX',
     metaDescription:
       'Ofset štampa u Nikšiću za kataloge, blokove, obrasce i ambalažu — veliki tiraži uz nižu cijenu po primjerku i visok kvalitet otiska. Pozovite Štampariju MADEX.',
@@ -222,6 +230,8 @@ export const services = [
     slug: 'brendiranje-vozila-niksic',
     icon: 'Car',
     navLabel: 'Brendiranje vozila',
+    shortDescription:
+      'Djelimično ili potpuno oblijepljivanje vozila kvalitetnim vinil folijama, sa mjerenjem na terenu i montažom kod nas.',
     metaTitle: 'Brendiranje vozila Nikšić — vinil folije, cijelo ili djelimično | MADEX',
     metaDescription:
       'Brendiranje vozila u Nikšiću — automobili, kombiji i kamioni, vinil folije otporne na vremenske uslove. Besplatna procjena na terenu. Štamparija MADEX.',
@@ -278,6 +288,8 @@ export const services = [
     slug: 'brendiranje-objekata-niksic',
     icon: 'Building',
     navLabel: 'Brendiranje objekata',
+    shortDescription:
+      'Izlozi, staklene površine, zidovi i table — vizuelni identitet vašeg poslovnog prostora od ideje do postavljanja.',
     metaTitle: 'Brendiranje poslovnih objekata Nikšić — izlozi, zidovi | MADEX',
     metaDescription:
       'Brendiranje poslovnih objekata u Nikšiću — izlozi, staklene površine, zidovi i enterijeri. Besplatna posjeta i procjena prostora. Štamparija MADEX.',
@@ -330,6 +342,8 @@ export const services = [
     slug: 'baneri-pvc-folija-niksic',
     icon: 'Image',
     navLabel: 'Baneri i PVC folija',
+    shortDescription:
+      'Baneri, roll-up displeji i plakati na PVC foliji, otporni na sunce i kišu, u formatu po vašoj mjeri.',
     metaTitle: 'Štampa banera i PVC folije Nikšić — plakati, roll-up | MADEX',
     metaDescription:
       'Štampa banera, plakata i roll-up displeja na PVC foliji u Nikšiću — vremenski otporni materijali, brza izrada. Pozovite Štampariju MADEX za ponudu.',
@@ -382,6 +396,8 @@ export const services = [
     slug: 'graficki-dizajn-niksic',
     icon: 'Palette',
     navLabel: 'Grafički dizajn',
+    shortDescription:
+      'Logo, vizuelni identitet i priprema za štampu — dizajn koji odmah možemo i odštampati u istoj kući.',
     metaTitle: 'Grafički dizajn Nikšić — logo i vizuelni identitet | MADEX',
     metaDescription:
       'Grafički dizajn u Nikšiću — logotipi, vizuelni identitet i priprema materijala za štampu. Dizajn i štampa na jednom mjestu. Štamparija MADEX.',
@@ -440,6 +456,8 @@ export const services = [
     slug: 'stampa-kutije-niksic',
     icon: 'Package',
     navLabel: 'Štampa na kutijama',
+    shortDescription:
+      'Kartonska ambalaža sa vašim dizajnom, u standardnim i prilagođenim dimenzijama, za proizvode i poklone.',
     metaTitle: 'Štampa na kartonskim kutijama Nikšić — ambalaža po mjeri | MADEX',
     metaDescription:
       'Štampa na kartonskim kutijama u Nikšiću — ambalaža po mjeri za hranu, poklone i proizvode. Probni primjerak prije cijele serije. Štamparija MADEX.',
@@ -496,6 +514,8 @@ export const services = [
     slug: 'sito-stampa-niksic',
     icon: 'Grid',
     navLabel: 'Sito štampa',
+    shortDescription:
+      'Debeo i izdržljiv otisak na tekstilu, papiru, plastici i koži — isplativo rješenje za veće tiraže.',
     metaTitle: 'Sito štampa Nikšić — trajan otisak na tekstilu i papiru | MADEX',
     metaDescription:
       'Sito štampa u Nikšiću za tekstil, papir, plastiku i kožu — deblji sloj boje, veća izdržljivost, isplativo za veće tiraže. Štamparija MADEX.',

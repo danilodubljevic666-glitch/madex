@@ -12,7 +12,9 @@ const PORT = 4174;
 const BASE_URL = `http://localhost:${PORT}`;
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 
-const routes = ['/', ...services.map((s) => `/${s.slug}`)];
+// Samostalne stranice iz navigacije + po jedna stranica za svaku uslugu.
+const staticRoutes = ['/', '/usluge', '/o-nama', '/kontakt', '/porucite'];
+const routes = [...staticRoutes, ...services.map((s) => `/${s.slug}`)];
 
 // Na Vercel-u (i drugim serverless build okruženjima) nema sistemskih
 // biblioteka za puppeteer-ov bundlovani Chromium, pa tamo koristimo

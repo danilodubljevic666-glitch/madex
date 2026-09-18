@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import emailjs from 'emailjs-com';
 import { Send, Mail, User, Phone, MessageSquare, AlertCircle, CheckCircle } from 'lucide-react';
 
-const ContactForm = () => {
+const ContactForm = ({
+  badge = 'KONTAKT FORMA',
+  heading,
+  intro = 'Imate pitanje ili želite da zakažete termin? Popunite formu ispod i odgovorićemo vam u najkraćem mogućem roku.',
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -30,17 +33,13 @@ const ContactForm = () => {
     email: '',
     phone: '',
     subject: '',
-    message: ''
+    message: '',
+    website: '' // honeypot — skriveno polje koje popunjavaju samo botovi
   });
-  
+
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(''); // '', 'sending', 'success', 'error'
   const [statusMessage, setStatusMessage] = useState('');
-
-  // Zameni ove vrednosti SA SVOJIM PODACIMA iz EmailJS dashboard-a
-  const SERVICE_ID = 'service_mu2hagb'; // ID tvog "Email Service"
-  const TEMPLATE_ID = 'template_511qp8h'; // ID tvog template-a
-  const USER_ID = 'ASltbUGew2GCqRWiC'; // Tvoj Public Key (nalazi se u Account → API Keys)
 
   // Validacione funkcije
   const validateEmail = (email) => {
@@ -126,37 +125,40 @@ const ContactForm = () => {
     setStatusMessage('Šaljem poruku...');
 
     try {
-      // Parametri koji se šalju EmailJS-u
-      const templateParams = {
-        to_email: 'mladendubljevic@yahoo.com',
-        from_name: formData.name,
-        from_email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message
-      };
+      // Poruka ide na naš serverless endpoint (/api/contact), koji je dalje
+      // šalje mejlom preko Resend-a. API ključ ostaje na serveru.
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
-      
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Molimo pokušajte ponovo.');
+      }
+
       setStatus('success');
       setStatusMessage('Poruka je uspešno poslata! Odgovorićemo vam u najkraćem roku.');
-      
+
       // Resetuj formu
       setFormData({
         name: '',
         email: '',
         phone: '',
         subject: '',
-        message: ''
+        message: '',
+        website: ''
       });
-      
+
       // Resetuj greške
       setErrors({});
-      
+
     } catch (error) {
-      console.error('EmailJS Error:', error);
+      console.error('Greška pri slanju forme:', error);
       setStatus('error');
-      setStatusMessage(`Došlo je do greške pri slanju poruke: ${error.text || 'Molimo pokušajte ponovo.'}`);
+      setStatusMessage(`Došlo je do greške pri slanju poruke: ${error.message || 'Molimo pokušajte ponovo.'}`);
     }
   };
 
@@ -305,16 +307,20 @@ const ContactForm = () => {
           <div className="inline-block mb-4">
             <span className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-semibold text-sm">
               <Mail className="w-4 h-4 mr-2" />
-              KONTAKT FORMA
+              {badge}
             </span>
           </div>
-          
+
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Pošaljite nam <span className="text-blue-600">poruku</span>
+            {heading || (
+              <>
+                Pošaljite nam <span className="text-blue-600">poruku</span>
+              </>
+            )}
           </h2>
-          
+
           <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">
-            Imate pitanje ili želite da zakažete termin? Popunite formu ispod i odgovorićemo vam u najkraćem mogućem roku.
+            {intro}
           </p>
         </div>
 
@@ -350,11 +356,8 @@ const ContactForm = () => {
                     </div>
                     <div>
                       <h4 className="text-lg md:text-xl font-semibold mb-2">Email</h4>
-                      <a href="mailto:mladendubljevic@yahoo.com" className="text-blue-100 hover:text-white transition-colors text-l block">
-                        mladendubljevic@yahoo.com
-                      </a>
-                      <a href="mailto:danilo.dubljevic666@gmail.com" className="text-blue-100 hover:text-white transition-colors text-lblock">
-                        danilo.dubljevic666@gmail.com
+                      <a href="mailto:stamparijamadex@gmail.com" className="text-blue-100 hover:text-white transition-colors text-lg block break-all">
+                        stamparijamadex@gmail.com
                       </a>
                     </div>
                   </div>
@@ -392,6 +395,20 @@ const ContactForm = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Status Message */}
                 {renderStatus()}
+
+                {/* Honeypot — sakriveno od ljudi, popunjavaju ga samo botovi */}
+                <div className="hidden" aria-hidden="true">
+                  <label htmlFor="website">Ostavite ovo polje prazno</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                 {/* Name Field */}
                 {renderInputField('name')}

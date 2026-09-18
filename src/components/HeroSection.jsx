@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight, Printer, Package } from 'lucide-react';
 
 const HeroSection = () => {
@@ -95,29 +96,19 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 justify-center items-center animate-slideUp-delay-600 px-4">
-              <button
-                onClick={() => {
-                  const aboutElement = document.getElementById('about');
-                  if (aboutElement) {
-                    window.scrollTo({ top: aboutElement.offsetTop - 80, behavior: 'smooth' });
-                  }
-                }}
+              <Link
+                to="/o-nama"
                 className="group btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
-                Saznajte više
+                Saznajte više o nama
                 <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-              <button
-                onClick={() => {
-                  const servicesElement = document.getElementById('services');
-                  if (servicesElement) {
-                    window.scrollTo({ top: servicesElement.offsetTop - 80, behavior: 'smooth' });
-                  }
-                }}
-                className="btn-shine w-full sm:w-auto bg-transparent text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-white hover:bg-white/20 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              </Link>
+              <Link
+                to="/usluge"
+                className="btn-shine w-full sm:w-auto inline-flex items-center justify-center bg-transparent text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-white hover:bg-white/20 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Pogledajte usluge
-              </button>
+              </Link>
             </div>
           </div>
         </div>

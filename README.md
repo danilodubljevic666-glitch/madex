@@ -1,16 +1,62 @@
-# React + Vite
+# Štamparija MADEX — sajt
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite sajt sa prerenderovanim stranicama (SEO) i serverless kontakt formom na Vercelu.
 
-Currently, two official plugins are available:
+## Pokretanje
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev      # http://localhost:5173 — uključuje i /api rute
+npm run build    # vite build + prerender svih ruta u dist/
+npm run preview  # pregled produkcijskog builda
+npm run lint
+```
 
-## React Compiler
+## Environment varijable
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Lokalno se čitaju iz `.env.local` (nije u gitu — vidi `.env.example`).
+Iste varijable moraju postojati i na Vercelu: **Project → Settings → Environment Variables**.
 
-## Expanding the ESLint configuration
+| Varijabla | Opis |
+|---|---|
+| `RESEND_API_KEY` | API ključ sa [resend.com](https://resend.com) — bez njega forma vraća grešku |
+| `CONTACT_FROM` | Pošiljalac, npr. `Sajt MADEX <kontakt@stamparijamadex.com>` |
+| `CONTACT_TO` | Primalac; više adresa odvojiti zarezom |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Važno:** `CONTACT_FROM` mora biti sa domena verifikovanog u Resend-u. Dok domen nije
+verifikovan, jedini dozvoljeni pošiljalac je `onboarding@resend.dev`, a mejl tada stiže
+samo na adresu vlasnika Resend naloga.
+
+## Kontakt forma
+
+- Frontend: [`src/components/ContactForm.jsx`](src/components/ContactForm.jsx) — validira polja i šalje `POST /api/contact`
+- Backend: [`api/contact.js`](api/contact.js) — Vercel serverless funkcija, šalje mejl preko Resend-a
+
+Zaštite: validacija i na klijentu i na serveru, ograničenja dužine polja, escapovanje HTML-a
+prije ubacivanja u mejl, honeypot polje (`website`) protiv botova i `replyTo` sa adresom
+pošiljaoca, pa se na upit odgovara direktno iz mejl klijenta.
+
+Vite dev i preview server pokreću `api/*.js` kao middleware (plugin `local-api` u
+[`vite.config.js`](vite.config.js)), pa forma radi lokalno bez `vercel dev`.
+
+## Stranice i SEO
+
+Rute su definisane u [`src/App.jsx`](src/App.jsx):
+
+- `/` — jednostranična početna
+- `/usluge`, `/o-nama`, `/kontakt`, `/porucite` — samostalne stranice iz navigacije
+- po jedna stranica za svaku uslugu iz [`src/data/services.js`](src/data/services.js)
+
+Svaka ruta dobija svoj `title`, `description`, `canonical` i JSON-LD preko
+[`SEOTags`](src/components/SEOTags.jsx). Nakon `vite build`, skripta
+[`scripts/prerender.mjs`](scripts/prerender.mjs) otvara svaku rutu u headless Chrome-u i
+snima gotov HTML u `dist/`, pa crawleri ne čekaju JavaScript.
+
+**Kada dodaješ novu rutu:** dodaj je u `src/App.jsx`, u `staticRoutes` u
+`scripts/prerender.mjs` i u [`public/sitemap.xml`](public/sitemap.xml).
+
+## Deploy
+
+Vercel build komanda je `npm run build`. Rewrite u [`vercel.json`](vercel.json) preskače
+`/api`, a statički fajlovi iz `dist/` imaju prednost nad rewrite-om — zato se prerenderovane
+stranice serviraju kakve jesu.
