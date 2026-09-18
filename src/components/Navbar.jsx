@@ -5,10 +5,10 @@ import { Menu, X } from 'lucide-react';
 // Svaka stavka navigacije je zasebna stranica sa svojim URL-om,
 // naslovom i meta podacima — umjesto ranijih anchor linkova (#services...).
 const navItems = [
-  { label: 'POČETNA STRANICA', to: '/', end: true },
-  { label: 'USLUGE', to: '/usluge' },
-  { label: 'O NAMA', to: '/o-nama' },
-  { label: 'KONTAKT', to: '/kontakt' },
+  { label: 'Početna stranica', to: '/', end: true },
+  { label: 'Usluge', to: '/usluge' },
+  { label: 'O nama', to: '/o-nama' },
+  { label: 'Kontakt', to: '/kontakt' },
 ];
 
 const Navbar = () => {
@@ -44,7 +44,7 @@ const Navbar = () => {
                 end={item.end}
                 onClick={closeMenu}
                 className={({ isActive }) =>
-                  `font-medium transition-colors duration-300 text-sm lg:text-base relative group ${
+                  `uppercase font-medium transition-colors duration-300 text-sm lg:text-base relative group ${
                     isActive ? 'text-blue-400' : 'text-gray-300 hover:text-blue-400'
                   }`
                 }
@@ -64,9 +64,9 @@ const Navbar = () => {
             <NavLink
               to="/porucite"
               onClick={closeMenu}
-              className="bg-blue-600 text-white px-4 py-2 lg:px-6 lg:py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm lg:text-base transform hover:scale-105"
+              className="uppercase bg-blue-600 text-white px-4 py-2 lg:px-6 lg:py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm lg:text-base transform hover:scale-105"
             >
-              PORUČITE
+              Poručite
             </NavLink>
           </div>
 
@@ -94,7 +94,7 @@ const Navbar = () => {
                   end={item.end}
                   onClick={closeMenu}
                   className={({ isActive }) =>
-                    `block px-4 py-3 rounded-lg font-medium transition-colors duration-300 text-base ${
+                    `uppercase block px-4 py-3 rounded-lg font-medium transition-colors duration-300 text-base ${
                       isActive
                         ? 'text-blue-400 bg-gray-800'
                         : 'text-gray-300 hover:text-blue-400 hover:bg-gray-800'
@@ -108,9 +108,9 @@ const Navbar = () => {
                 <NavLink
                   to="/porucite"
                   onClick={closeMenu}
-                  className="w-full block text-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
+                  className="uppercase w-full block text-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
                 >
-                  PORUČITE
+                  Poručite
                 </NavLink>
               </div>
             </div>

@@ -10,6 +10,7 @@ import {
   PHONE_PRIMARY_TEL,
   ADDRESS,
   WORKING_HOURS,
+  ORGANIZATION_SCHEMA,
 } from '../data/site';
 
 const PAGE_PATH = '/o-nama';
@@ -78,33 +79,7 @@ const aboutSchema = {
     'Priča o Štampariji MADEX iz Nikšića — porodičnoj štampariji osnovanoj 2005. godine koja se bavi offset i digitalnom štampom, sito štampom i brendiranjem vozila i objekata.',
 };
 
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Štamparija MADEX',
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo-madex.png`,
-  foundingDate: '2005',
-  founder: {
-    '@type': 'Person',
-    name: 'Mladen Dubljević',
-    jobTitle: 'Osnivač i vlasnik',
-  },
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: ADDRESS.street,
-    addressLocality: ADDRESS.city,
-    postalCode: ADDRESS.postalCode,
-    addressCountry: ADDRESS.country,
-  },
-  telephone: PHONE_PRIMARY_DISPLAY,
-  sameAs: [
-    'https://www.facebook.com/profile.php?id=100063073638062',
-    'https://www.instagram.com/stamparija.madex/',
-  ],
-};
-
-const EXTRA_SCHEMA = [aboutSchema, organizationSchema];
+const EXTRA_SCHEMA = [aboutSchema, ORGANIZATION_SCHEMA];
 
 const AboutPage = () => (
   <>
