@@ -170,7 +170,7 @@ const SEOTags = ({
       ],
       "sameAs": [
         "https://www.facebook.com/profile.php?id=100063073638062",
-        "https://www.instagram.com/stamparija.madex/"
+        "https://www.instagram.com/madexstamparija/?next=%2F"
       ]
     };
 

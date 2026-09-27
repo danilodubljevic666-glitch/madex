@@ -24,7 +24,7 @@ export const MAP_EMBED_SRC =
 
 export const SOCIAL_LINKS = [
   'https://www.facebook.com/profile.php?id=100063073638062',
-  'https://www.instagram.com/stamparija.madex/',
+  'https://www.instagram.com/madexstamparija/?next=%2F',
 ];
 
 // Provider blok koji se ponavlja u JSON-LD schema podacima.
