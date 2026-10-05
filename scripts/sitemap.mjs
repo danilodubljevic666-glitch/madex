@@ -23,13 +23,15 @@ const entries = ROUTES.flatMap((route) =>
     const base = Number(PRIORITY[route.key] ?? '0.9');
     const priority = (lang === DEFAULT_LANG ? base : base - 0.1).toFixed(1);
 
+    // Redoslijed je propisan šemom sitemaps.org: loc, lastmod, changefreq, priority,
+    // pa tek onda elementi iz drugih namespace-a (xhtml:link za hreflang).
     return [
       '  <url>',
       `    <loc>${url(route.paths[lang])}</loc>`,
-      ...alternates,
       `    <lastmod>${today}</lastmod>`,
       '    <changefreq>monthly</changefreq>',
       `    <priority>${priority}</priority>`,
+      ...alternates,
       '  </url>',
     ].join('\n');
   })
