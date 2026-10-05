@@ -1,63 +1,299 @@
 @import "tailwindcss";
 
+/* ========== DIZAJN TOKENI ========== */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Montserrat', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-/* Dodajte ove animacije */
+  /* Procesne CMYK boje — iste kao na logotipu */
+  --color-ink-cyan: #00aeef;
+  --color-ink-magenta: #ec008c;
+  --color-ink-yellow: #ffe600;
+  --color-ink-black: #0b0f19;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* visina fiksnog navbara */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-gray-900);
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background-color: rgb(236 0 140 / 0.18);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ========== KEYFRAMES ========== */
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
+  0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  66% { transform: translate(-20px, 20px) scale(0.92); }
 }
 
 @keyframes slideUp {
-  0% { transform: translateY(20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes heroZoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-
-.animate-heroZoom {
-  animation: heroZoom 20s ease-out forwards;
+  from { transform: scale(1); }
+  to { transform: scale(1.12); }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-16px); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(4deg); }
+}
+
+@keyframes growX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+@keyframes halftoneDrift {
+  to { background-position: 64px 64px; }
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit, 10px)) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(var(--orbit, 10px)) rotate(-360deg); }
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes scrollDot {
+  0% { transform: translateY(0); opacity: 1; }
+  80% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ========== ANIMACIJE ========== */
+/* Ulazna animacija sa kašnjenjem: style={{ '--d': '200ms' }} */
+.animate-in {
+  animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out both;
+}
+
+.animate-heroZoom {
+  animation: heroZoom 24s ease-out forwards;
+}
+
+.animate-blob {
+  animation: blob 12s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 7s ease-in-out infinite;
 }
 
-.animate-float-delay-1 {
-  animation: float 7s ease-in-out 1.2s infinite;
+.animate-float-slow {
+  animation: float 9s ease-in-out 1.5s infinite;
 }
 
-.animate-float-delay-2 {
-  animation: float 6.5s ease-in-out 2.4s infinite;
+.animate-float-slower {
+  animation: float 11s ease-in-out 3s infinite;
 }
 
-@keyframes expandWidth {
-  0% { width: 0; }
-  100% { width: 100%; }
+.animate-spin-slow {
+  animation: spinSlow 40s linear infinite;
 }
 
-.animate-expandWidth {
-  animation: expandWidth 1s ease-out 0.9s forwards;
+.animate-spin-slower {
+  animation: spinSlow 70s linear infinite reverse;
 }
 
-/* Sweep/shine effect on hover for buttons */
+.animate-growX {
+  transform-origin: left center;
+  animation: growX 1s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both;
+}
+
+.animate-orbit {
+  animation: orbit 14s linear infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulseRing 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.animate-scroll-dot {
+  animation: scrollDot 1.8s ease-in-out infinite;
+}
+
+/* Crop marke i linije koje se "iscrtaju" (path mora imati pathLength="100") */
+.draw-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw 1.4s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 300ms) forwards;
+}
+
+/* Beskonačna traka usluga */
+.marquee-track {
+  animation: marquee 45s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ========== SCROLL REVEAL (komponenta <Reveal>) ========== */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.reveal[data-reveal='left'] { transform: translate3d(-36px, 0, 0); }
+.reveal[data-reveal='right'] { transform: translate3d(36px, 0, 0); }
+.reveal[data-reveal='scale'] { transform: scale(0.94); }
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ========== DEKORATIVNE POZADINE ========== */
+/* Halftone raster — boja preko text-* klase (currentColor) */
+.bg-halftone {
+  background-image: radial-gradient(currentColor 1.3px, transparent 1.7px);
+  background-size: 16px 16px;
+}
+
+.bg-halftone-drift {
+  animation: halftoneDrift 18s linear infinite;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.mask-radial {
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse at center, #000 10%, transparent 70%);
+}
+
+.mask-fade-b {
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent);
+}
+
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Paralaksa na pomjeranje miša — --mx/--my postavlja HeroSection */
+.parallax {
+  transform: translate3d(calc(var(--mx, 0) * var(--depth, 10px)), calc(var(--my, 0) * var(--depth, 10px)), 0);
+  transition: transform 0.4s ease-out;
+}
+
+/* ========== TEKST I DUGMAD ========== */
+.text-gradient-cmyk {
+  background: linear-gradient(100deg, #67e8f9 0%, #60a5fa 30%, #f472b6 60%, #fde047 80%, #67e8f9 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 10s linear infinite;
+}
+
+.text-gradient-light {
+  background: linear-gradient(100deg, #93c5fd, #67e8f9 45%, #f9a8d4 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(100deg, #2563eb, #0891b2 55%, #db2777);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Odsjaj preko dugmeta na hover */
 .btn-shine {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .btn-shine::before {
@@ -67,169 +303,67 @@
   left: -75%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
   transform: skewX(-20deg);
   transition: left 0.7s ease;
   pointer-events: none;
+  z-index: -1;
 }
 
 .btn-shine:hover::before {
   left: 125%;
 }
 
-.animate-blob {
-  animation: blob 7s infinite;
+/* CMYK okvir koji se pojavi na hover kartice */
+.card-glow {
+  position: relative;
+  isolation: isolate;
 }
 
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-.animate-slideUp {
-  animation: slideUp 0.6s ease-out;
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-out;
-}
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-/* Slide Up */
-.animate-slideUp {
-  animation: slideUp 0.6s ease-out forwards;
-}
-
-.animate-slideUp-delay-200 {
-  animation: slideUp 0.6s ease-out 0.2s forwards;
-}
-
-.animate-slideUp-delay-400 {
-  animation: slideUp 0.6s ease-out 0.4s forwards;
-}
-
-.animate-slideUp-delay-600 {
-  animation: slideUp 0.6s ease-out 0.6s forwards;
-}
-
-.animate-slideUp-delay-800 {
-  animation: slideUp 0.6s ease-out 0.8s forwards;
-}
-
-.animate-slideUp-delay-1000 {
-  animation: slideUp 0.6s ease-out 1s forwards;
-}
-
-/* Fade In */
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-.animate-fadeIn-delay-200 {
-  animation: fadeIn 0.8s ease-out 0.2s forwards;
-}
-
-.animate-fadeIn-delay-400 {
-  animation: fadeIn 0.8s ease-out 0.4s forwards;
-}
-
-.animate-fadeIn-delay-600 {
-  animation: fadeIn 0.8s ease-out 0.6s forwards;
-}
-
-/* Bounce */
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
-
-/* Pulse */
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* ========== HOVER EFFECTS ========== */
-.hover-lift {
-  transition: all 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-}
-
-.hover-scale {
-  transition: all 0.3s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
-/* ========== CUSTOM SHADOWS ========== */
-.shadow-soft {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.shadow-soft-hover {
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
-}
-
-/* ========== CUSTOM GRADIENTS ========== */
-.bg-gradient-blue {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-}
-
-.bg-gradient-dark {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-}
-
-.bg-gradient-light {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-}
-
-/* Smooth scroll za čitavu stranicu */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Podesi scroll padding za fixed navbar */
-html {
-  scroll-padding-top: 5rem; /* Prilagodi ovoj vrednosti po visini tvog navbar-a */
-}
-
-/* Animacija za aktivne linkove */
-.active-nav-link {
-  color: #2563eb !important; /* blue-600 */
-}
-
-.active-nav-link::after {
+.card-glow::before {
   content: '';
   position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #2563eb;
-  animation: slideIn 0.3s ease-out;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--color-ink-cyan), var(--color-blue-600) 45%, var(--color-ink-magenta) 80%, var(--color-ink-yellow));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
-@keyframes slideIn {
-  from {
-    width: 0;
+.card-glow:hover::before,
+.card-glow:focus-within::before {
+  opacity: 1;
+}
+
+/* ========== SMANJENI POKRETI ========== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  to {
-    width: 100%;
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal,
+  .parallax {
+    opacity: 1;
+    transform: none;
+  }
+
+  .draw-line {
+    stroke-dashoffset: 0;
   }
 }

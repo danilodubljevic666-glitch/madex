@@ -1,24 +1,39 @@
-import { Link } from 'react-router-dom';
+import { ArrowLeft, Printer } from 'lucide-react';
 import SEOTags from '../components/SEOTags';
+import Button from '../components/Button';
+import { CmykBar, CmykRosette, GridLines, Halftone } from '../components/Decor';
+import { useLanguage } from '../i18n/useLanguage';
 
 const NotFoundPage = () => {
+  const { t, to } = useLanguage();
+  const n = t.notFound;
+
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 pt-24">
-      <SEOTags
-        title="Stranica nije pronađena | Štamparija MADEX Nikšić"
-        description="Tražena stranica ne postoji."
-      />
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-blue-600 mb-4">404</h1>
-        <p className="text-xl text-gray-700 mb-8">Stranica koju tražite ne postoji.</p>
-        <Link
-          to="/"
-          className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300"
-        >
-          Nazad na početnu
-        </Link>
+    <section className="relative flex min-h-[80vh] items-center overflow-hidden bg-gray-950 px-4 pb-20 pt-32 text-white">
+      <SEOTags title={n.title} description={n.description} noindex />
+      <GridLines className="text-white/[0.05]" />
+      <Halftone className="-right-10 top-0 h-[70%] w-[45%] text-white/15" drift />
+
+      <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-10 text-center md:flex-row md:text-left">
+        <CmykRosette className="h-48 w-48 flex-shrink-0 md:h-64 md:w-64">
+          <span className="font-display text-4xl font-extrabold md:text-5xl">404</span>
+        </CmykRosette>
+        <div>
+          <h1 className="font-display text-3xl font-extrabold leading-tight md:text-5xl">{n.text}</h1>
+          <CmykBar className="mx-auto mt-6 h-1.5 w-24 md:mx-0" k="bg-white" />
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+            <Button to={to('home')}>
+              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+              {n.back}
+            </Button>
+            <Button to={to('services')} variant="outline">
+              <Printer className="h-5 w-5" aria-hidden="true" />
+              {n.services}
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

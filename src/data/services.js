@@ -1,5 +1,7 @@
-// Sadržaj za zasebne SEO stranice usluga.
-// Svaki slug odgovara ruti, npr. /stampa-majica-niksic
+// Sadržaj za zasebne SEO stranice usluga (srpska verzija).
+// Svaki slug odgovara ruti, npr. /stampa-majica-niksic, i ujedno je id usluge.
+// Engleski prevod je u services.en.js — komponente koriste getServices(lang).
+import { servicesEn } from './services.en.js';
 
 export const services = [
   {
@@ -42,9 +44,9 @@ export const services = [
     features: ['100% pamuk i poliester majice', 'Digitalna i sito štampa po izboru', 'Brza izrada — 3 do 5 radnih dana', 'Sve veličine i boje'],
     forWho: ['Sportski klubovi i rekreativne ekipe', 'Firme — majice sa logom za zaposlene', 'Škole, vrtići, maturske generacije', 'Pojedinci — pokloni i proslave'],
     images: [
-      { src: '/majica1.jpg', alt: 'Štampane majice za sportske timove u Nikšiću' },
-      { src: '/majica2.jpg', alt: 'Majice sa logom za promociju brenda' },
-      { src: '/majica3.jpg', alt: 'Majice po mjeri za posebne prilike' },
+      { src: '/majica1.webp', alt: 'Štampane majice za sportske timove u Nikšiću' },
+      { src: '/majica2.webp', alt: 'Majice sa logom za promociju brenda' },
+      { src: '/majica3.webp', alt: 'Majice po mjeri za posebne prilike' },
     ],
     faq: [
       {
@@ -136,7 +138,7 @@ export const services = [
       {
         heading: 'Papir, karton i završna obrada',
         paragraphs: [
-          'Vizit kartice štampamo na kvalitetnom, debljem kartonu koji djeluje reprezentativno u ruci, sa mat, sjajnom ili UV lak završnom obradom po izboru. Mat obrada daje eleganciji i diskretan izgled, sjajna naglašava boje i kontraste, a UV lak (djelimičan ili preko cijele kartice) izdvaja logo ili detalje sa efektnim sjajem.',
+          'Vizit kartice štampamo na kvalitetnom, debljem kartonu koji djeluje reprezentativno u ruci, sa mat, sjajnom ili UV lak završnom obradom po izboru. Mat obrada daje elegantan i diskretan izgled, sjajna naglašava boje i kontraste, a UV lak (djelimičan ili preko cijele kartice) izdvaja logo ili detalje sa efektnim sjajem.',
         ],
       },
       {
@@ -207,7 +209,7 @@ export const services = [
       },
     ],
     features: ['Veliki tiraži uz nižu cijenu po komadu', 'Visok kvalitet i precizan otisak', 'Različiti papiri i kartoni', 'Za kataloge, blokove, obrasce, ambalažu'],
-    forWho: ['Firme kojima treba veći tiraž materijala', 'Izdavaštvo — časopisi i kataloge', 'Proizvođači kojima treba štampana ambalaža', 'Poslovni obrasci i blokovi u većim količinama'],
+    forWho: ['Firme kojima treba veći tiraž materijala', 'Izdavaštvo — časopisi i katalozi', 'Proizvođači kojima treba štampana ambalaža', 'Poslovni obrasci i blokovi u većim količinama'],
     images: [],
     faq: [
       {
@@ -239,12 +241,12 @@ export const services = [
     badge: 'BRENDIRANJE VOZILA',
     h1: 'Brendiranje vozila u Nikšiću',
     heroLead:
-      'Brendirano vozilo je pokretni bilbord koji svaki dan promoviše vaš biznis. Štamparija MADEX u Nikšiću radi kompletno brendiranje automobila, kombija i kamiona vinil folijama, od djelimičnog oblepljivanja do potpune promjene izgleda vozila.',
+      'Brendirano vozilo je pokretni bilbord koji svaki dan promoviše vaš biznis. Štamparija MADEX u Nikšiću radi kompletno brendiranje automobila, kombija i kamiona vinil folijama, od djelimičnog oblijepljivanja do potpune promjene izgleda vozila.',
     sections: [
       {
         heading: 'Djelimično ili potpuno brendiranje',
         paragraphs: [
-          'U zavisnosti od budžeta i cilja, vozilo možemo obraditi djelimično — logom, kontakt podacima i osnovnim grafičkim elementima na vratima i zadnjem staklu — ili u potpunosti, gdje cijela karoserija dobija novi, brendirani izgled. Djelimično brendiranje je brže i jeftinije rješenje za manje flote i pojedinačna vozila, dok je potpuno oblepljivanje najefikasnije za dostavna i servisna vozila koja su svaki dan vidljiva velikom broju ljudi u gradu.',
+          'U zavisnosti od budžeta i cilja, vozilo možemo obraditi djelimično — logom, kontakt podacima i osnovnim grafičkim elementima na vratima i zadnjem staklu — ili u potpunosti, gdje cijela karoserija dobija novi, brendirani izgled. Djelimično brendiranje je brže i jeftinije rješenje za manje flote i pojedinačna vozila, dok je potpuno oblijepljivanje najefikasnije za dostavna i servisna vozila koja su svaki dan vidljiva velikom broju ljudi u gradu.',
         ],
       },
       {
@@ -263,9 +265,9 @@ export const services = [
     features: ['Vinil folije otporne na vremenske uslove', 'Djelimično ili potpuno brendiranje', 'Besplatna procjena na terenu', 'Lako i uredno skidanje bez oštećenja laka'],
     forWho: ['Dostavne i servisne firme', 'Preduzetnici sa jednim ili više vozila', 'Firme koje mijenjaju vizuelni identitet', 'Rent-a-car i taxi službe'],
     images: [
-      { src: '/vozilo1.jpg', alt: 'Potpuno brendiran kombi za distribuciju' },
-      { src: '/vozilo2.jpg', alt: 'Profesionalno brendirano servisno vozilo' },
-      { src: '/vozilo3.jpg', alt: 'Brendirano vozilo za prevoz i montažu' },
+      { src: '/vozilo1.webp', alt: 'Potpuno brendiran kombi za distribuciju' },
+      { src: '/vozilo2.webp', alt: 'Profesionalno brendirano servisno vozilo' },
+      { src: '/vozilo3.webp', alt: 'Brendirano vozilo za prevoz i montažu' },
     ],
     faq: [
       {
@@ -302,7 +304,7 @@ export const services = [
       {
         heading: 'Šta sve možemo da brendiramo',
         paragraphs: [
-          'Radimo brendiranje izloga i staklenih površina folijama sa logom ili grafikom, oblepljivanje unutrašnjih zidova, izradu i postavljanje reklamnih panoa i natpisa, kao i uređenje enterijera printanim grafikama prilagođenim prostoru. Bilo da vodite kafić, salon, kancelariju ili prodavnicu, brendiranje prilagođavamo veličini i namjeni prostora.',
+          'Radimo brendiranje izloga i staklenih površina folijama sa logom ili grafikom, oblijepljivanje unutrašnjih zidova, izradu i postavljanje reklamnih panoa i natpisa, kao i uređenje enterijera printanim grafikama prilagođenim prostoru. Bilo da vodite kafić, salon, kancelariju ili prodavnicu, brendiranje prilagođavamo veličini i namjeni prostora.',
         ],
       },
       {
@@ -318,7 +320,7 @@ export const services = [
         ],
       },
     ],
-    features: ['Brendiranje izloga i staklenih površina', 'Oblepljivanje zidova i enterijera', 'Reklamni panoi i natpisi', 'Besplatna posjeta i procjena prostora'],
+    features: ['Brendiranje izloga i staklenih površina', 'Oblijepljivanje zidova i enterijera', 'Reklamni panoi i natpisi', 'Besplatna posjeta i procjena prostora'],
     forWho: ['Kafići, restorani i saloni', 'Kancelarije i poslovni prostori', 'Prodavnice i showroom-i', 'Firme koje mijenjaju vizuelni identitet'],
     images: [],
     faq: [
@@ -489,9 +491,9 @@ export const services = [
     features: ['Kutije po mjeri, prilagođene proizvodu', 'Za prehrambene proizvode i poklone', 'Ekološki prihvatljivi materijali', 'Probni primjerak prije cijele serije'],
     forWho: ['Proizvođači hrane i pića', 'Male i srednje proizvodne firme', 'Prodavnice sa poklon programom', 'Firme koje uvode novu liniju proizvoda'],
     images: [
-      { src: '/kutija1.jpg', alt: 'Premium kutije za specijalne sireve sa prilagođenim printom' },
-      { src: '/kutija2.jpg', alt: 'Ekološki prihvatljive kutije sa štampanim dizajnom' },
-      { src: '/kutija3.jpg', alt: 'Poklon kutije sa brendiranim printom' },
+      { src: '/kutija1.webp', alt: 'Premium kutije za specijalne sireve sa prilagođenim printom' },
+      { src: '/kutija2.webp', alt: 'Ekološki prihvatljive kutije sa štampanim dizajnom' },
+      { src: '/kutija3.webp', alt: 'Poklon kutije sa brendiranim printom' },
     ],
     faq: [
       {
@@ -565,4 +567,26 @@ export const services = [
   },
 ];
 
-export const getServiceBySlug = (slug) => services.find((s) => s.slug === slug);
+// Usluga na traženom jeziku. `id` je uvijek srpski slug (veze između usluga,
+// ključevi), a `slug` i `path` su URL na tom jeziku.
+const localize = (service, lang) => {
+  if (lang !== 'en') return { ...service, id: service.slug, path: `/${service.slug}` };
+
+  const en = servicesEn[service.slug];
+  return {
+    ...service,
+    ...en,
+    id: service.slug,
+    path: `/en/${en.slug}`,
+    images: service.images.map((img, idx) => ({ ...img, alt: en.imageAlts[idx] || img.alt })),
+  };
+};
+
+const LOCALIZED = {
+  sr: services.map((s) => localize(s, 'sr')),
+  en: services.map((s) => localize(s, 'en')),
+};
+
+export const getServices = (lang) => LOCALIZED[lang] || LOCALIZED.sr;
+
+export const getService = (id, lang) => getServices(lang).find((s) => s.id === id);

@@ -1,261 +1,150 @@
-import { useState, useEffect, useRef } from 'react';
-import { CheckCircle, Printer, Truck, Users, Target, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CheckCircle, Target, Eye, ArrowRight, Award } from 'lucide-react';
+import { useLanguage } from '../i18n/useLanguage';
+import { CmykRosette, CropMarks, GridLines, Halftone, RegistrationMark } from './Decor';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
+import CountUp from './CountUp';
+
+const PHOTOS = ['/vozilo1.webp', '/kutija1.webp', '/majica3.webp'];
 
 const AboutSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  // States for animated numbers
-  const [years, setYears] = useState(0);
-  const [projects, setProjects] = useState(0);
-  const [clients, setClients] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const statsRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 } // Pokreće se kada 10% elementa bude vidljivo
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  // Separate observer for stats animation
-  useEffect(() => {
-    const statsObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          animateNumber(20, setYears, 1500);
-          animateNumber(1000, setProjects, 2000);
-          animateNumber(99, setClients, 1800);
-        }
-      },
-      { threshold: 0.5 } // Pokreće se kada 50% stats diva bude vidljivo
-    );
-
-    if (statsRef.current) {
-      statsObserver.observe(statsRef.current);
-    }
-
-    return () => {
-      if (statsRef.current) {
-        statsObserver.unobserve(statsRef.current);
-      }
-    };
-  }, [hasAnimated]);
-
-  // Animation function for numbers
-  const animateNumber = (target, setValue, duration = 2000) => {
-    const start = 0;
-    const end = target;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const now = Date.now();
-      const progress = Math.min((now - startTime) / duration, 1);
-      const current = Math.floor(start + (end - start) * progress);
-      setValue(current);
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  };
-
-  const services = [
-    { icon: <Printer className="w-6 h-6 md:w-8 md:h-8" />, title: 'Štampa na papiru', description: 'Visokokvalitetna štampa na svim vrstama papira' },
-    { icon: <Truck className="w-6 h-6 md:w-8 md:h-8" />, title: 'Brendiranje vozila', description: 'Kompletno brendiranje vozila vinil folijama' },
-    { icon: <Users className="w-6 h-6 md:w-8 md:h-8" />, title: 'Brendiranje objekata', description: 'Vizuelni identitet vašeg poslovnog prostora' },
-    { icon: <Target className="w-6 h-6 md:w-8 md:h-8" />, title: 'Preciznost', description: 'Pažljivo osmišljeni dizajni i precizna izrada' },
-  ];
-
-  const values = [
-    'Kvalitet iznad svega',
-    'Pouzdanost i tačnost',
-    'Kreativna rešenja',
-    'Brzina izrade',
-    '20+ godina iskustva',
-    'Porodična tradicija'
-  ];
+  const { t, to } = useLanguage();
+  const a = t.homeAbout;
 
   return (
-    <section id='about'ref={sectionRef} className={`py-12 md:py-20 bg-gradient-to-b from-white to-blue-50 relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header with animation */}
-        <div className="text-center mb-12 md:mb-16 animate-slideUp">
-          <div className="inline-block mb-4">
-            <span className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs md:text-sm">
-              <CheckCircle className="w-3 h-3 md:w-4 md:h-4 mr-1.5 md:mr-2" />
-              20+ GODINA TRADICIJE
-            </span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
-            <span className="block">Dobrodošli na</span>
-            <span className="block text-blue-600">naš website!</span>
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-            Štamparija Madex je firma nastala prije 20 godina, osnovana od strane Mladena Dubljevića. 
-            Firma se bavi uslugama štampe na svakoj vrsti papira i folija, i brendiranjem vozila i objekata.
-          </p>
-        </div>
+    <section id="about" className="relative overflow-hidden bg-white py-20 md:py-28">
+      <Halftone className="-left-16 top-10 h-80 w-80 text-blue-300/50" />
+      <RegistrationMark
+        size={200}
+        strokeWidth={0.5}
+        className="absolute -right-16 top-24 hidden text-gray-900/[0.06] animate-spin-slower lg:block"
+      />
 
-        {/* Divider */}
-        <div className="flex items-center justify-center my-12 md:my-16 animate-fadeIn">
-          <div className="w-16 md:w-24 h-0.5 md:h-1 bg-blue-600 rounded-full"></div>
-          <div className="mx-3 md:mx-4">
-            <Printer className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
-          </div>
-          <div className="w-16 md:w-24 h-0.5 md:h-1 bg-blue-600 rounded-full"></div>
-        </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+          {/* Tekst */}
+          <div>
+            <SectionHeading
+              align="left"
+              icon={Award}
+              badge={a.badge}
+              titleTop={a.titleTop}
+              titleAccent={a.titleAccent}
+              className="mb-8"
+            />
 
-        {/* Story Section */}
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
-          <div className="animate-slideUp" style={{ animationDelay: '0.2s' }}>
-            <div className="relative h-full">
-              <div className="absolute -top-4 -left-4 w-16 h-16 md:w-24 md:h-24 bg-blue-100 rounded-full opacity-50 "></div>
-              <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-xl h-full ">
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Naša priča</h3>
-                <div className="space-y-3 md:space-y-4">
-                  <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                    Štamparija Madex je porodična firma koja traje više od 20 godina. Kroz predan rad, 
-                    stalno ulaganje u kvalitet i povjerenje naših klijenata, izrasli smo u štampariju 
-                    na koju se možete osloniti.
-                  </p>
-                  
-                  <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                    Od malog lokalnog posla do prepoznatljivog imena u regionu, naša putanja je obilježena 
-                    posvećenošću izvrsnosti i inovacijama u štamparskoj industriji.
-                  </p>
-                </div>
-                
-                {/* Founder card */}
-                <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-gray-100">
-                  <div className="flex items-start">
-                    <div className="relative">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-white font-bold text-xl md:text-2xl">M</span>
-                      </div>
-                      <div className="absolute -bottom-1 -right-1 w-5 h-5 md:w-6 md:h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                        <svg className="w-2.5 h-2.5 md:w-3 md:h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    <div className="ml-3 md:ml-4 flex-1">
-                      <div className="flex flex-col">
-                        <div className="font-bold text-gray-900 text-base md:text-lg mb-1">Mladen Dubljević</div>
-                        <div className="text-gray-600 text-sm md:text-base mb-2 md:mb-3">Osnivač & Vlasnik</div>
-                      </div>
-                      
-                      <span className="inline-flex items-center px-2.5 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm bg-blue-100 text-blue-600 font-medium">
-                        <svg className="w-2.5 h-2.5 md:w-3 md:h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                        </svg>
-                        Osnivač
-                      </span>
-                    </div>
+            {a.paragraphs.map((paragraph, idx) => (
+              <Reveal key={idx} delay={220 + idx * 80}>
+                <p className="mb-4 text-base leading-relaxed text-gray-600 md:text-lg">{paragraph}</p>
+              </Reveal>
+            ))}
+
+            <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {a.values.map((value, idx) => (
+                <Reveal as="li" key={value} delay={idx * 60} className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 flex-shrink-0 text-blue-600" aria-hidden="true" />
+                  <span className="font-medium text-gray-800">{value}</span>
+                </Reveal>
+              ))}
+            </ul>
+
+            <Reveal delay={150} className="mt-10 flex flex-col gap-6 border-t border-gray-100 pt-8 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-800 font-display text-2xl font-bold text-white shadow-lg">
+                    M
                   </div>
+                  <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white ring-2 ring-blue-100">
+                    <CheckCircle className="h-4 w-4 text-blue-600" aria-hidden="true" />
+                  </span>
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900">{a.founderName}</p>
+                  <p className="text-sm text-gray-500">{a.founderRole}</p>
                 </div>
               </div>
-            </div>
+              <Link
+                to={to('about')}
+                className="group inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700"
+              >
+                {a.readStory}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            </Reveal>
           </div>
 
-          <div className="animate-slideUp" style={{ animationDelay: '0.4s' }}>
-            <div className="relative h-full">
-              <div className="absolute -top-4 -right-4 w-16 h-16 md:w-24 md:h-24 bg-blue-100 rounded-full opacity-50"></div>
-              <div className="relative bg-white p-6 md:p-8 rounded-2xl shadow-xl h-full">
-                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Naše usluge</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                  {services.map((service, index) => (
-                    <div key={index} className="bg-blue-50 p-4 md:p-5 rounded-xl hover:bg-blue-100 transition-colors duration-300 h-full">
-                      <div className="text-blue-600 mb-2 md:mb-3 text-xl md:text-2xl">{service.icon}</div>
-                      <h4 className="font-semibold text-gray-900 mb-1.5 md:mb-2 text-base md:text-lg">{service.title}</h4>
-                      <p className="text-gray-600 text-sm md:text-base">{service.description}</p>
+          {/* Kolaž radova */}
+          <Reveal variant="scale" className="relative mx-auto aspect-[4/5] w-full max-w-lg sm:aspect-square">
+            <CmykRosette dark={false} className="absolute -right-6 -top-10 h-36 w-36 opacity-50 md:h-44 md:w-44" />
+
+            <div className="group absolute left-0 top-[4%] h-[52%] w-[72%] -rotate-3 transition-transform duration-500 hover:rotate-0">
+              <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-2xl shadow-gray-900/20">
+                <img src={PHOTOS[0]} alt={a.photoAlts[0]} loading="lazy" width="1200" height="675" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+              <CropMarks className="text-gray-400" delay={200} />
+            </div>
+
+            <div className="group absolute bottom-0 right-0 h-[54%] w-[60%] rotate-3 transition-transform duration-500 hover:rotate-0">
+              <div className="h-full w-full overflow-hidden rounded-3xl shadow-2xl shadow-gray-900/20 ring-8 ring-white">
+                <img src={PHOTOS[1]} alt={a.photoAlts[1]} loading="lazy" width="1200" height="1200" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+            </div>
+
+            <div className="group absolute bottom-[6%] left-[4%] h-[34%] w-[38%] -rotate-6 transition-transform duration-500 hover:rotate-0">
+              <div className="h-full w-full overflow-hidden rounded-2xl shadow-xl ring-8 ring-white">
+                <img src={PHOTOS[2]} alt={a.photoAlts[2]} loading="lazy" width="1025" height="1025" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+            </div>
+
+            <div className="absolute right-[4%] top-[46%] -translate-y-1/2 rounded-2xl bg-white/90 px-5 py-4 shadow-2xl ring-1 ring-gray-100 backdrop-blur-md animate-float">
+              <p className="font-display text-4xl font-extrabold text-gradient-blue">
+                <CountUp value={20} suffix="+" />
+              </p>
+              <p className="text-sm font-medium text-gray-600">{a.yearsBadge}</p>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Misija i vizija */}
+        <div className="mt-20 grid gap-6 md:mt-28 md:grid-cols-2 md:gap-8">
+          <Reveal variant="left">
+            <div className="relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 p-8 text-white shadow-2xl shadow-blue-900/20 md:p-10">
+              <Halftone className="-right-10 -top-10 h-64 w-64 text-white/20" />
+              <div className="relative">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/20">
+                  <Target className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <h3 className="mb-4 text-2xl font-bold md:text-3xl">{a.missionTitle}</h3>
+                <p className="text-base leading-relaxed text-blue-50 md:text-lg">{a.missionText}</p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal variant="right">
+            <div className="relative h-full overflow-hidden rounded-3xl bg-gray-950 p-8 text-white shadow-2xl shadow-gray-900/20 md:p-10">
+              <GridLines className="text-white/[0.06]" />
+              <RegistrationMark size={160} strokeWidth={0.6} className="absolute -bottom-10 -right-10 text-white/10 animate-spin-slow" />
+              <div className="relative">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+                  <Eye className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <h3 className="mb-4 text-2xl font-bold md:text-3xl">{a.visionTitle}</h3>
+                <p className="text-base leading-relaxed text-gray-300 md:text-lg">{a.visionText}</p>
+
+                <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+                  {a.stats.map((stat) => (
+                    <div key={stat.label}>
+                      <p className="font-display text-3xl font-extrabold md:text-4xl">
+                        <CountUp value={stat.value} suffix={stat.suffix} />
+                      </p>
+                      <p className="mt-1 text-xs text-gray-400 md:text-sm">{stat.label}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Mission & Vision */}
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
-          <div className="animate-fadeIn" style={{ animationDelay: '0.6s' }}>
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 md:p-8 rounded-2xl shadow-xl h-full">
-              <div className="flex items-center mb-4 md:mb-6">
-                <Target className="w-6 h-6 md:w-8 md:h-8 mr-2 md:mr-3" />
-                <h3 className="text-2xl md:text-3xl font-bold">Naša misija</h3>
-              </div>
-              <p className="text-base md:text-lg leading-relaxed opacity-95 mb-6 md:mb-8">
-                Naša misija je da svakom klijentu obezbedimo štampu vrhunskog kvaliteta, uz pouzdanu uslugu 
-                i doslednu posvećenost detaljima. Vjerujemo da dobra štampa nije samo posao, već način da se 
-                ideje pretvore u stvarnost.
-              </p>
-              <div className="pt-6 md:pt-8 border-t border-blue-500">
-                <h4 className="text-lg md:text-xl font-semibold mb-4 md:mb-6">Naše vrednosti</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                  {values.map((value, index) => (
-                    <div key={index} className="flex items-center">
-                      <CheckCircle className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 text-blue-200" />
-                      <span className="text-blue-100 text-sm md:text-lg">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="animate-fadeIn" style={{ animationDelay: '0.8s' }}>
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 md:p-8 rounded-2xl shadow-xl h-full">
-              <div className="flex items-center mb-4 md:mb-6">
-                <Eye className="w-6 h-6 md:w-8 md:h-8 mr-2 md:mr-3" />
-                <h3 className="text-2xl md:text-3xl font-bold">Naša vizija</h3>
-              </div>
-              <p className="text-base md:text-lg leading-relaxed opacity-95 mb-6 md:mb-8">
-                Naša vizija je da ostavimo trajan trag u svijetu vizuelne komunikacije, stvarajući rješenja 
-                koja povezuju brendove sa ljudima. Vjerujemo u štampu koja ima svrhu i priču.
-                Nastavićemo da inoviramo i podižemo standarde u štamparskoj industriji.
-              </p>
-              <div className="pt-6 md:pt-8 border-t border-gray-700">
-                <div ref={statsRef} className="flex items-center justify-between mt-6 md:mt-10">
-                  <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{years}+</div>
-                    <div className="text-gray-300 text-sm md:text-base lg:text-lg">Godina iskustva</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{projects}+</div>
-                    <div className="text-gray-300 text-sm md:text-base lg:text-lg">Projekata</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-1.5 md:mb-2">{clients}%</div>
-                    <div className="text-gray-300 text-sm md:text-base lg:text-lg">Zadovoljnih klijenata</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating elements for visual appeal */}
-        <div className="hidden lg:block">
-          <div className="absolute left-10 top-1/4 w-32 h-32 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-          <div className="absolute right-10 bottom-1/4 w-32 h-32 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+          </Reveal>
         </div>
       </div>
     </section>

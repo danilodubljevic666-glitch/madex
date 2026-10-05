@@ -1,20 +1,24 @@
-// Nakon `vite build`, ovaj skript otvara svaku rutu u headless Chrome-u
-// (preko lokalnog `vite preview` servera), sačeka da React i SEOTags
+// Nakon `vite build`, ovaj skript otvara svaku rutu (na oba jezika) u headless
+// Chrome-u (preko lokalnog `vite preview` servera), sačeka da React i SEOTags
 // odrade svoj posao, i snimi finalni HTML kao statički fajl u dist/.
 // Tako crawleri koji ne izvršavaju JavaScript (i oni koji ga izvršavaju
-// sporo/nepotpuno) vide pun sadržaj i JSON-LD odmah, bez čekanja na React.
+// sporo/nepotpuno) vide pun sadržaj, hreflang i JSON-LD odmah, bez čekanja na React.
 import { preview } from 'vite';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { services } from '../src/data/services.js';
+import { ROUTES, LANGS } from '../src/i18n/routes.js';
+import { SITE_URL } from '../src/data/site.js';
 
 const PORT = 4174;
 const BASE_URL = `http://localhost:${PORT}`;
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 
-// Samostalne stranice iz navigacije + po jedna stranica za svaku uslugu.
-const staticRoutes = ['/', '/usluge', '/o-nama', '/kontakt', '/porucite'];
-const routes = [...staticRoutes, ...services.map((s) => `/${s.slug}`)];
+// Sve stranice iz src/i18n/routes.js — navigacija + usluge, na svakom jeziku.
+// Početna ('/') ide posljednja: dok ne postoji prerenderovan dist/index.html,
+// `vite preview` za svaku rutu vraća čist index.html iz build-a.
+const routes = ROUTES.flatMap((route) => LANGS.map((lang) => route.paths[lang])).sort(
+  (a, b) => (a === '/') - (b === '/')
+);
 
 // Na Vercel-u (i drugim serverless build okruženjima) nema sistemskih
 // biblioteka za puppeteer-ov bundlovani Chromium, pa tamo koristimo
@@ -53,19 +57,38 @@ async function main() {
     const page = await browser.newPage();
 
     for (const route of routes) {
-      const url = `${BASE_URL}${route}`;
-      await page.goto(url, { waitUntil: 'domcontentloaded' });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
 
-      // Sačekaj da SEOTags upiše title/meta/JSON-LD u <head>
+      // Sačekaj da SEOTags upiše title/meta/hreflang/JSON-LD baš za ovu rutu
+      // (canonical se postavlja u istom efektu kao i JSON-LD).
       await page.waitForFunction(
-        () => {
+        (expectedCanonical) => {
           const script = document.getElementById('structured-data-script');
-          return script && script.textContent.length > 0;
+          const canonical = document.querySelector('link[rel="canonical"]');
+          return script && script.textContent.length > 0 && canonical?.href === expectedCanonical;
         },
-        { timeout: 15000 }
+        { timeout: 15000 },
+        `${SITE_URL}${route}`
       );
 
-      const html = '<!DOCTYPE html>\n' + (await page.content());
+      // Priprema HTML-a za hydrateRoot (main.jsx):
+      // 1) Susjedni tekst čvorovi (npr. {poziv} {telefon}) bi se u HTML-u spojili
+      //    u jedan, pa ih razdvajamo komentarom — isto kao React server render.
+      // 2) Oznaka da ovaj HTML odgovara ovoj ruti.
+      await page.evaluate((prerenderedPath) => {
+        const root = document.getElementById('root');
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        const textNodes = [];
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
+        for (const node of textNodes) {
+          if (node.previousSibling?.nodeType === Node.TEXT_NODE) {
+            node.parentNode.insertBefore(document.createComment(' '), node);
+          }
+        }
+        root.setAttribute('data-prerendered-path', prerenderedPath);
+      }, route);
+
+      const html = '<!DOCTYPE html>\n' + (await page.evaluate(() => document.documentElement.outerHTML));
 
       const outDir = route === '/' ? DIST_DIR : path.join(DIST_DIR, route.slice(1));
       await mkdir(outDir, { recursive: true });

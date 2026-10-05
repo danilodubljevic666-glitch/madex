@@ -1,128 +1,91 @@
-import { useState, useEffect, useRef } from 'react';
-import { Send, Mail, User, Phone, MessageSquare, AlertCircle, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Send, Mail, User, Phone, MessageSquare, AlertCircle, CheckCircle, Type, Zap, ShieldCheck, Calculator } from 'lucide-react';
+import { useLanguage } from '../i18n/useLanguage';
+import {
+  EMAIL,
+  PHONE_PRIMARY_DISPLAY,
+  PHONE_PRIMARY_TEL,
+  PHONE_SECONDARY_DISPLAY,
+  PHONE_SECONDARY_TEL,
+} from '../data/site';
+import { CmykBar, GridLines, Halftone, RegistrationMark } from './Decor';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 
-const ContactForm = ({
-  badge = 'KONTAKT FORMA',
-  heading,
-  intro = 'Imate pitanje ili želite da zakažete termin? Popunite formu ispod i odgovorićemo vam u najkraćem mogućem roku.',
-}) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+const EMPTY_FORM = {
+  name: '',
+  email: '',
+  phone: '',
+  subject: '',
+  message: '',
+  website: '', // honeypot — skriveno polje koje popunjavaju samo botovi
+};
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 } // Pokreće se kada 10% elementa bude vidljivo
-    );
+const FIELD_ICONS = { name: User, email: Mail, phone: Phone, subject: Type, message: MessageSquare };
+const FIELD_TYPES = { name: 'text', email: 'email', phone: 'tel', subject: 'text', message: 'textarea' };
+const AUTOCOMPLETE = { name: 'name', email: 'email', phone: 'tel', subject: 'off', message: 'off' };
+const PERK_ICONS = [Zap, Calculator, ShieldCheck];
+const MAX_MESSAGE = 1000;
+// Fiksni prefiks umjesto useId — isti ID u prerenderu i pri hidraciji
+// (na stranici je uvijek samo jedna forma).
+const FORM_ID = 'contact';
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePhone = (phone) => !phone || /^[+]?[0-9\s\-()]+$/.test(phone);
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+const ContactForm = ({ badge, headingStart, headingAccent, intro }) => {
+  const { lang, t } = useLanguage();
+  const f = t.form;
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-    website: '' // honeypot — skriveno polje koje popunjavaju samo botovi
-  });
-
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(''); // '', 'sending', 'success', 'error'
   const [statusMessage, setStatusMessage] = useState('');
 
-  // Validacione funkcije
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const validatePhone = (phone) => {
-    if (!phone) return true; // Telefon je opcionalan
-    const re = /^[\+]?[0-9\s\-\(\)]+$/;
-    return re.test(phone);
-  };
-
   const validateForm = () => {
+    const e = f.errors;
     const newErrors = {};
-    
-    // Ime validacija
-    if (!formData.name.trim()) {
-      newErrors.name = 'Ime je obavezno polje';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Ime mora imati najmanje 2 karaktera';
-    }
-    
-    // Email validacija
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email je obavezno polje';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Unesite validnu email adresu';
-    }
-    
-    // Telefon validacija
-    if (formData.phone && !validatePhone(formData.phone)) {
-      newErrors.phone = 'Unesite validan broj telefona';
-    }
-    
-    // Naslov validacija
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Naslov je obavezno polje';
-    } else if (formData.subject.trim().length < 5) {
-      newErrors.subject = 'Naslov mora imati najmanje 5 karaktera';
-    }
-    
-    // Poruka validacija
-    if (!formData.message.trim()) {
-      newErrors.message = 'Poruka je obavezno polje';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Poruka mora imati najmanje 10 karaktera';
-    } else if (formData.message.trim().length > 1000) {
-      newErrors.message = 'Poruka može imati najviše 1000 karaktera';
-    }
-    
+    const name = formData.name.trim();
+    const subject = formData.subject.trim();
+    const message = formData.message.trim();
+
+    if (!name) newErrors.name = e.nameRequired;
+    else if (name.length < 2) newErrors.name = e.nameShort;
+
+    if (!formData.email.trim()) newErrors.email = e.emailRequired;
+    else if (!validateEmail(formData.email)) newErrors.email = e.emailInvalid;
+
+    if (!validatePhone(formData.phone)) newErrors.phone = e.phoneInvalid;
+
+    if (!subject) newErrors.subject = e.subjectRequired;
+    else if (subject.length < 5) newErrors.subject = e.subjectShort;
+
+    if (!message) newErrors.message = e.messageRequired;
+    else if (message.length < 10) newErrors.message = e.messageShort;
+    else if (message.length > MAX_MESSAGE) newErrors.message = e.messageLong;
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    
-    // Clear error for this field when user starts typing
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    // Greška polja nestaje čim korisnik počne da kuca
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validacija pre slanja
+
     if (!validateForm()) {
       setStatus('error');
-      setStatusMessage('Molimo ispravite greške u formi pre slanja.');
+      setStatusMessage(f.fixErrors);
       return;
     }
-    
+
     setStatus('sending');
-    setStatusMessage('Šaljem poruku...');
+    setStatusMessage(f.sending);
 
     try {
       // Poruka ide na naš serverless endpoint (/api/contact), koji je dalje
@@ -130,76 +93,48 @@ const ContactForm = ({
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, lang }),
       });
 
       const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Molimo pokušajte ponovo.');
-      }
+      if (!response.ok) throw new Error(data.error || f.tryAgain);
 
       setStatus('success');
-      setStatusMessage('Poruka je uspešno poslata! Odgovorićemo vam u najkraćem roku.');
-
-      // Resetuj formu
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        website: ''
-      });
-
-      // Resetuj greške
+      setStatusMessage(f.success);
+      setFormData(EMPTY_FORM);
       setErrors({});
-
     } catch (error) {
       console.error('Greška pri slanju forme:', error);
       setStatus('error');
-      setStatusMessage(`Došlo je do greške pri slanju poruke: ${error.message || 'Molimo pokušajte ponovo.'}`);
+      setStatusMessage(`${f.errorPrefix} ${error.message || f.tryAgain}`);
     }
   };
 
-  // Helper function za renderovanje statusa
   const renderStatus = () => {
-    if (!statusMessage) return null;
-    
-    const statusConfig = {
-      success: {
-        icon: <CheckCircle className="w-5 h-5" />,
-        bgColor: 'bg-green-50',
-        textColor: 'text-green-800',
-        borderColor: 'border-green-200'
-      },
-      error: {
-        icon: <AlertCircle className="w-5 h-5" />,
-        bgColor: 'bg-red-50',
-        textColor: 'text-red-800',
-        borderColor: 'border-red-200'
-      },
-      sending: {
-        icon: null,
-        bgColor: 'bg-blue-50',
-        textColor: 'text-blue-800',
-        borderColor: 'border-blue-200'
-      }
-    };
-    
-    const config = statusConfig[status] || statusConfig.error;
-    
+    if (!statusMessage || status === 'sending') return null;
+    const success = status === 'success';
+    const fieldErrors = Object.values(errors).filter(Boolean);
+
     return (
-      <div className={`p-4 rounded-lg border ${config.bgColor} ${config.borderColor} ${config.textColor} mb-6 animate-fadeIn`}>
-        <div className="flex items-start">
-          {config.icon && <span className="mr-3 mt-0.5">{config.icon}</span>}
-          <div className="flex-1">
+      <div
+        role={success ? 'status' : 'alert'}
+        className={`animate-slideDown mb-6 rounded-2xl border p-4 ${
+          success ? 'border-green-200 bg-green-50 text-green-800' : 'border-red-200 bg-red-50 text-red-800'
+        }`}
+      >
+        <div className="flex items-start gap-3">
+          {success ? (
+            <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0" aria-hidden="true" />
+          ) : (
+            <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" aria-hidden="true" />
+          )}
+          <div>
             <p className="font-medium">{statusMessage}</p>
-            {status === 'error' && Object.keys(errors).length > 0 && (
-              <ul className="mt-2 list-disc list-inside">
-                {Object.values(errors).map((error, index) => 
-                  error && <li key={index} className="text-sm">{error}</li>
-                )}
+            {!success && fieldErrors.length > 0 && (
+              <ul className="mt-2 list-inside list-disc text-sm">
+                {fieldErrors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
               </ul>
             )}
           </div>
@@ -208,200 +143,141 @@ const ContactForm = ({
     );
   };
 
-  // Helper function za renderovanje input field-a sa greškom
-  const renderInputField = (field) => {
-    const fieldConfig = {
-      name: {
-        label: 'Ime i prezime *',
-        icon: <User className="w-4 h-4 mr-2" />,
-        placeholder: 'Unesite vaše ime i prezime',
-        type: 'text'
-      },
-      email: {
-        label: 'Email adresa *',
-        icon: <Mail className="w-4 h-4 mr-2" />,
-        placeholder: 'vas.email@example.com',
-        type: 'email'
-      },
-      phone: {
-        label: 'Telefon',
-        icon: <Phone className="w-4 h-4 mr-2" />,
-        placeholder: '+382 XX XXX XXX',
-        type: 'tel'
-      },
-      subject: {
-        label: 'Naslov poruke *',
-        icon: null,
-        placeholder: 'O čemu želite da razgovaramo?',
-        type: 'text'
-      },
-      message: {
-        label: 'Poruka *',
-        icon: <MessageSquare className="w-4 h-4 mr-2" />,
-        placeholder: 'Opisite šta vas interesuje...',
-        type: 'textarea'
-      }
+  const renderField = (field) => {
+    const Icon = FIELD_ICONS[field];
+    const config = f.fields[field];
+    const id = `${FORM_ID}-${field}`;
+    const errorId = `${id}-error`;
+    const required = field !== 'phone';
+    const hasError = Boolean(errors[field]);
+    const inputClass = `w-full rounded-xl border bg-gray-50/60 px-4 py-3.5 pl-11 text-gray-900 placeholder:text-gray-400 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-4 ${
+      hasError
+        ? 'border-red-400 focus:border-red-500 focus:ring-red-100'
+        : 'border-gray-200 hover:border-gray-300 focus:border-blue-500 focus:ring-blue-100'
+    }`;
+
+    const common = {
+      id,
+      name: field,
+      value: formData[field],
+      onChange: handleChange,
+      required,
+      placeholder: config.placeholder,
+      autoComplete: AUTOCOMPLETE[field],
+      'aria-invalid': hasError || undefined,
+      'aria-describedby': hasError ? errorId : undefined,
     };
-    
-    const config = fieldConfig[field];
-    const isTextarea = config.type === 'textarea';
-    
+
     return (
       <div>
-        <label className="flex items-center text-gray-700 font-medium mb-2">
-          {config.icon}
+        <label htmlFor={id} className="mb-2 block text-sm font-semibold text-gray-700">
           {config.label}
+          {required && <span className="text-ink-magenta"> *</span>}
         </label>
-        
-        {isTextarea ? (
-          <textarea
-            name={field}
-            value={formData[field]}
-            onChange={handleChange}
-            required={field !== 'phone'}
-            rows="5"
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none ${
-              errors[field] ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder={config.placeholder}
+        <div className="relative">
+          <Icon
+            className={`pointer-events-none absolute left-4 h-4 w-4 text-gray-400 ${field === 'message' ? 'top-4' : 'top-1/2 -translate-y-1/2'}`}
+            aria-hidden="true"
           />
-        ) : (
-          <input
-            type={config.type}
-            name={field}
-            value={formData[field]}
-            onChange={handleChange}
-            required={field !== 'phone'}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-              errors[field] ? 'border-red-500' : 'border-gray-300'
-            }`}
-            placeholder={config.placeholder}
-          />
-        )}
-        
-        {errors[field] && (
-          <div className="flex items-center mt-2 text-red-600 text-sm animate-slideDown">
-            <AlertCircle className="w-4 h-4 mr-1" />
+          {FIELD_TYPES[field] === 'textarea' ? (
+            <textarea {...common} rows="5" maxLength={MAX_MESSAGE + 200} className={`${inputClass} resize-none`} />
+          ) : (
+            <input {...common} type={FIELD_TYPES[field]} className={inputClass} />
+          )}
+        </div>
+        {hasError && (
+          <p id={errorId} className="animate-slideDown mt-2 flex items-center gap-1 text-sm text-red-600">
+            <AlertCircle className="h-4 w-4" aria-hidden="true" />
             {errors[field]}
-          </div>
+          </p>
         )}
       </div>
     );
   };
 
-  // Loading spinner komponenta
-  const LoadingSpinner = () => (
-    <div className="flex items-center justify-center">
-      <div className="relative">
-        <div className="w-12 h-12 rounded-full border-4 border-blue-200"></div>
-        <div className="absolute top-0 left-0 w-12 h-12 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
-      </div>
-    </div>
-  );
-
   return (
-    <section ref={sectionRef} id="contact" className={`py-12 md:py-20 bg-gradient-to-b from-blue-50 to-white transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12 md:mb-16 animate-slideUp">
-          <div className="inline-block mb-4">
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-semibold text-sm">
-              <Mail className="w-4 h-4 mr-2" />
-              {badge}
-            </span>
-          </div>
+    <section id="contact" className="relative overflow-hidden bg-gradient-to-b from-white to-blue-50/60 py-20 md:py-28">
+      <Halftone className="-left-16 bottom-20 h-80 w-80 text-blue-300/50" />
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {heading || (
-              <>
-                Pošaljite nam <span className="text-blue-600">poruku</span>
-              </>
-            )}
-          </h2>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          icon={Mail}
+          badge={badge || f.badge}
+          titleTop={headingStart || f.headingStart}
+          titleAccent={headingAccent || f.headingAccent}
+          lead={intro || f.intro}
+        />
 
-          <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">
-            {intro}
-          </p>
-        </div>
+        <Reveal variant="scale">
+          <div className="grid overflow-hidden rounded-[2rem] bg-white shadow-2xl shadow-blue-900/10 ring-1 ring-gray-100 lg:grid-cols-5">
+            {/* Lijevo: direktan kontakt */}
+            <div className="relative overflow-hidden bg-gray-950 p-8 text-white md:p-12 lg:col-span-2">
+              <GridLines className="text-white/[0.06]" />
+              <Halftone className="-right-10 -top-10 h-56 w-56 text-ink-cyan/30" />
+              <RegistrationMark size={180} strokeWidth={0.5} className="absolute -bottom-14 -left-14 text-white/10 animate-spin-slow" />
 
-        {/* Glavni kontejner - Kontakt info + Forma u jednom div-u */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-fadeIn">
-          <div className="grid lg:grid-cols-2 gap-0">
-            {/* Contact Info - LEVA STRANA */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-8 md:p-12 lg:p-16">
-              <div className="h-full flex flex-col justify-center">
-                <h3 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">
-                  Kontaktirajte nas direktno
-                </h3>
-                
-                <div className="space-y-6 md:space-y-8">
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/10 rounded-lg flex items-center justify-center mr-4 mt-1">
-                      <Phone className="w-6 h-6 md:w-7 md:h-7" />
+              <div className="relative flex h-full flex-col">
+                <h3 className="text-2xl font-bold md:text-3xl">{f.directTitle}</h3>
+                <CmykBar className="mt-4 h-1 w-20" k="bg-white" />
+
+                <div className="mt-10 space-y-8">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+                      <Phone className="h-6 w-6" aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="text-lg md:text-xl font-semibold mb-2">Telefon</h4>
-                      <a href="tel:+38268048655" className="text-blue-100 hover:text-white transition-colors text-lg block">
-                        +382 68 048 655
-                      </a>
-                      <a href="tel:+38269048009" className="text-blue-100 hover:text-white transition-colors text-lg block">
-                        +382 69 048 009
-                      </a>
+                      <p className="mb-1 font-semibold">{f.phone}</p>
+                      <a href={PHONE_PRIMARY_TEL} className="block text-gray-300 transition-colors hover:text-white">{PHONE_PRIMARY_DISPLAY}</a>
+                      <a href={PHONE_SECONDARY_TEL} className="block text-gray-300 transition-colors hover:text-white">{PHONE_SECONDARY_DISPLAY}</a>
                     </div>
                   </div>
-                  
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/10 rounded-lg flex items-center justify-center mr-4 mt-1">
-                      <Mail className="w-6 h-6 md:w-7 md:h-7" />
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+                      <Mail className="h-6 w-6" aria-hidden="true" />
                     </div>
-                    <div>
-                      <h4 className="text-lg md:text-xl font-semibold mb-2">Email</h4>
-                      <a href="mailto:stamparijamadex@gmail.com" className="text-blue-100 hover:text-white transition-colors text-lg block break-all">
-                        stamparijamadex@gmail.com
-                      </a>
+                    <div className="min-w-0">
+                      <p className="mb-1 font-semibold">{f.email}</p>
+                      <a href={`mailto:${EMAIL}`} className="block break-all text-gray-300 transition-colors hover:text-white">{EMAIL}</a>
                     </div>
                   </div>
-                  
-                  <div className="pt-6 md:pt-8 border-t border-white/20">
-                    <div className="flex items-center mb-4">
-                      <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center mr-3">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                      <h4 className="text-lg font-semibold">Brza izrada projekata</h4>
-                    </div>
-                    <p className="text-blue-100 text-base">
-                      Većinu projekata završavamo u roku od 3-5 radnih dana.
+                </div>
+
+                <div className="mt-auto pt-10">
+                  <div className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+                    <p className="flex items-center gap-2 font-semibold">
+                      <Zap className="h-5 w-5 text-ink-yellow" aria-hidden="true" />
+                      {f.fastTitle}
                     </p>
+                    <p className="mt-2 text-sm text-gray-400">{f.fastText}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Contact Form - DESNA STRANA */}
-            <div className="p-6 md:p-8 lg:p-12 relative">
-              {/* Loading Overlay */}
+            {/* Desno: forma */}
+            <div className="relative p-6 md:p-10 lg:col-span-3 lg:p-12">
               {status === 'sending' && (
-                <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10">
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/90 backdrop-blur-sm" role="status">
                   <div className="text-center">
-                    <LoadingSpinner />
-                    <p className="mt-4 text-blue-600 font-medium">Šaljem vašu poruku...</p>
-                    <p className="text-gray-500 text-sm mt-2">Molimo sačekajte</p>
+                    <div className="relative mx-auto h-14 w-14">
+                      <div className="absolute inset-0 rounded-full border-4 border-blue-100" />
+                      <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+                    </div>
+                    <p className="mt-4 font-semibold text-blue-700">{f.sendingOverlay}</p>
+                    <p className="mt-1 text-sm text-gray-500">{f.pleaseWait}</p>
                   </div>
                 </div>
               )}
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Status Message */}
+
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 {renderStatus()}
 
                 {/* Honeypot — sakriveno od ljudi, popunjavaju ga samo botovi */}
                 <div className="hidden" aria-hidden="true">
-                  <label htmlFor="website">Ostavite ovo polje prazno</label>
+                  <label htmlFor={`${FORM_ID}-website`}>{f.honeypot}</label>
                   <input
                     type="text"
-                    id="website"
+                    id={`${FORM_ID}-website`}
                     name="website"
                     value={formData.website}
                     onChange={handleChange}
@@ -410,97 +286,54 @@ const ContactForm = ({
                   />
                 </div>
 
-                {/* Name Field */}
-                {renderInputField('name')}
+                {renderField('name')}
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  {renderField('email')}
+                  {renderField('phone')}
+                </div>
+                {renderField('subject')}
+                {renderField('message')}
 
-                {/* Email & Phone */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {renderInputField('email')}
-                  {renderInputField('phone')}
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <span>{f.requiredNote}</span>
+                  <span className={formData.message.length > MAX_MESSAGE ? 'font-semibold text-red-600' : ''}>
+                    {formData.message.length}/{MAX_MESSAGE}
+                  </span>
                 </div>
 
-                {/* Subject */}
-                {renderInputField('subject')}
-
-                {/* Message */}
-                {renderInputField('message')}
-
-                {/* Character Counter za poruku */}
-                <div className="text-right text-sm text-gray-500">
-                  {formData.message.length}/1000 karaktera
-                </div>
-
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className={`w-full py-4 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center ${
-                    status === 'sending'
-                      ? 'bg-blue-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700'
-                  } text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                  className="btn-shine group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 py-4 text-lg font-semibold text-white shadow-xl shadow-blue-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-blue-500/50 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                 >
-                  {status === 'sending' ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5 mr-3 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Šaljem...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Pošalji poruku
-                    </>
-                  )}
+                  <Send className="h-5 w-5 transition-transform duration-300 group-hover:-rotate-12 group-hover:translate-x-0.5" aria-hidden="true" />
+                  {status === 'sending' ? f.submitting : f.submit}
                 </button>
-
-                {/* Form Info */}
-                <p className="text-sm text-gray-500 text-center pt-4 border-t border-gray-100">
-                  * Polja označena zvezdicom su obavezna
-                </p>
               </form>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Additional Info */}
-        <div className="mt-12 md:mt-16 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 md:p-8 text-white animate-fadeIn" style={{ animationDelay: '0.4s' }}>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold mb-3">Brzi odgovor</div>
-              <p className="text-gray-300 text-sm md:text-base">Odgovaramo u roku od 24 sata radnim danima</p>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold mb-3">Besplatna procena</div>
-              <p className="text-gray-300 text-sm md:text-base">Dajemo detaljnu procenu bez ikakvih obaveza</p>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold mb-3">Sigurnost podataka</div>
-              <p className="text-gray-300 text-sm md:text-base">Vaši podaci su sigurni i ne delimo ih sa trećim stranama</p>
-            </div>
-          </div>
+        {/* Prednosti */}
+        <div className="mt-10 grid gap-5 md:mt-14 md:grid-cols-3">
+          {f.perks.map((perk, idx) => {
+            const Icon = PERK_ICONS[idx];
+            return (
+              <Reveal key={perk.title} delay={idx * 90}>
+                <div className="flex h-full items-start gap-4 rounded-3xl bg-white p-6 shadow-lg shadow-gray-900/5 ring-1 ring-gray-100 transition-transform duration-300 hover:-translate-y-1">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">{perk.title}</h3>
+                    <p className="mt-1 text-sm text-gray-600">{perk.text}</p>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
-
-      {/* Dodaj ove animacije u svoj globalni CSS */}
-      <style jsx>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-slideDown {
-          animation: slideDown 0.3s ease-out;
-        }
-      `}</style>
     </section>
   );
 };

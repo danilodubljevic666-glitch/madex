@@ -1,53 +1,53 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="sr-Latn-ME">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Google Fonts: Montserrat za naslove -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Naslov, opis, canonical, hreflang i JSON-LD za svaku stranicu upisuje
+         src/components/SEOTags.jsx, a scripts/prerender.mjs ih snima u statički
+         HTML. Ovdje su samo podrazumijevane vrijednosti za početnu. -->
+    <title>Štamparija MADEX Nikšić — offset i digitalna štampa</title>
+    <meta name="description" content="Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://www.stamparijamadex.com/" />
 
-    <!-- OSIM OVIH TAGOVA KOJE VEĆ IMAŠ -->
-    
-    <!-- DODAJ OVE OG META TAGOVE OVDE -->
-    
-    <!-- Open Graph Meta Tags -->
-     <link rel="icon" href="/favicon.ico">
-
-    <meta property="og:title" content="Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal" />
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="Štamparija MADEX Nikšić — offset i digitalna štampa" />
     <meta property="og:description" content="Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva." />
     <meta property="og:image" content="https://www.stamparijamadex.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.stamparijamadex.com" />
+    <meta property="og:url" content="https://www.stamparijamadex.com/" />
     <meta property="og:locale" content="sr_ME" />
     <meta property="og:site_name" content="Štamparija MADEX" />
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal" />
-    <meta name="twitter:description" content="Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva." />
-    <meta name="twitter:image" content="https://www.stamparijamadex.com/og-image.jpg" />
 
-    <!-- Standard Meta Tags -->
-    <meta name="description" content="Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva." />
-    <meta name="keywords" content="štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, vizit kartice Nikšić, vizit kartice Crna Gora, štamparija MADEX, štamparija Crna Gora, štampa online Crna Gora, štampa Nikšić" />
-    <meta name="author" content="Štamparija MADEX Nikšić" />
-    <meta name="robots" content="index, follow" />
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://www.stamparijamadex.com" />
-
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
-    <title>Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal</title>
-    
-    <!-- OVO OSTAVI KAKO JESTE -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ikone i PWA -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#030712" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="MADEX" />
+
+    <!-- Fontovi: Montserrat za naslove, Inter za tekst (latin-ext za č, ć, š, ž, đ) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bez JavaScript-a animacije se ne pokreću, pa sadržaj prikazujemo odmah -->
+    <noscript>
+      <style>
+        .reveal { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

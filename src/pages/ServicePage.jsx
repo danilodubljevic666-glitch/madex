@@ -1,74 +1,63 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid, CreditCard, Phone, CheckCircle, ChevronRight } from 'lucide-react';
+import { Phone, CheckCircle, Users, ArrowRight, Check, Images, HelpCircle } from 'lucide-react';
 import SEOTags from '../components/SEOTags';
-import { getServiceBySlug } from '../data/services';
+import PageHero from '../components/PageHero';
+import FaqList from '../components/FaqList';
+import Button from '../components/Button';
+import Reveal from '../components/Reveal';
+import { CmykBar, Halftone, RegistrationMark } from '../components/Decor';
+import { useLanguage } from '../i18n/useLanguage';
+import { PAGE_PATHS } from '../i18n/routes';
+import { getService } from '../data/services';
+import { SERVICE_ICONS } from '../data/serviceIcons';
+import { SITE_URL, PHONE_PRIMARY_DISPLAY, PHONE_PRIMARY_TEL, LOCAL_BUSINESS_PROVIDER, COUNTRY_NAME } from '../data/site';
+import NotFoundPage from './NotFoundPage';
 
-const ICONS = { Shirt, Printer, Layers, Car, Building, Image, Palette, Package, Grid, CreditCard };
+const ServicePage = ({ id }) => {
+  const { lang, t, to } = useLanguage();
+  const service = getService(id, lang);
 
-const PHONE_DISPLAY = '+382 68 048 655';
-const PHONE_TEL = 'tel:+38268048655';
+  const parentCrumbs = useMemo(
+    () => [{ name: t.nav.services, path: PAGE_PATHS.services[lang] }],
+    [t, lang]
+  );
 
-const ServicePage = ({ slug }) => {
-  const service = getServiceBySlug(slug);
-
-  if (!service) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-24">
-        <p className="text-gray-600">Stranica nije pronađena.</p>
-      </div>
-    );
-  }
-
-  const Icon = ICONS[service.icon] || Printer;
-  const pageUrl = `https://www.stamparijamadex.com/${service.slug}`;
-
-  const serviceSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    serviceType: service.navLabel,
-    name: service.h1,
-    description: service.metaDescription,
-    url: pageUrl,
-    areaServed: [
+  const extraSchema = useMemo(() => {
+    if (!service) return [];
+    const pageUrl = `${SITE_URL}${service.path}`;
+    return [
       {
-        '@type': 'City',
-        name: 'Nikšić',
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        serviceType: service.navLabel,
+        name: service.h1,
+        description: service.metaDescription,
+        url: pageUrl,
+        ...(service.images.length > 0 && { image: service.images.map((img) => `${SITE_URL}${img.src}`) }),
+        areaServed: [
+          { '@type': 'City', name: 'Nikšić' },
+          { '@type': 'Country', name: COUNTRY_NAME[lang] },
+        ],
+        provider: LOCAL_BUSINESS_PROVIDER,
       },
       {
-        '@type': 'Country',
-        name: 'Crna Gora',
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: service.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.q,
+          acceptedAnswer: { '@type': 'Answer', text: item.a },
+        })),
       },
-    ],
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'Štamparija MADEX',
-      telephone: '+382 68 048 655',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Bulevar 13. jul 234',
-        addressLocality: 'Nikšić',
-        postalCode: '81400',
-        addressCountry: 'ME',
-      },
-    },
-  };
+    ];
+  }, [service, lang]);
 
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: service.faq.map((item) => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.a,
-      },
-    })),
-  };
+  if (!service) return <NotFoundPage />;
 
-  const relatedServices = (service.related || [])
-    .map((relSlug) => getServiceBySlug(relSlug))
-    .filter(Boolean);
+  const Icon = SERVICE_ICONS[service.icon];
+  const s = t.service;
+  const relatedServices = (service.related || []).map((relId) => getService(relId, lang)).filter(Boolean);
 
   return (
     <>
@@ -76,188 +65,180 @@ const ServicePage = ({ slug }) => {
         title={service.metaTitle}
         description={service.metaDescription}
         keywords={service.keywords}
-        currentPage={`/${service.slug}`}
         pageName={service.navLabel}
-        extraSchema={[serviceSchema, faqSchema]}
+        parentCrumbs={parentCrumbs}
+        extraSchema={extraSchema}
       />
 
-      {/* Hero */}
-      <section className="bg-gray-900 pt-28 pb-16 md:pt-36 md:pb-20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-400">
-            <ol className="flex items-center flex-wrap gap-1">
-              <li>
-                <Link to="/" className="hover:text-blue-400 transition-colors">Početna</Link>
-              </li>
-              <li className="flex items-center gap-1">
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-gray-200">{service.navLabel}</span>
-              </li>
-            </ol>
-          </nav>
+      <PageHero
+        icon={Icon}
+        badge={service.badge}
+        crumb={service.navLabel}
+        parentCrumbs={parentCrumbs}
+        title={service.h1}
+        lead={service.heroLead}
+      >
+        <Button href={PHONE_PRIMARY_TEL} size="lg">
+          <Phone className="h-5 w-5" aria-hidden="true" />
+          {t.common.call} {PHONE_PRIMARY_DISPLAY}
+        </Button>
+        <Button to={to('contact')} variant="outline" size="lg">
+          {t.common.sendInquiry}
+        </Button>
+      </PageHero>
 
-          <span className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-blue-600/20 text-blue-400 font-semibold text-xs md:text-sm mb-6">
-            <Icon className="w-4 h-4 mr-2" />
-            {service.badge}
-          </span>
+      <section className="relative overflow-clip bg-white py-16 md:py-24">
+        <Halftone className="-left-20 top-40 h-80 w-80 text-blue-200/60" />
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 max-w-3xl">
-            {service.h1}
-          </h1>
-
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mb-8">
-            {service.heroLead}
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a
-              href={PHONE_TEL}
-              className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              <Phone className="w-5 h-5" />
-              Pozovite {PHONE_DISPLAY}
-            </a>
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center justify-center bg-transparent text-white px-6 py-3 md:px-8 md:py-4 rounded-lg text-base md:text-lg font-semibold border-2 border-white/40 hover:bg-white/10 transition-all duration-300"
-            >
-              Pošaljite upit
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Body */}
-      <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-10 md:gap-12">
-            {/* Main content */}
-            <div className="lg:col-span-2 space-y-10 md:space-y-12">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+            {/* Glavni sadržaj */}
+            <div className="space-y-14 lg:col-span-8">
               {service.sections.map((section, idx) => (
-                <div key={idx}>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                    {section.heading}
-                  </h2>
-                  {section.paragraphs.map((p, pIdx) => (
-                    <p key={pIdx} className="text-gray-600 text-base md:text-lg leading-relaxed mb-4">
-                      {p}
+                <Reveal key={section.heading} as="section" className="relative">
+                  <div className="mb-4 flex items-center gap-4">
+                    <span className="font-display text-sm font-bold tracking-widest text-blue-600">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <CmykBar className="h-1 w-12" />
+                  </div>
+                  <h2 className="mb-5 text-2xl font-extrabold text-gray-900 md:text-3xl">{section.heading}</h2>
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)} className="mb-4 text-base leading-relaxed text-gray-600 md:text-lg">
+                      {paragraph}
                     </p>
                   ))}
-                </div>
+                </Reveal>
               ))}
 
-              {/* Images */}
               {service.images.length > 0 && (
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                    Primjeri radova
+                <Reveal as="section">
+                  <h2 className="mb-6 flex items-center gap-3 text-2xl font-extrabold text-gray-900 md:text-3xl">
+                    <Images className="h-7 w-7 text-blue-600" aria-hidden="true" />
+                    {s.examples}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
                     {service.images.map((img, idx) => (
-                      <div key={idx} className="rounded-xl overflow-hidden shadow-lg aspect-square bg-gray-100">
+                      <figure
+                        key={img.src}
+                        className={`group relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-lg ${
+                          idx === 1 ? 'sm:translate-y-6' : ''
+                        }`}
+                      >
                         <img
                           src={img.src}
                           alt={img.alt}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          width="600"
+                          height="600"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
-                      </div>
+                        <figcaption className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-gray-950/90 to-transparent p-4 text-sm text-white transition-transform duration-500 group-hover:translate-y-0">
+                          {img.alt}
+                        </figcaption>
+                      </figure>
                     ))}
                   </div>
-                </div>
+                </Reveal>
               )}
 
-              {/* FAQ */}
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                  Najčešća pitanja
-                </h2>
-                <div className="space-y-4">
-                  {service.faq.map((item, idx) => (
-                    <details key={idx} className="bg-gray-50 rounded-xl p-5 group" open={idx === 0}>
-                      <summary className="font-semibold text-gray-900 cursor-pointer text-base md:text-lg list-none flex items-center justify-between">
-                        {item.q}
-                        <ChevronRight className="w-5 h-5 text-blue-600 transition-transform group-open:rotate-90 flex-shrink-0 ml-3" />
-                      </summary>
-                      <p className="text-gray-600 mt-3 leading-relaxed">{item.a}</p>
-                    </details>
-                  ))}
-                </div>
-              </div>
+              <section className={service.images.length > 0 ? 'pt-6' : ''}>
+                <Reveal>
+                  <h2 className="mb-6 flex items-center gap-3 text-2xl font-extrabold text-gray-900 md:text-3xl">
+                    <HelpCircle className="h-7 w-7 text-blue-600" aria-hidden="true" />
+                    {s.faq}
+                  </h2>
+                </Reveal>
+                <FaqList items={service.faq} />
+              </section>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6 md:space-y-8">
-              <div className="bg-blue-50 rounded-2xl p-6 md:p-8">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Šta uključuje</h3>
-                <ul className="space-y-3">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {/* Bočna kolona */}
+            <aside className="lg:col-span-4">
+              <div className="space-y-6 lg:sticky lg:top-28">
+                <Reveal variant="right">
+                  <div className="rounded-3xl bg-blue-50/70 p-7 ring-1 ring-blue-100">
+                    <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-gray-900">
+                      <CheckCircle className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                      {s.includes}
+                    </h2>
+                    <ul className="space-y-3">
+                      {service.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-3">
+                          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                            <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
+                          </span>
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
 
-              <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Za koga je idealno</h3>
-                <ul className="space-y-3">
-                  {service.forWho.map((who, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{who}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                <Reveal variant="right" delay={80}>
+                  <div className="rounded-3xl bg-gray-50 p-7 ring-1 ring-gray-100">
+                    <h2 className="mb-5 flex items-center gap-2 text-lg font-bold text-gray-900">
+                      <Users className="h-5 w-5 text-ink-magenta" aria-hidden="true" />
+                      {s.forWho}
+                    </h2>
+                    <ul className="space-y-3">
+                      {service.forWho.map((who) => (
+                        <li key={who} className="flex items-start gap-3 text-gray-700">
+                          <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink-magenta" aria-hidden="true" />
+                          {who}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
 
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 md:p-8 text-white">
-                <h3 className="text-lg md:text-xl font-bold mb-3">Zainteresovani ste?</h3>
-                <p className="text-blue-100 mb-5 text-sm md:text-base">
-                  Pozovite nas ili nam pošaljite upit — dajemo besplatnu procjenu i ponudu bez obaveze.
-                </p>
-                <a
-                  href={PHONE_TEL}
-                  className="flex items-center justify-center gap-2 bg-white text-blue-700 px-5 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-300 mb-3"
-                >
-                  <Phone className="w-4 h-4" />
-                  {PHONE_DISPLAY}
-                </a>
-                <Link
-                  to="/kontakt"
-                  className="flex items-center justify-center gap-2 bg-blue-800/40 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-800/60 transition-colors duration-300 border border-white/20"
-                >
-                  Pošaljite upit
-                </Link>
+                <Reveal variant="right" delay={160}>
+                  <div className="relative overflow-hidden rounded-3xl bg-gray-950 p-7 text-white shadow-2xl shadow-gray-900/20">
+                    <Halftone className="-right-8 -top-8 h-40 w-40 text-ink-cyan/30" />
+                    <RegistrationMark size={110} strokeWidth={0.6} className="absolute -bottom-8 -left-8 text-white/10 animate-spin-slow" />
+                    <div className="relative">
+                      <h2 className="text-xl font-bold">{s.interested}</h2>
+                      <p className="mt-2 mb-6 text-sm text-gray-400 md:text-base">{s.interestedText}</p>
+                      <div className="flex flex-col gap-3">
+                        <Button href={PHONE_PRIMARY_TEL}>
+                          <Phone className="h-4 w-4" aria-hidden="true" />
+                          {PHONE_PRIMARY_DISPLAY}
+                        </Button>
+                        <Button to={to('contact')} variant="soft">
+                          {t.common.sendInquiry}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
               </div>
-            </div>
+            </aside>
           </div>
 
-          {/* Related services */}
+          {/* Povezane usluge */}
           {relatedServices.length > 0 && (
-            <div className="mt-16 md:mt-20 pt-10 md:pt-12 border-t border-gray-100">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 md:mb-8">
-                Pogledajte i ostale usluge
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-                {relatedServices.map((rel) => {
-                  const RelIcon = ICONS[rel.icon] || Printer;
+            <div className="mt-20 border-t border-gray-100 pt-14 md:mt-24">
+              <Reveal>
+                <h2 className="mb-8 text-2xl font-extrabold text-gray-900 md:text-3xl">{s.related}</h2>
+              </Reveal>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                {relatedServices.map((rel, idx) => {
+                  const RelIcon = SERVICE_ICONS[rel.icon];
                   return (
-                    <Link
-                      key={rel.slug}
-                      to={`/${rel.slug}`}
-                      className="group bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg hover:border-blue-200 transition-all duration-300 flex items-center"
-                    >
-                      <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 group-hover:bg-blue-100 transition-colors">
-                        <RelIcon className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <span className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                        {rel.navLabel}
-                      </span>
-                    </Link>
+                    <Reveal key={rel.id} delay={idx * 90}>
+                      <Link
+                        to={rel.path}
+                        className="card-glow group relative flex h-full items-center gap-4 rounded-2xl bg-white p-5 ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-transparent"
+                      >
+                        <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-600/30 transition-transform duration-300 group-hover:-rotate-6">
+                          <RelIcon className="h-6 w-6" aria-hidden="true" />
+                        </span>
+                        <span className="flex-1 font-semibold text-gray-900 transition-colors group-hover:text-blue-700">
+                          {rel.navLabel}
+                        </span>
+                        <ArrowRight className="h-5 w-5 text-gray-300 transition-all group-hover:translate-x-1 group-hover:text-blue-600" aria-hidden="true" />
+                      </Link>
+                    </Reveal>
                   );
                 })}
               </div>

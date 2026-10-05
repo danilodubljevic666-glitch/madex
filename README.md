@@ -41,19 +41,50 @@ Vite dev i preview server pokreću `api/*.js` kao middleware (plugin `local-api`
 
 ## Stranice i SEO
 
-Rute su definisane u [`src/App.jsx`](src/App.jsx):
+Sajt postoji na dva jezika — **crnogorski/srpski** na korijenu (`/usluge`) i **engleski**
+pod `/en` (`/en/services`). Sve putanje na oba jezika su na jednom mjestu:
+[`src/i18n/routes.js`](src/i18n/routes.js). Iz njega rade React rute
+([`src/App.jsx`](src/App.jsx)), prebacivač jezika ME/EN, hreflang tagovi, prerender i sitemap.
 
-- `/` — jednostranična početna
-- `/usluge`, `/o-nama`, `/kontakt`, `/porucite` — samostalne stranice iz navigacije
-- po jedna stranica za svaku uslugu iz [`src/data/services.js`](src/data/services.js)
+- `/` i `/en` — početna
+- `/usluge`, `/o-nama`, `/kontakt`, `/porucite` (i `/en/services`, `/en/about`, `/en/contact`, `/en/order`)
+- po jedna stranica za svaku uslugu na oba jezika (npr. `/brendiranje-vozila-niksic` ↔ `/en/vehicle-wrapping-niksic`)
 
-Svaka ruta dobija svoj `title`, `description`, `canonical` i JSON-LD preko
-[`SEOTags`](src/components/SEOTags.jsx). Nakon `vite build`, skripta
-[`scripts/prerender.mjs`](scripts/prerender.mjs) otvara svaku rutu u headless Chrome-u i
-snima gotov HTML u `dist/`, pa crawleri ne čekaju JavaScript.
+Svaka ruta dobija svoj `title`, `description`, `canonical`, `hreflang` (sr, en, x-default),
+`<html lang>` i JSON-LD preko [`SEOTags`](src/components/SEOTags.jsx). `npm run build`:
 
-**Kada dodaješ novu rutu:** dodaj je u `src/App.jsx`, u `staticRoutes` u
-`scripts/prerender.mjs` i u [`public/sitemap.xml`](public/sitemap.xml).
+1. `vite build`
+2. [`scripts/sitemap.mjs`](scripts/sitemap.mjs) — generiše `dist/sitemap.xml` sa svim rutama i hreflang vezama
+3. [`scripts/prerender.mjs`](scripts/prerender.mjs) — otvara svaku rutu u headless Chrome-u i snima
+   gotov HTML u `dist/`; React ga u browseru samo hidrira (`hydrateRoot` u [`src/main.jsx`](src/main.jsx))
+
+## Prevodi
+
+| Šta | Gdje |
+|---|---|
+| Navigacija, forme, footer, sekcije početne | [`src/i18n/ui.js`](src/i18n/ui.js) — ključevi `sr` i `en` |
+| Tekstovi stranica (o nama, kontakt...) | objekat `CONTENT` na vrhu svake stranice u `src/pages/` |
+| Usluge (srpski) | [`src/data/services.js`](src/data/services.js) |
+| Usluge (engleski + engleski URL) | [`src/data/services.en.js`](src/data/services.en.js) |
+| Adresa, telefoni, radno vrijeme, schema | [`src/data/site.js`](src/data/site.js) |
+
+Jezik se čita iz URL-a hook-om [`useLanguage`](src/i18n/useLanguage.js): `const { lang, t, to } = useLanguage()`.
+
+**Nova usluga:** dodaj je u `services.js`, prevod (sa engleskim `slug`-om) u `services.en.js` i ikonu u
+[`src/data/serviceIcons.js`](src/data/serviceIcons.js). Rute, sitemap i prerender je pokupe same.
+
+**Nova stranica:** dodaj putanje u `PAGE_PATHS` u `src/i18n/routes.js` i stranicu u `PAGES` u `src/App.jsx`.
+
+## Dizajn
+
+Vizuelni jezik prati CMYK boje iz logotipa (`ink-cyan`, `ink-magenta`, `ink-yellow` u
+[`src/index.css`](src/index.css)). Dekorativni vektori (paser-krst, crop marke, halftone raster,
+CMYK traka i rozeta) su u [`src/components/Decor.jsx`](src/components/Decor.jsx), a animacija
+pri skrolovanju u [`Reveal`](src/components/Reveal.jsx). Sve animacije se gase kod korisnika koji
+u sistemu imaju uključeno "smanji pokrete" (`prefers-reduced-motion`).
+
+Fotografije se koriste kao `.webp` (originalni `.jpg` su ostali u `public/`). OG slike za dijeljenje
+linkova su `public/og-image.jpg` (ME) i `public/og-image-en.jpg` (EN), 1200×630.
 
 ## Deploy
 

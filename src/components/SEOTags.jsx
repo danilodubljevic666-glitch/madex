@@ -1,251 +1,208 @@
 // src/components/SEOTags.jsx
+// Upisuje <title>, meta tagove, canonical, hreflang i JSON-LD u <head>.
+// Putanja i jezik se čitaju iz URL-a, pa ih stranice ne moraju prosljeđivati.
+// Prerender skripta (scripts/prerender.mjs) snima rezultat u statički HTML.
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { SITE_URL, BUSINESS_NAME, LOCAL_BUSINESS_SCHEMA, GEO } from '../data/site';
+import { LANGS, DEFAULT_LANG, LOCALE, getAlternates, langFromPath, normalizePath, pagePath } from '../i18n/routes';
+import { UI } from '../i18n/ui';
+
+const DEFAULTS = {
+  sr: {
+    title: 'Štamparija MADEX Nikšić — offset i digitalna štampa',
+    description:
+      'Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva.',
+    keywords:
+      'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, vizit kartice Nikšić, vizit kartice Crna Gora, štamparija MADEX, štamparija Crna Gora, štampa online Crna Gora, štampa Nikšić',
+    image: '/og-image.jpg',
+    imageAlt: 'Štamparija MADEX Nikšić — profesionalna štampa i brendiranje',
+  },
+  en: {
+    title: 'MADEX Print Shop Nikšić — Offset & Digital Printing',
+    description:
+      'MADEX print shop in Nikšić, Montenegro — offset and digital printing, vehicle and storefront branding, T-shirt and screen printing. Family business with 20+ years of experience.',
+    keywords:
+      'print shop Nikšić, printing Montenegro, print shop Montenegro, digital printing Nikšić, offset printing Montenegro, vehicle wrapping Nikšić, business cards Montenegro, T-shirt printing Montenegro, graphic design Nikšić, MADEX printing',
+    image: '/og-image-en.jpg',
+    imageAlt: 'MADEX print shop Nikšić — professional printing and branding',
+  },
+};
+
+const absoluteUrl = (path) => `${SITE_URL}${path}`;
+
+// Stabilne prazne vrijednosti — novi [] pri svakom renderu bi ponovo pokretao efekat.
+const NO_CRUMBS = [];
+const NO_SCHEMA = [];
+
+// Kreira (ili ažurira) <meta>; content = null briše tag.
+const setMeta = (attr, key, content) => {
+  let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (content == null) {
+    el?.remove();
+    return;
+  }
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+};
 
 const SEOTags = ({
   title,
   description,
   keywords,
-  image = '/og-image.jpg',
-  url = 'https://www.stamparijamadex.com',
+  image,
   type = 'website',
-  currentPage = '',
   pageName = '',
-  extraSchema = []
+  // Međukoraci breadcrumb-a između početne i trenutne stranice: [{ name, path }]
+  parentCrumbs = NO_CRUMBS,
+  extraSchema = NO_SCHEMA,
+  noindex = false,
 }) => {
+  const { pathname } = useLocation();
+  const path = normalizePath(pathname);
+  const lang = langFromPath(path);
+  const defaults = DEFAULTS[lang];
 
-  // Default vrednosti ako nisu prosleđene
-  const pageTitle = title || 'Štamparija MADEX Nikšić — offset i digitalna štampa, reklamni materijal';
-  const pageDescription = description || 'Štamparija MADEX Nikšić — offset i digitalna štampa, brendiranje vozila i objekata, štampa na majicama, sito štampa. Porodična štamparija sa 20+ godina iskustva.';
-  const pageKeywords = keywords || 'štamparija Nikšić, fotokopirnica Nikšić, štamparija NK, brendiranje vozila Nikšić, kopiranje Nikšić, digitalna štampa Nikšić, ofset štampa Nikšić, grafički dizajn Nikšić, brendiranje objekata Nikšić, sito štampa Nikšić, štampa na majicama Nikšić, PVC folija Nikšić, vizit kartice Nikšić, vizit kartice Crna Gora, štamparija MADEX, štamparija Crna Gora, štampa online Crna Gora, štampa Nikšić';
-  const displayPageName = pageName || (currentPage ? pageTitle.split('|')[0].trim() : 'Početna');
-  
-  // Formiraj punu putanju
-  const fullUrl = currentPage ? `${url}${currentPage.startsWith('/') ? currentPage : `/${currentPage}`}` : url;
-  const ogImageUrl = `${url}${image}`;
-  
+  const pageTitle = title || defaults.title;
+  const pageDescription = description || defaults.description;
+  const pageKeywords = keywords || defaults.keywords;
+  const ogImageUrl = absoluteUrl(image || defaults.image);
+
   useEffect(() => {
-    console.log('SEOTags mounted for:', fullUrl);
-    
-    // 1. POSTAVI TITLE
+    const alternates = noindex ? null : getAlternates(path);
+    const canonicalUrl = absoluteUrl(path);
+    const homePath = pagePath('home', lang);
+    const isHome = path === homePath;
+
     document.title = pageTitle;
-    
-    // 2. KREIRAJ I DODAJ META TAGOVE
+    document.documentElement.lang = LOCALE[lang].htmlLang;
+
+    const otherLang = LANGS.find((l) => l !== lang);
     const metaTags = [
-      // Description
-      { name: 'description', content: pageDescription },
-      
-      // Keywords (za Google, Facebook ignoriše)
-      { name: 'keywords', content: pageKeywords },
-      
-      // Author
-      { name: 'author', content: 'Štamparija MADEX Nikšić' },
-      
-      // Robots
-      { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-      { name: 'googlebot', content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' },
-      
-      // Open Graph - OBAVEZNI za Facebook
-      { property: 'og:title', content: pageTitle },
-      { property: 'og:description', content: pageDescription },
-      { property: 'og:image', content: ogImageUrl },
-      { property: 'og:image:width', content: '1200' },
-      { property: 'og:image:height', content: '630' },
-      { property: 'og:image:alt', content: 'Štamparija MADEX Nikšić - Profesionalna štampa i brendiranje' },
-      { property: 'og:type', content: type },
-      { property: 'og:url', content: fullUrl },
-      { property: 'og:locale', content: 'sr_ME' },
-      { property: 'og:site_name', content: 'Štamparija MADEX' },
-      
-      // Twitter Card
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: pageTitle },
-      { name: 'twitter:description', content: pageDescription },
-      { name: 'twitter:image', content: ogImageUrl },
-      { name: 'twitter:image:alt', content: 'Štamparija MADEX Nikšić - Profesionalna štampa i brendiranje' },
-      { name: 'twitter:creator', content: '@stamparijamadex' },
-      
-      // Dodatni SEO tagovi
-      { name: 'language', content: 'sr' },
-      { name: 'geo.region', content: 'ME-NI' },
-      { name: 'geo.placename', content: 'Nikšić' },
-      { name: 'geo.position', content: '42.7731;18.9445' },
-      { name: 'ICBM', content: '42.7731, 18.9445' },
-      
-      // Mobile specific
-      { name: 'theme-color', content: '#1e40af' },
-      { name: 'mobile-web-app-capable', content: 'yes' },
-      
-      // iOS specific
-      { name: 'apple-mobile-web-app-title', content: 'Štamparija MADEX' },
-      { name: 'apple-mobile-web-app-capable', content: 'yes' },
-      { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-    ];
-    
-    // DODAJ ILI AŽURIRAJ SVE META TAGOVE
-    metaTags.forEach(tag => {
-      const selector = tag.property 
-        ? `meta[property="${tag.property}"]` 
-        : `meta[name="${tag.name}"]`;
-      
-      let element = document.querySelector(selector);
-      
-      if (!element) {
-        // Kreiraj novi meta tag
-        element = document.createElement('meta');
-        if (tag.property) {
-          element.setAttribute('property', tag.property);
-        } else {
-          element.setAttribute('name', tag.name);
-        }
-        document.head.appendChild(element);
-      }
-      
-      // Postavi content (može da ažurira postojeći)
-      element.setAttribute('content', tag.content);
-    });
-    
-    // 3. CANONICAL LINK
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', fullUrl);
-    
-    // 4. FAVICON I OSTALI LINK TAGOVI
-    const linkTags = [
-      { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon', sizes: 'any' },
-      { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' },
-      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      { rel: 'manifest', href: '/site.webmanifest' },
-    ];
-    
-    linkTags.forEach(tag => {
-      const existing = document.querySelector(`link[rel="${tag.rel}"]`);
-      if (!existing) {
-        const link = document.createElement('link');
-        Object.keys(tag).forEach(key => {
-          link.setAttribute(key, tag[key]);
-        });
-        document.head.appendChild(link);
-      }
-    });
-    
-    // 5. STRUCTURED DATA (JSON-LD)
-    // NAP podaci moraju biti IDENTIČNI Google Business profilu na svakoj stranici
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Štamparija MADEX",
-      "image": ogImageUrl,
-      "@id": url,
-      "url": url,
-      "telephone": "+382 68 048 655",
-      "priceRange": "$$",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Crna Gora"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Bulevar 13. jul 234",
-        "addressLocality": "Nikšić",
-        "postalCode": "81400",
-        "addressCountry": "ME",
-        "addressRegion": "Nikšić"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 42.7731,
-        "longitude": 18.9445
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-          "opens": "08:00",
-          "closes": "21:00"
-        }
+      ['name', 'description', pageDescription],
+      ['name', 'keywords', pageKeywords],
+      ['name', 'author', BUSINESS_NAME],
+      [
+        'name',
+        'robots',
+        noindex
+          ? 'noindex, follow'
+          : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
       ],
-      "sameAs": [
-        "https://www.facebook.com/profile.php?id=100063073638062",
-        "https://www.instagram.com/madexstamparija/?next=%2F"
-      ]
-    };
 
-    // 6. BREADCRUMB STRUCTURED DATA (samo za podstranice)
-    let allStructuredData = [structuredData, ...extraSchema];
+      // Open Graph (Facebook, Viber, WhatsApp, LinkedIn)
+      ['property', 'og:title', pageTitle],
+      ['property', 'og:description', pageDescription],
+      ['property', 'og:image', ogImageUrl],
+      ['property', 'og:image:width', '1200'],
+      ['property', 'og:image:height', '630'],
+      ['property', 'og:image:alt', defaults.imageAlt],
+      ['property', 'og:type', type],
+      ['property', 'og:url', canonicalUrl],
+      ['property', 'og:locale', LOCALE[lang].og],
+      ['property', 'og:locale:alternate', LOCALE[otherLang].og],
+      ['property', 'og:site_name', BUSINESS_NAME],
 
-    if (currentPage) {
-      const breadcrumbData = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Početna",
-            "item": url
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": displayPageName.replace('Štamparija MADEX Nikšić - ', ''),
-            "item": fullUrl
-          }
-        ]
-      };
-      allStructuredData.push(breadcrumbData);
+      // Twitter / X
+      ['name', 'twitter:card', 'summary_large_image'],
+      ['name', 'twitter:title', pageTitle],
+      ['name', 'twitter:description', pageDescription],
+      ['name', 'twitter:image', ogImageUrl],
+      ['name', 'twitter:image:alt', defaults.imageAlt],
+
+      // Lokalni SEO
+      ['name', 'geo.region', 'ME-12'],
+      ['name', 'geo.placename', 'Nikšić'],
+      ['name', 'geo.position', `${GEO.latitude};${GEO.longitude}`],
+      ['name', 'ICBM', `${GEO.latitude}, ${GEO.longitude}`],
+    ];
+    metaTags.forEach(([attr, key, content]) => setMeta(attr, key, content));
+
+    // Canonical — 404 i slične stranice ga nemaju
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (noindex) {
+      canonical?.remove();
+    } else {
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', canonicalUrl);
     }
-    
-    // 7. DODAJ STRUCTURED DATA SCRIPT
+
+    // hreflang: svaka jezička verzija pokazuje na sve verzije (i na sebe),
+    // x-default vodi na srpsku verziju.
+    document.head.querySelectorAll('link[rel="alternate"][hreflang]').forEach((el) => el.remove());
+    if (alternates) {
+      const hreflangs = [
+        ...LANGS.map((l) => [LOCALE[l].hreflang, alternates[l]]),
+        ['x-default', alternates[DEFAULT_LANG]],
+      ];
+      hreflangs.forEach(([hreflang, href]) => {
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'alternate');
+        link.setAttribute('hreflang', hreflang);
+        link.setAttribute('href', absoluteUrl(href));
+        document.head.appendChild(link);
+      });
+    }
+
+    // JSON-LD: LocalBusiness na svakoj stranici + podaci stranice + breadcrumb
+    const allStructuredData = [LOCAL_BUSINESS_SCHEMA[lang], ...extraSchema];
+
+    if (!isHome && !noindex) {
+      const crumbs = [
+        { name: UI[lang].common.home, path: homePath },
+        ...parentCrumbs,
+        { name: pageName || pageTitle.split('|')[0].trim(), path },
+      ];
+      allStructuredData.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: crumbs.map((crumb, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: crumb.name,
+          item: absoluteUrl(crumb.path),
+        })),
+      });
+    }
+
     const scriptId = 'structured-data-script';
     let script = document.getElementById(scriptId);
-    
     if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
       script.type = 'application/ld+json';
       document.head.appendChild(script);
     }
-    
-    // Ako ima više structured data objekata, pošalji ih kao array
-    script.textContent = JSON.stringify(
-      allStructuredData.length > 1 ? allStructuredData : structuredData
-    );
-    
-    // 8. LOG ZA DEBUG (možeš da ukloniš kasnije)
-    console.log('SEO tagovi dodati:', {
-      title: pageTitle,
-      url: fullUrl,
-      ogImage: ogImageUrl,
-      structuredData: allStructuredData.length
-    });
-    
-    // 9. CLEANUP FUNCTION
+    script.textContent = JSON.stringify(allStructuredData);
+
     return () => {
-      // Ne brišemo meta tagove jer su globalni za celu app
-      // Samo uklanjanje structured data script-a ako želiš
-      if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+      // Meta tagovi ostaju (sljedeća stranica ih prepisuje), a JSON-LD se
+      // uklanja da se podaci dvije stranice ne bi pomiješali.
+      script.remove();
     };
-    
   }, [
+    path,
+    lang,
     pageTitle,
     pageDescription,
     pageKeywords,
     ogImageUrl,
-    fullUrl,
     type,
-    currentPage,
-    displayPageName,
-    url,
-    extraSchema
+    pageName,
+    parentCrumbs,
+    extraSchema,
+    noindex,
+    defaults.imageAlt,
   ]);
-  
-  // Ova komponenta ne renderuje ništa u DOM
+
   return null;
 };
 

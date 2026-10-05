@@ -1,12 +1,12 @@
-
 {
-  "name": "Štamparija MADEX",
+  "name": "Štamparija MADEX Nikšić",
   "short_name": "MADEX",
-  "description": "Profesionalna štamparija u Nikšiću",
+  "description": "Porodična štamparija u Nikšiću — štampa, dizajn i brendiranje od 2005.",
+  "lang": "sr-Latn-ME",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1e40af",
+  "background_color": "#030712",
+  "theme_color": "#030712",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -19,7 +19,7 @@
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/logo-madex.png",
       "sizes": "512x512",
       "type": "image/png"
     }

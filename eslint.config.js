@@ -23,12 +23,13 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Komponente (veliko slovo) se koriste kao JSX, što pravilo ne prepoznaje
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]', argsIgnorePattern: '^[A-Z_]' }],
     },
   },
   {
     // Serverless funkcije i build skripte rade u Node okruženju.
-    files: ['api/**/*.js', 'scripts/**/*.mjs'],
+    files: ['api/**/*.js', 'scripts/**/*.mjs', 'vite.config.js'],
     languageOptions: {
       globals: globals.node,
     },
