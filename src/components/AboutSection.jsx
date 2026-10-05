@@ -6,7 +6,11 @@ import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
 import CountUp from './CountUp';
 
-const PHOTOS = ['/vozilo1.webp', '/kutija1.webp', '/majica3.webp'];
+const PHOTOS = [
+  '/radovi/brendiranje-kombija-st-decorations-sm.webp',
+  '/radovi/kutije-za-sir-sm.webp',
+  '/radovi/flajeri-kosarkaska-skola-sm.webp',
+];
 
 const AboutSection = () => {
   const { t, to } = useLanguage();
@@ -80,20 +84,20 @@ const AboutSection = () => {
 
             <div className="group absolute left-0 top-[4%] h-[52%] w-[72%] -rotate-3 transition-transform duration-500 hover:rotate-0">
               <div className="relative h-full w-full overflow-hidden rounded-3xl shadow-2xl shadow-gray-900/20">
-                <img src={PHOTOS[0]} alt={a.photoAlts[0]} loading="lazy" width="1200" height="675" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={PHOTOS[0]} alt={a.photoAlts[0]} loading="lazy" width="720" height="405" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <CropMarks className="text-gray-400" delay={200} />
             </div>
 
             <div className="group absolute bottom-0 right-0 h-[54%] w-[60%] rotate-3 transition-transform duration-500 hover:rotate-0">
               <div className="h-full w-full overflow-hidden rounded-3xl shadow-2xl shadow-gray-900/20 ring-8 ring-white">
-                <img src={PHOTOS[1]} alt={a.photoAlts[1]} loading="lazy" width="1200" height="1200" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={PHOTOS[1]} alt={a.photoAlts[1]} loading="lazy" width="720" height="720" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
             </div>
 
             <div className="group absolute bottom-[6%] left-[4%] h-[34%] w-[38%] -rotate-6 transition-transform duration-500 hover:rotate-0">
               <div className="h-full w-full overflow-hidden rounded-2xl shadow-xl ring-8 ring-white">
-                <img src={PHOTOS[2]} alt={a.photoAlts[2]} loading="lazy" width="1025" height="1025" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={PHOTOS[2]} alt={a.photoAlts[2]} loading="lazy" width="405" height="720" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
             </div>
 

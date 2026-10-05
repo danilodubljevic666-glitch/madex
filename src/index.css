@@ -366,4 +366,11 @@
   .draw-line {
     stroke-dashoffset: 0;
   }
+
+  /* Izuzetak: traka usluga u hero sekciji se i dalje vrti, samo duplo sporije
+     (zaustavlja se na hover/fokus). Klasa ima jaču specifičnost od pravila iznad. */
+  .marquee-track {
+    animation-duration: 90s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

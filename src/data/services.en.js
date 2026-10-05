@@ -98,7 +98,11 @@ export const servicesEn = {
     ],
     features: ['High-resolution printing', 'Short runs with no extra costs', 'Fast turnaround, usually 3–5 working days', 'Wide range of papers and formats'],
     forWho: ['Businesses needing promotional material fast', 'Restaurants and cafés — menus and price lists', 'Event organisers — invitations and posters', 'Anyone who needs a short run without waiting'],
-    imageAlts: [],
+    imageAlts: [
+      'Digitally printed menus and price lists for a sandwich bar',
+      'Enrolment flyers for a basketball school',
+      'Laminated flyers for a rafting camp',
+    ],
     faq: [
       {
         q: 'What is the difference between digital and offset printing?',
@@ -151,7 +155,11 @@ export const servicesEn = {
     ],
     features: ['Matte, gloss and spot UV finish', 'Quality, heavier card stock', 'Custom design or ready-made template', 'Delivery to every town in Montenegro'],
     forWho: ['Entrepreneurs and companies', 'Professionals — lawyers, agents, consultants', 'Companies opening a new branch', 'Anyone who needs fast delivery outside Nikšić'],
-    imageAlts: [],
+    imageAlts: [
+      'Business cards for a window and façade cleaning company',
+      'Business cards for a physiotherapy practice in Nikšić',
+      'Card with gold details on premium card stock',
+    ],
     faq: [
       {
         q: 'Do you deliver business cards outside Nikšić, e.g. to Podgorica or Bar?',
@@ -204,7 +212,11 @@ export const servicesEn = {
     ],
     features: ['Large runs at a lower price per piece', 'High quality, precise print', 'Variety of papers and card stocks', 'For catalogues, pads, forms, packaging'],
     forWho: ['Companies needing larger runs of material', 'Publishing — magazines and catalogues', 'Manufacturers needing printed packaging', 'Business forms and pads in bulk'],
-    imageAlts: [],
+    imageAlts: [
+      'Catalogue for the International Choir Festival in Herceg Novi',
+      'Pads and carbonless (NCR) forms in a larger run',
+      'Rental agreement forms for a car rental company',
+    ],
     faq: [
       {
         q: 'From how many copies does offset printing pay off?',
@@ -258,9 +270,12 @@ export const servicesEn = {
     features: ['Weather-resistant vinyl films', 'Partial or full vehicle wraps', 'Free on-site assessment', 'Clean removal without paint damage'],
     forWho: ['Delivery and service companies', 'Entrepreneurs with one or more vehicles', 'Companies refreshing their visual identity', 'Rent-a-car and taxi services'],
     imageAlts: [
-      'Fully wrapped distribution van',
-      'Professionally branded service vehicle',
-      'Branded vehicle for transport and installation',
+      'Wrapped van for a balloon decoration business, Nikšić',
+      'Camper van decorated with vinyl graphics',
+      'Branded van with floral motifs and an illustration',
+      'Vinyl graphic on the back of a camper van',
+      'Fully wrapped bakery delivery van',
+      'Professionally branded truck',
     ],
     faq: [
       {
@@ -314,7 +329,9 @@ export const servicesEn = {
     ],
     features: ['Shop window and glass branding', 'Wall and interior graphics', 'Advertising panels and signs', 'Free site visit and assessment'],
     forWho: ['Cafés, restaurants and salons', 'Offices and business premises', 'Shops and showrooms', 'Companies refreshing their visual identity'],
-    imageAlts: [],
+    imageAlts: [
+      'Window and entrance branding for a café bar in Nikšić',
+    ],
     faq: [
       {
         q: 'Will you come to see the premises before giving a quote?',
@@ -367,7 +384,10 @@ export const servicesEn = {
     ],
     features: ['Banners, posters and roll-up displays', 'Weather-resistant materials', 'Different vinyl thicknesses', 'Fast production, installation on request'],
     forWho: ['Companies announcing sales and events', 'Trade fair exhibitors (roll-ups, X-banners)', 'Hospitality venues — outdoor advertising', 'Anyone who needs fast, visible advertising'],
-    imageAlts: [],
+    imageAlts: [
+      'Sheet of stickers printed on PVC vinyl',
+      'PVC vinyl stickers for a towing service',
+    ],
     faq: [
       {
         q: 'How quickly can I get a printed banner?',

@@ -75,11 +75,13 @@ const ServiceCard = ({ service, index, featured, learnMore }) => {
       {image && (
         <div className="relative h-56 overflow-hidden sm:h-64 lg:h-auto lg:w-[46%]">
           <img
-            src={image.src}
+            src={image.sm}
+            srcSet={`${image.sm} 720w, ${image.src} 1600w`}
+            sizes="(min-width: 1024px) 400px, 100vw"
             alt={image.alt}
             loading="lazy"
-            width="600"
-            height="600"
+            width="720"
+            height="720"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/40 to-transparent lg:bg-gradient-to-r lg:from-white/30" />

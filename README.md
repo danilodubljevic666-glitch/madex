@@ -83,8 +83,22 @@ CMYK traka i rozeta) su u [`src/components/Decor.jsx`](src/components/Decor.jsx)
 pri skrolovanju u [`Reveal`](src/components/Reveal.jsx). Sve animacije se gase kod korisnika koji
 u sistemu imaju uključeno "smanji pokrete" (`prefers-reduced-motion`).
 
-Fotografije se koriste kao `.webp` (originalni `.jpg` su ostali u `public/`). OG slike za dijeljenje
-linkova su `public/og-image.jpg` (ME) i `public/og-image-en.jpg` (EN), 1200×630.
+OG slike za dijeljenje linkova su `public/og-image.jpg` (ME) i `public/og-image-en.jpg` (EN), 1200×630.
+
+## Fotografije radova
+
+Sve fotografije radova su u [`public/radovi/`](public/radovi/), u dvije WebP veličine:
+`<naziv>.webp` (duža strana 1600px, za uvećan prikaz) i `<naziv>-sm.webp` (720px, za mrežu).
+Nazivi su opisni (npr. `brendiranje-kombija-st-decorations.webp`) jer pomažu Google pretrazi slika.
+
+- Galerija na početnoj: [`src/data/gallery.js`](src/data/gallery.js) — kategorije i opisi na oba jezika
+  (opis je ujedno i `alt` tekst). Prva slika u kategoriji je velika, pa je najbolje da bude položena.
+  Kategorija treba da ima 3 ili 6 slika da mreža bude puna.
+- Primjeri radova na stranici usluge: `images` u [`src/data/services.js`](src/data/services.js)
+  i isti broj engleskih opisa u `imageAlts` u [`src/data/services.en.js`](src/data/services.en.js).
+
+**Nova fotografija:** smanjiti je na obje veličine i sačuvati kao WebP (npr. preko squoosh.app),
+ispraviti rotaciju sa telefona i zamagliti registarske tablice i lične podatke prije objave.
 
 ## Deploy
 

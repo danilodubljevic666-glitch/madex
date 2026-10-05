@@ -1,11 +1,12 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Users, ArrowRight, Check, Images, HelpCircle } from 'lucide-react';
+import { Phone, CheckCircle, Users, ArrowRight, Check, Images, HelpCircle, ZoomIn } from 'lucide-react';
 import SEOTags from '../components/SEOTags';
 import PageHero from '../components/PageHero';
 import FaqList from '../components/FaqList';
 import Button from '../components/Button';
 import Reveal from '../components/Reveal';
+import Lightbox from '../components/Lightbox';
 import { CmykBar, Halftone, RegistrationMark } from '../components/Decor';
 import { useLanguage } from '../i18n/useLanguage';
 import { PAGE_PATHS } from '../i18n/routes';
@@ -14,9 +15,18 @@ import { SERVICE_ICONS } from '../data/serviceIcons';
 import { SITE_URL, PHONE_PRIMARY_DISPLAY, PHONE_PRIMARY_TEL, LOCAL_BUSINESS_PROVIDER, COUNTRY_NAME } from '../data/site';
 import NotFoundPage from './NotFoundPage';
 
+// Raspored primjera radova prema broju slika (1, 2, 3 ili 6 po usluzi)
+const examplesLayout = (count) => {
+  if (count === 1) return { grid: 'grid-cols-1', tile: 'aspect-[16/10]', sizes: '(min-width: 1024px) 800px, 100vw' };
+  if (count === 2) return { grid: 'grid-cols-1 sm:grid-cols-2', tile: 'aspect-[4/3]', sizes: '(min-width: 640px) 400px, 100vw' };
+  return { grid: 'grid-cols-2 sm:grid-cols-3', tile: 'aspect-square', sizes: '(min-width: 640px) 270px, 50vw' };
+};
+
 const ServicePage = ({ id }) => {
   const { lang, t, to } = useLanguage();
   const service = getService(id, lang);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   const parentCrumbs = useMemo(
     () => [{ name: t.nav.services, path: PAGE_PATHS.services[lang] }],
@@ -58,6 +68,9 @@ const ServicePage = ({ id }) => {
   const Icon = SERVICE_ICONS[service.icon];
   const s = t.service;
   const relatedServices = (service.related || []).map((relId) => getService(relId, lang)).filter(Boolean);
+  const examples = examplesLayout(service.images.length);
+  // Pomak srednje slike (efekat "stepenica") samo kada su tačno tri
+  const staggered = service.images.length === 3;
 
   return (
     <>
@@ -117,32 +130,40 @@ const ServicePage = ({ id }) => {
                     <Images className="h-7 w-7 text-blue-600" aria-hidden="true" />
                     {s.examples}
                   </h2>
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                  <div className={`grid gap-4 md:gap-5 ${examples.grid}`}>
                     {service.images.map((img, idx) => (
-                      <figure
+                      <button
                         key={img.src}
-                        className={`group relative aspect-square overflow-hidden rounded-2xl bg-gray-100 shadow-lg ${
-                          idx === 1 ? 'sm:translate-y-6' : ''
+                        type="button"
+                        onClick={() => setLightboxIndex(idx)}
+                        aria-label={img.alt}
+                        className={`group relative overflow-hidden rounded-2xl bg-gray-100 text-left shadow-lg ${examples.tile} ${
+                          staggered && idx === 1 ? 'sm:translate-y-6' : ''
                         }`}
                       >
                         <img
-                          src={img.src}
+                          src={img.sm}
+                          srcSet={`${img.sm} 720w, ${img.src} 1600w`}
+                          sizes={examples.sizes}
                           alt={img.alt}
                           loading="lazy"
-                          width="600"
-                          height="600"
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          width="720"
+                          height="720"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
-                        <figcaption className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-gray-950/90 to-transparent p-4 text-sm text-white transition-transform duration-500 group-hover:translate-y-0">
+                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-900 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <ZoomIn className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                        <span className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-gray-950/90 to-transparent p-4 text-sm text-white transition-transform duration-500 group-hover:translate-y-0">
                           {img.alt}
-                        </figcaption>
-                      </figure>
+                        </span>
+                      </button>
                     ))}
                   </div>
                 </Reveal>
               )}
 
-              <section className={service.images.length > 0 ? 'pt-6' : ''}>
+              <section className={staggered ? 'pt-6' : ''}>
                 <Reveal>
                   <h2 className="mb-6 flex items-center gap-3 text-2xl font-extrabold text-gray-900 md:text-3xl">
                     <HelpCircle className="h-7 w-7 text-blue-600" aria-hidden="true" />
@@ -246,6 +267,8 @@ const ServicePage = ({ id }) => {
           )}
         </div>
       </section>
+
+      <Lightbox images={service.images} index={lightboxIndex} onChange={setLightboxIndex} onClose={closeLightbox} />
     </>
   );
 };

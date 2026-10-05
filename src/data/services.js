@@ -44,9 +44,9 @@ export const services = [
     features: ['100% pamuk i poliester majice', 'Digitalna i sito štampa po izboru', 'Brza izrada — 3 do 5 radnih dana', 'Sve veličine i boje'],
     forWho: ['Sportski klubovi i rekreativne ekipe', 'Firme — majice sa logom za zaposlene', 'Škole, vrtići, maturske generacije', 'Pojedinci — pokloni i proslave'],
     images: [
-      { src: '/majica1.webp', alt: 'Štampane majice za sportske timove u Nikšiću' },
-      { src: '/majica2.webp', alt: 'Majice sa logom za promociju brenda' },
-      { src: '/majica3.webp', alt: 'Majice po mjeri za posebne prilike' },
+      { src: '/radovi/stampa-majica-1.webp', sm: '/radovi/stampa-majica-1-sm.webp', alt: 'Štampane majice za sportske timove u Nikšiću' },
+      { src: '/radovi/stampa-majica-2.webp', sm: '/radovi/stampa-majica-2-sm.webp', alt: 'Majice sa logom za promociju brenda' },
+      { src: '/radovi/stampa-majica-3.webp', sm: '/radovi/stampa-majica-3-sm.webp', alt: 'Majice po mjeri za posebne prilike' },
     ],
     faq: [
       {
@@ -101,7 +101,11 @@ export const services = [
     ],
     features: ['Visoka rezolucija štampe', 'Mali tiraži bez dodatnih troškova', 'Brza izrada, obično 3-5 radnih dana', 'Širok spektar papira i formata'],
     forWho: ['Firme kojima treba brzi promotivni materijal', 'Restorani i kafići — jelovnici i cjenovnici', 'Organizatori događaja — pozivnice i plakati', 'Svako kome treba mali tiraž bez čekanja'],
-    images: [],
+    images: [
+      { src: '/radovi/jelovnici-sandwich-bar.webp', sm: '/radovi/jelovnici-sandwich-bar-sm.webp', alt: 'Digitalno štampani jelovnici i cjenovnici za sandwich bar' },
+      { src: '/radovi/flajeri-kosarkaska-skola.webp', sm: '/radovi/flajeri-kosarkaska-skola-sm.webp', alt: 'Flajeri za upis u košarkašku školu' },
+      { src: '/radovi/flajeri-raft-camp.webp', sm: '/radovi/flajeri-raft-camp-sm.webp', alt: 'Plastificirani flajeri za raft kamp' },
+    ],
     faq: [
       {
         q: 'Koja je razlika između digitalne i ofset štampe?',
@@ -156,7 +160,11 @@ export const services = [
     ],
     features: ['Mat, sjajna i UV lak obrada', 'Kvalitetan, deblji karton', 'Dizajn po želji ili gotov predložak', 'Dostava u sve gradove Crne Gore'],
     forWho: ['Preduzetnici i firme', 'Slobodne profesije — advokati, agenti, konsultanti', 'Firme koje otvaraju novu poslovnicu', 'Svako kome treba brza dostava van Nikšića'],
-    images: [],
+    images: [
+      { src: '/radovi/vizit-kartice-clear-view.webp', sm: '/radovi/vizit-kartice-clear-view-sm.webp', alt: 'Vizit kartice za firmu za pranje prozora i fasada' },
+      { src: '/radovi/vizit-kartice-fizioterapija.webp', sm: '/radovi/vizit-kartice-fizioterapija-sm.webp', alt: 'Vizit kartice za fizioterapeutski centar u Nikšiću' },
+      { src: '/radovi/kartica-zlatni-detalji.webp', sm: '/radovi/kartica-zlatni-detalji-sm.webp', alt: 'Kartica sa zlatnim detaljima na kvalitetnom kartonu' },
+    ],
     faq: [
       {
         q: 'Da li dostavljate vizit kartice i van Nikšića, npr. u Podgoricu ili Bar?',
@@ -210,7 +218,11 @@ export const services = [
     ],
     features: ['Veliki tiraži uz nižu cijenu po komadu', 'Visok kvalitet i precizan otisak', 'Različiti papiri i kartoni', 'Za kataloge, blokove, obrasce, ambalažu'],
     forWho: ['Firme kojima treba veći tiraž materijala', 'Izdavaštvo — časopisi i katalozi', 'Proizvođači kojima treba štampana ambalaža', 'Poslovni obrasci i blokovi u većim količinama'],
-    images: [],
+    images: [
+      { src: '/radovi/katalog-horski-festival.webp', sm: '/radovi/katalog-horski-festival-sm.webp', alt: 'Katalog Međunarodnog horskog festivala u Herceg Novom' },
+      { src: '/radovi/blokovi-ncr-obrasci.webp', sm: '/radovi/blokovi-ncr-obrasci-sm.webp', alt: 'Blokovi i samokopirajući (NCR) obrasci u većem tiražu' },
+      { src: '/radovi/obrasci-ugovor-o-najmu.webp', sm: '/radovi/obrasci-ugovor-o-najmu-sm.webp', alt: 'Obrasci ugovora o najmu vozila za rent-a-car' },
+    ],
     faq: [
       {
         q: 'Od koliko primjeraka se isplati ofset štampa?',
@@ -265,9 +277,12 @@ export const services = [
     features: ['Vinil folije otporne na vremenske uslove', 'Djelimično ili potpuno brendiranje', 'Besplatna procjena na terenu', 'Lako i uredno skidanje bez oštećenja laka'],
     forWho: ['Dostavne i servisne firme', 'Preduzetnici sa jednim ili više vozila', 'Firme koje mijenjaju vizuelni identitet', 'Rent-a-car i taxi službe'],
     images: [
-      { src: '/vozilo1.webp', alt: 'Potpuno brendiran kombi za distribuciju' },
-      { src: '/vozilo2.webp', alt: 'Profesionalno brendirano servisno vozilo' },
-      { src: '/vozilo3.webp', alt: 'Brendirano vozilo za prevoz i montažu' },
+      { src: '/radovi/brendiranje-kombija-st-decorations.webp', sm: '/radovi/brendiranje-kombija-st-decorations-sm.webp', alt: 'Brendiran kombi za dekoraciju balona, Nikšić' },
+      { src: '/radovi/brendiranje-kampera.webp', sm: '/radovi/brendiranje-kampera-sm.webp', alt: 'Kamper oblijepljen dekorativnim vinil folijama' },
+      { src: '/radovi/brendiranje-kombija-cvjetni-motivi.webp', sm: '/radovi/brendiranje-kombija-cvjetni-motivi-sm.webp', alt: 'Brendiran kombi sa cvjetnim motivima i ilustracijom' },
+      { src: '/radovi/brendiranje-kampera-pozadi.webp', sm: '/radovi/brendiranje-kampera-pozadi-sm.webp', alt: 'Vinil grafika na zadnjem dijelu kampera' },
+      { src: '/radovi/brendiranje-kombija-pekara.webp', sm: '/radovi/brendiranje-kombija-pekara-sm.webp', alt: 'Potpuno brendiran dostavni kombi pekare' },
+      { src: '/radovi/brendiranje-kamiona.webp', sm: '/radovi/brendiranje-kamiona-sm.webp', alt: 'Profesionalno brendiran kamion' },
     ],
     faq: [
       {
@@ -322,7 +337,9 @@ export const services = [
     ],
     features: ['Brendiranje izloga i staklenih površina', 'Oblijepljivanje zidova i enterijera', 'Reklamni panoi i natpisi', 'Besplatna posjeta i procjena prostora'],
     forWho: ['Kafići, restorani i saloni', 'Kancelarije i poslovni prostori', 'Prodavnice i showroom-i', 'Firme koje mijenjaju vizuelni identitet'],
-    images: [],
+    images: [
+      { src: '/radovi/brendiranje-izloga-kafica.webp', sm: '/radovi/brendiranje-izloga-kafica-sm.webp', alt: 'Brendiranje izloga i ulaza kafe bara u Nikšiću' },
+    ],
     faq: [
       {
         q: 'Da li dolazite da vidite prostor prije nego što damo ponudu?',
@@ -376,7 +393,10 @@ export const services = [
     ],
     features: ['Baneri, plakati i roll-up displeji', 'Vremenski otporni materijali', 'Različite debljine folije', 'Brza izrada, po potrebi i postavljanje'],
     forWho: ['Firme koje najavljuju akcije i događaje', 'Izlagači na sajmovima (roll-up, X-baneri)', 'Ugostiteljski objekti — spoljna reklama', 'Svako kome treba brz i vidljiv reklamni materijal'],
-    images: [],
+    images: [
+      { src: '/radovi/tabak-naljepnica-pvc.webp', sm: '/radovi/tabak-naljepnica-pvc-sm.webp', alt: 'Tabak naljepnica štampanih na PVC foliji' },
+      { src: '/radovi/naljepnice-slep-sluzba.webp', sm: '/radovi/naljepnice-slep-sluzba-sm.webp', alt: 'Naljepnice na PVC foliji za šlep službu' },
+    ],
     faq: [
       {
         q: 'Koliko brzo mogu dobiti odštampan baner?',
@@ -491,9 +511,9 @@ export const services = [
     features: ['Kutije po mjeri, prilagođene proizvodu', 'Za prehrambene proizvode i poklone', 'Ekološki prihvatljivi materijali', 'Probni primjerak prije cijele serije'],
     forWho: ['Proizvođači hrane i pića', 'Male i srednje proizvodne firme', 'Prodavnice sa poklon programom', 'Firme koje uvode novu liniju proizvoda'],
     images: [
-      { src: '/kutija1.webp', alt: 'Premium kutije za specijalne sireve sa prilagođenim printom' },
-      { src: '/kutija2.webp', alt: 'Ekološki prihvatljive kutije sa štampanim dizajnom' },
-      { src: '/kutija3.webp', alt: 'Poklon kutije sa brendiranim printom' },
+      { src: '/radovi/kutije-za-sir.webp', sm: '/radovi/kutije-za-sir-sm.webp', alt: 'Premium kutije za specijalne sireve sa prilagođenim printom' },
+      { src: '/radovi/kutije-eko.webp', sm: '/radovi/kutije-eko-sm.webp', alt: 'Ekološki prihvatljive kutije sa štampanim dizajnom' },
+      { src: '/radovi/kutije-poklon.webp', sm: '/radovi/kutije-poklon-sm.webp', alt: 'Poklon kutije sa brendiranim printom' },
     ],
     faq: [
       {

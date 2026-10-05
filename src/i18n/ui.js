@@ -68,9 +68,9 @@ export const UI = {
       readStory: 'Više o nama',
       yearsBadge: 'godina iskustva',
       photoAlts: [
-        'Brendiran kombi — rad Štamparije MADEX',
+        'Brendiran kombi za dekoraciju balona — rad Štamparije MADEX',
         'Štampane kutije za sireve',
-        'Štampane majice za sportski tim',
+        'Flajeri za košarkašku školu',
       ],
       missionTitle: 'Naša misija',
       missionText:
@@ -97,35 +97,7 @@ export const UI = {
       badge: 'GALERIJA RADOVA',
       titleTop: 'Naši',
       titleAccent: 'uspjesi',
-      lead: 'Pogledajte dio radova iz naše štamparije — od ambalaže i štampanog materijala do brendiranih vozila.',
-      categories: {
-        boxes: 'Štampa na kutijama',
-        vehicles: 'Brendirana vozila',
-        print: 'Flajeri i brošure',
-        tshirts: 'Štampa na majicama',
-      },
-      items: {
-        boxes: [
-          'Premium kutije za specijalne sireve sa prilagođenim printom',
-          'Ekološki prihvatljive kutije sa štampanim dizajnom',
-          'Poklon kutije sa brendiranim printom',
-        ],
-        vehicles: [
-          'Potpuno brendiran kombi za distribuciju',
-          'Profesionalno brendirana servisna vozila',
-          'Brendirana vozila za prevoz i postavljanje behatona',
-        ],
-        print: [
-          'Flajeri i savijene brošure za lokalnu firmu',
-          'Kvadratne brošure za edukativni projekat',
-          'Publikacije i materijal za konferenciju',
-        ],
-        tshirts: [
-          'Prilagođene majice za sportske timove',
-          'Majice za promociju brendova',
-          'Majice po mjeri za posebne prilike',
-        ],
-      },
+      lead: 'Dio radova iz naše štamparije — vizit kartice, flajeri i katalozi, naljepnice, ambalaža, brendirana vozila i izlozi.',
       zoom: 'Povećaj sliku',
       close: 'Zatvori',
       prev: 'Prethodna slika',
@@ -302,9 +274,9 @@ export const UI = {
       readStory: 'More about us',
       yearsBadge: 'years of experience',
       photoAlts: [
-        'Branded van — work by MADEX print shop',
+        'Wrapped balloon decoration van — work by MADEX print shop',
         'Printed cheese boxes',
-        'Printed T-shirts for a sports team',
+        'Flyers for a basketball school',
       ],
       missionTitle: 'Our mission',
       missionText:
@@ -331,35 +303,7 @@ export const UI = {
       badge: 'OUR WORK',
       titleTop: 'Our',
       titleAccent: 'portfolio',
-      lead: 'A selection of work from our print shop — from packaging and printed material to branded vehicles.',
-      categories: {
-        boxes: 'Box printing',
-        vehicles: 'Branded vehicles',
-        print: 'Flyers & brochures',
-        tshirts: 'T-shirt printing',
-      },
-      items: {
-        boxes: [
-          'Premium boxes for specialty cheese with custom print',
-          'Eco-friendly boxes with printed design',
-          'Gift boxes with branded print',
-        ],
-        vehicles: [
-          'Fully wrapped distribution van',
-          'Professionally branded service vehicles',
-          'Branded vehicles for transporting and laying paving stones',
-        ],
-        print: [
-          'Flyers and folded brochures for a local business',
-          'Square brochures for an educational project',
-          'Publications and materials for a conference',
-        ],
-        tshirts: [
-          'Custom T-shirts for sports teams',
-          'T-shirts for brand promotion',
-          'Custom T-shirts for special occasions',
-        ],
-      },
+      lead: 'A selection of work from our print shop — business cards, flyers and catalogues, stickers, packaging, and branded vehicles and storefronts.',
       zoom: 'Enlarge image',
       close: 'Close',
       prev: 'Previous image',
